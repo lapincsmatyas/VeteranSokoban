@@ -1,2 +1,3 @@
-public class Player {
+public class Player extends Pushable{
+    public void move(){};
 }

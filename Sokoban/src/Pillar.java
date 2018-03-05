@@ -1,3 +1,2 @@
-public class Pillar
-{
+public class Pillar extends Cell{
 }

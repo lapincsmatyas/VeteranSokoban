@@ -1,2 +1,2 @@
-public class Target {
+public class Target extends Cell {
 }
