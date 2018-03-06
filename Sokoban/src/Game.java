@@ -23,24 +23,18 @@ public class Game {
         }
         cells.add(new Hole());
 
-        cells.get(0).setNeighbor(0, null);
-        cells.get(0).setNeighbor(1, cells.get(1));
+        cells.get(0).setNeighbor(Direction.LEFT, null);
+        cells.get(0).setNeighbor(Direction.RIGHT, cells.get(1));
         for(int i = 1; i < cells.size() - 1; i++){
-            cells.get(i).setNeighbor(0, cells.get(i-1));
-            cells.get(i).setNeighbor(1, cells.get(i+1));
+            cells.get(i).setNeighbor(Direction.LEFT, cells.get(i-1));
+            cells.get(i).setNeighbor(Direction.RIGHT, cells.get(i+1));
         }
-        cells.get(cells.size()-1).setNeighbor(1, null);
+        cells.get(cells.size()-1).setNeighbor(Direction.RIGHT, null);
 
         players.add(new Player(cells.get(0)));
         players.add(new Player(cells.get(2)));
         crates.add(new Crate(cells.get(1)));
-        //crates.add(new Crate(cells.get(2)));
 
-
-        printLevel();
-        if(players.get(0).move(1)){
-            players.get(0).addOnePoint();
-        }
 
         printLevel();
     }
@@ -53,7 +47,7 @@ public class Game {
         Cell actCell = cells.get(0);
         while(actCell != null){
             actCell.printCell();
-            actCell = actCell.getNext(1);
+            actCell = actCell.getNext(Direction.RIGHT);
         }
 
         System.out.println();

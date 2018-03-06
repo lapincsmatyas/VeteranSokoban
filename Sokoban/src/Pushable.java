@@ -6,17 +6,17 @@ public abstract class Pushable implements Visitor{
         actCell.setActPushable(this);
     }
 
-    public boolean push(Player actor, int dir){
+    public boolean push(Player actor, Direction dir){
         Cell nextCell = actCell.getNext(dir);
         return nextCell.accept(this, dir);
     }
 
-    public boolean push(Crate actor, int dir){
+    public boolean push(Crate actor, Direction dir){
         Cell nextCell = actCell.getNext(dir);
         return nextCell.accept(this, dir);
     }
 
-    public boolean visit(Pillar pillar, int dir) {
+    public boolean visit(Pillar pillar, Direction dir) {
         return false;
     }
     public boolean visit(Hole hole, int dir) {
@@ -24,7 +24,7 @@ public abstract class Pushable implements Visitor{
         this.die();
         return true;
     }
-    public boolean visit(Switch lever, int dir) {
+    public boolean visit(Switch lever, Direction dir) {
         //TODO van-e rajta valami, ha nincs akkor lépjen rá vagy tolja el
         return true;
     }

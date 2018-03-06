@@ -11,7 +11,7 @@ public class Crate extends Pushable{
 
     public boolean cratesPushable(){return true;}
 
-    public boolean visit(Field cell, int dir) {
+    public boolean visit(Field cell, Direction dir) {
         if(cell.isEmpty()){
             actCell.stepOff();
             cell.stepOn(this);
@@ -24,6 +24,11 @@ public class Crate extends Pushable{
                 return true;
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean visit(Hole hole, Direction dir) {
         return false;
     }
 }

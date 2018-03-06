@@ -1,6 +1,6 @@
 public interface Visitor {
-    boolean visit(Field field, int dir);
-    boolean visit(Pillar pillar, int dir);
-    boolean visit(Hole hole, int dir);
-    boolean visit(Switch lever, int dir);
+    boolean visit(Field field, Direction dir);
+    boolean visit(Pillar pillar, Direction dir);
+    boolean visit(Hole hole, Direction dir);
+    boolean visit(Switch lever, Direction dir);
 }

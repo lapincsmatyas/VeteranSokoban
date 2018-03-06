@@ -16,8 +16,10 @@ public abstract class Cell implements Visitable{
     }
 
 
-    public Cell getNext(int dir){
-        return neighbors[dir];
+    public Cell getNext(Direction dir){
+        //TODO --> kijavítani gec
+        return null;
+        //return neighbors[dir];
     }
 
     public void stepOn(Pushable pushable){
@@ -25,8 +27,9 @@ public abstract class Cell implements Visitable{
         actPushable.actCell = this;
     }
 
-    public void setNeighbor(int dir, Cell nextCell){
-        neighbors[dir] = nextCell;
+    public void setNeighbor(Direction dir, Cell nextCell){
+        //TODO kijavítani
+        //neighbors[dir] = nextCell;
     }
 
     public void stepOff(){

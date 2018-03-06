@@ -5,7 +5,7 @@ public class Player extends Pushable{
         points = 0;
     }
 
-    public boolean visit(Field cell, int dir) {
+    public boolean visit(Field cell, Direction dir) {
         if (cell.isEmpty()) {
             actCell.stepOff();
             cell.stepOn(this);
@@ -21,18 +21,23 @@ public class Player extends Pushable{
         return false;
     }
 
-    public boolean visit(Switch lever, int dir) {
+    @Override
+    public boolean visit(Hole hole, Direction dir) {
+        return false;
+    }
+
+    public boolean visit(Switch lever, Direction dir) {
         //TODO van-e rajta valami, ha nincs akkor lépjen rá vagy tolja el
         lever.change();
         return true;
     }
 
-    public boolean push(int dir) {
+    public boolean push(Direction dir) {
         Cell nextCell = actCell.getNext(dir);
         return nextCell.accept(this, dir);
     }
 
-    public boolean push(Player actor, int dir) {
+    public boolean push(Player actor, Direction dir) {
         return false;
     }
 
@@ -48,7 +53,7 @@ public class Player extends Pushable{
         points--;
     }
 
-    public boolean move(int dir){
+    public boolean move(Direction dir){
         return push(dir);
     };
 
