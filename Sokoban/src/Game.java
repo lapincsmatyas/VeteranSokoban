@@ -32,22 +32,17 @@ public class Game {
         cells.get(cells.size()-1).setNeighbor(1, null);
 
         players.add(new Player(cells.get(0)));
-        //players.add(new Player(cells.get(2)));
+        players.add(new Player(cells.get(2)));
         crates.add(new Crate(cells.get(1)));
-        crates.add(new Crate(cells.get(2)));
         //crates.add(new Crate(cells.get(2)));
 
 
         printLevel();
-        players.get(0).move(1);
-        players.get(0).move(0);
-        players.get(0).move(1);
-        players.get(0).move(1);
-        players.get(0).move(1);
-        players.get(0).move(1);
-        players.get(0).move(1);
-        printLevel();
+        if(players.get(0).move(1)){
+            players.get(0).addOnePoint();
+        }
 
+        printLevel();
     }
 
     public void init(){

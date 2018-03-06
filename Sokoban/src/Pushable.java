@@ -24,6 +24,10 @@ public abstract class Pushable implements Visitor{
         this.die();
         return true;
     }
+    public boolean visit(Switch lever, int dir) {
+        //TODO van-e rajta valami, ha nincs akkor lépjen rá vagy tolja el
+        return true;
+    }
 
     public void die(){
         actCell = null;

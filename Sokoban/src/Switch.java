@@ -1,6 +1,13 @@
 public class Switch extends Cell {
+
+
+
     @Override
     public boolean accept(Visitor visitor, int dir) {
-        return false;
+        return visitor.visit(this, dir);
+    }
+
+    public void change(){
+
     }
 }

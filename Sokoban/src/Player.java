@@ -21,6 +21,12 @@ public class Player extends Pushable{
         return false;
     }
 
+    public boolean visit(Switch lever, int dir) {
+        //TODO van-e rajta valami, ha nincs akkor lépjen rá vagy tolja el
+        lever.change();
+        return true;
+    }
+
     public boolean push(int dir) {
         Cell nextCell = actCell.getNext(dir);
         return nextCell.accept(this, dir);
@@ -42,8 +48,8 @@ public class Player extends Pushable{
         points--;
     }
 
-    public void move(int dir){
-        push(dir);
+    public boolean move(int dir){
+        return push(dir);
     };
 
 
