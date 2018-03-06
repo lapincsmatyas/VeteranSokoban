@@ -1,4 +1,4 @@
-public abstract class Cell implements Visitable{
+public abstract class  Cell implements Visitable{
     protected Pushable actPushable;
 
     private Cell[] neighbors;
