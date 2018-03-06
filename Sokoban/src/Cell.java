@@ -1,25 +1,34 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Cell implements Visitable{
     protected Pushable actPushable;
 
-    Cell[] neighbors;
-    Cell up;
-    Cell right;
-    Cell down;
-    Cell left;
+    private Cell[] neighbors;
+    private Cell up = null;
+    private Cell right = null;
+    private Cell down = null;
+    private Cell left = null;
 
     public Cell(){
         this.actPushable = null;
         neighbors = new Cell[4];
+        for (int i = 0; i < 4; i++) {
+            neighbors[i] = null;
+        }
     }
 
 
     public Cell getNext(Direction dir){
-        //TODO --> kijavítani gec
-        return null;
-        //return neighbors[dir];
+        switch (dir) {
+            case LEFT:
+                return neighbors[0];
+            case RIGHT:
+                return neighbors[1];
+            case UP:
+                return neighbors[2];
+            case DOWN:
+                return neighbors[3];
+            default:
+                return null;
+        }
     }
 
     public void stepOn(Pushable pushable){
@@ -28,8 +37,20 @@ public abstract class Cell implements Visitable{
     }
 
     public void setNeighbor(Direction dir, Cell nextCell){
-        //TODO kijavítani
-        //neighbors[dir] = nextCell;
+        switch (dir) {
+            case LEFT:
+                neighbors[0] = nextCell;
+                break;
+            case RIGHT:
+                neighbors[1] = nextCell;
+                break;
+            case UP:
+                neighbors[2] = nextCell;
+                break;
+            case DOWN:
+                neighbors[3] = nextCell;
+                break;
+        }
     }
 
     public void stepOff(){
@@ -53,7 +74,6 @@ public abstract class Cell implements Visitable{
     }
 
     public boolean isEmpty() {
-        boolean empty = actPushable == null;
-        return empty;
+        return actPushable == null;
     }
 }

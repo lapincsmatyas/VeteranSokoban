@@ -6,9 +6,9 @@ public class Game {
     private void GameOver(){}
     private void startGame(){}
 
-    List<Cell> cells;
-    List<Crate> crates;
-    List<Player> players;
+    private List<Cell> cells;
+    private List<Crate> crates;
+    private List<Player> players;
 
 
     public Game(){

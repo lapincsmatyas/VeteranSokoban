@@ -19,7 +19,8 @@ public abstract class Pushable implements Visitor{
     public boolean visit(Pillar pillar, Direction dir) {
         return false;
     }
-    public boolean visit(Hole hole, int dir) {
+
+    public boolean visit(Hole hole, Direction dir) {
         actCell.stepOff();
         this.die();
         return true;

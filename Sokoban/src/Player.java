@@ -1,5 +1,6 @@
 public class Player extends Pushable{
-    int points;
+    private int points;
+
     public Player(Cell actCell) {
         super(actCell);
         points = 0;
@@ -23,6 +24,13 @@ public class Player extends Pushable{
 
     @Override
     public boolean visit(Hole hole, Direction dir) {
+        if (hole.isOpened()) {
+            this.die();
+            return true;
+        }
+
+
+
         return false;
     }
 
@@ -49,13 +57,8 @@ public class Player extends Pushable{
     public void addOnePoint(){
         points++;
     }
-    public void removeOnePoint(){
-        points--;
-    }
 
     public boolean move(Direction dir){
         return push(dir);
     };
-
-
 }
