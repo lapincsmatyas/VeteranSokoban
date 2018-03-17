@@ -35,30 +35,6 @@ public abstract class Pushable implements Visitor{
         return false;
     }
 
-    public boolean visit(Hole hole, Direction dir) {
-        Logger.getInstance().log("Pushable", "visit(Hole, Direction)");
-
-        actCell.stepOff();
-
-        if (hole.isOpened()) {
-            this.die();
-        } else {
-            hole.stepOn(this);
-        }
-
-        Logger.getInstance().decIndentDepth();
-        return true;
-    }
-
-    public boolean visit(Switch lever, Direction dir) {
-        Logger.getInstance().log("Pushable", "visit(Switch, Direction)");
-
-        //TODO van-e rajta valami, ha nincs akkor lépjen rá vagy tolja el
-
-        Logger.getInstance().decIndentDepth();
-        return true;
-    }
-
     public void die(){
         Logger.getInstance().logWithDec("Pushable", "die()");
         actCell = null;

@@ -39,9 +39,10 @@ public class Program {
                 SkeletonTests.initTest();
                 break;
             case 21:
-                SkeletonTests.movePlayerTest();
+                SkeletonTests.playerMovesToEmptyFieldTest();
                 break;
             case 22:
+                SkeletonTests.playerMovesToPillarTest();
                 break;
             case 23:
                 break;

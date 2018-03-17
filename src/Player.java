@@ -27,16 +27,78 @@ public class Player extends Pushable{
         return result;
     }
 
+    @Override
+    public boolean visit(Hole hole, Direction dir) {
+        Logger.getInstance().log("Player", "visit(Switch, Direction)");
+
+        boolean result = true;
+        if (hole.isEmpty()) {
+            actCell.stepOff();
+
+            if (hole.isOpened()) {
+                this.die();
+            } else {
+                hole.stepOn(this);
+            }
+        } else {
+            result = hole.getActPushable().push(this, dir);
+            if (result) {
+                actCell.stepOff();
+
+                if (hole.isOpened()) {
+                    this.die();
+                } else {
+                    hole.stepOn(this);
+                }
+            }
+        }
+
+        Logger.getInstance().decIndentDepth();
+        return result;
+    }
+
+    @Override
     public boolean visit(Switch lever, Direction dir) {
-        //TODO van-e rajta valami, ha nincs akkor lépjen rá vagy tolja el
-        lever.change();
-        return true;
+        Logger.getInstance().log("Player", "visit(Switch, Direction)");
+
+        boolean result = true;
+        if (lever.isEmpty()) {
+            actCell.stepOff();
+            lever.stepOn(this);
+        } else {
+            result = lever.getActPushable().push(this, dir);
+            if (result) {
+                actCell.stepOff();
+                lever.stepOn(this);
+            }
+        }
+
+        if (result) {
+            lever.change();
+        }
+
+        Logger.getInstance().decIndentDepth();
+        return result;
     }
 
     @Override
     public boolean visit(Target target, Direction dir) {
-        //TODO implementálni
-        return false;
+        Logger.getInstance().log("Player", "visit(Switch, Direction)");
+
+        boolean result = true;
+        if (target.isEmpty()) {
+            actCell.stepOff();
+            target.stepOn(this);
+        } else {
+            result = target.getActPushable().push(this, dir);
+            if (result) {
+                actCell.stepOff();
+                target.stepOn(this);
+            }
+        }
+
+        Logger.getInstance().decIndentDepth();
+        return result;
     }
 
     public boolean push(Direction dir) {
