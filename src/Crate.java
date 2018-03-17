@@ -1,6 +1,7 @@
 public class Crate extends Pushable{
     public Crate(Cell actCell){
         super(actCell);
+        Logger.getInstance().logWithDec("Crate", "Crate(Cell)");
     }
 
     public boolean cratePushable() {
@@ -15,16 +16,16 @@ public class Crate extends Pushable{
     }
 
     @Override
-    public boolean visit(Field field, Direction dir) {
+    public StepResult visit(Field field, Direction dir) {
         Logger.getInstance().log("Crate", "visit(Field, Direction)");
 
-        boolean result = true;
+        StepResult result = StepResult.SUCCESS;
         if (field.isEmpty()) {
             actCell.stepOff();
             field.stepOn(this);
         } else {
             result = field.getActPushable().push(this, dir);
-            if (result) {
+            if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 field.stepOn(this);
             }
@@ -35,10 +36,10 @@ public class Crate extends Pushable{
     }
 
     @Override
-    public boolean visit(Hole hole, Direction dir) {
+    public StepResult visit(Hole hole, Direction dir) {
         Logger.getInstance().log("Crate", "visit(Switch, Direction)");
 
-        boolean result = true;
+        StepResult result = StepResult.SUCCESS;
         if (hole.isEmpty()) {
             actCell.stepOff();
 
@@ -49,7 +50,7 @@ public class Crate extends Pushable{
             }
         } else {
             result = hole.getActPushable().push(this, dir);
-            if (result) {
+            if (result != StepResult.FAIL) {
                 actCell.stepOff();
 
                 if (hole.isOpened()) {
@@ -65,16 +66,16 @@ public class Crate extends Pushable{
     }
 
     @Override
-    public boolean visit(Switch lever, Direction dir) {
+    public StepResult visit(Switch lever, Direction dir) {
         Logger.getInstance().log("Crate", "visit(Switch, Direction)");
 
-        boolean result = true;
+        StepResult result = StepResult.SUCCESS;
         if (lever.isEmpty()) {
             actCell.stepOff();
             lever.stepOn(this);
         } else {
             result = lever.getActPushable().push(this, dir);
-            if (result) {
+            if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 lever.stepOn(this);
             }
@@ -85,17 +86,17 @@ public class Crate extends Pushable{
     }
 
     @Override
-    public boolean visit(Target target, Direction dir) {
-        //TODO pontozást valahogy beletoszni
+    public StepResult visit(Target target, Direction dir) {
         Logger.getInstance().log("Crate", "visit(Switch, Direction)");
 
-        boolean result = true;
+        StepResult result = StepResult.SUCCESS;
         if (target.isEmpty()) {
             actCell.stepOff();
             target.stepOn(this);
+            result = StepResult.SUCCESS_POINT;
         } else {
             result = target.getActPushable().push(this, dir);
-            if (result) {
+            if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 target.stepOn(this);
             }

@@ -1,9 +1,14 @@
 public class Field extends Cell {
+    public Field() {
+        super();
+        Logger.getInstance().logWithDec("Field", "Field()");
+    }
+
     @Override
-    public boolean accept(Visitor visitor, Direction dir) {
+    public StepResult accept(Visitor visitor, Direction dir) {
         Logger.getInstance().log("Field", "accept(Visitor, Direction)");
 
-        boolean result = visitor.visit(this, dir);
+        StepResult result = visitor.visit(this, dir);
 
         Logger.getInstance().decIndentDepth();
         return result;

@@ -34,6 +34,8 @@ public class Program {
     private void handleInput(String input) {
         int code = parseCode(input);
 
+        //A tesztesetek csak próbára voltak, nem ezek az igaziak.
+        //A kódokat is át lehet írni, ha máshogy lesz a menürendszer.
         switch (code) {
             case 1:
                 SkeletonTests.initTest();
@@ -45,6 +47,7 @@ public class Program {
                 SkeletonTests.playerMovesToPillarTest();
                 break;
             case 23:
+                SkeletonTests.playerGetsPointTest();
                 break;
             case 24:
                 break;

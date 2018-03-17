@@ -1,11 +1,11 @@
 public interface Visitor {
-    public boolean visit(Field field, Direction dir);
+    public StepResult visit(Field field, Direction dir);
 
-    public boolean visit(Pillar pillar, Direction dir);
+    public StepResult visit(Pillar pillar, Direction dir);
 
-    public boolean visit(Hole hole, Direction dir);
+    public StepResult visit(Hole hole, Direction dir);
 
-    public boolean visit(Switch lever, Direction dir);
+    public StepResult visit(Switch lever, Direction dir);
 
-    public boolean visit(Target target, Direction dir);
+    public StepResult visit(Target target, Direction dir);
 }

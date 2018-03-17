@@ -8,16 +8,16 @@ public class Player extends Pushable{
     }
 
     @Override
-    public boolean visit(Field field, Direction dir) {
+    public StepResult visit(Field field, Direction dir) {
         Logger.getInstance().log("Player", "visit(Field, Direction)");
 
-        boolean result = true;
+        StepResult result = StepResult.SUCCESS;
         if (field.isEmpty()) {
             actCell.stepOff();
             field.stepOn(this);
         } else {
             result = field.getActPushable().push(this, dir);
-            if (result) {
+            if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 field.stepOn(this);
             }
@@ -28,10 +28,10 @@ public class Player extends Pushable{
     }
 
     @Override
-    public boolean visit(Hole hole, Direction dir) {
+    public StepResult visit(Hole hole, Direction dir) {
         Logger.getInstance().log("Player", "visit(Switch, Direction)");
 
-        boolean result = true;
+        StepResult result = StepResult.SUCCESS;
         if (hole.isEmpty()) {
             actCell.stepOff();
 
@@ -42,7 +42,7 @@ public class Player extends Pushable{
             }
         } else {
             result = hole.getActPushable().push(this, dir);
-            if (result) {
+            if (result != StepResult.FAIL) {
                 actCell.stepOff();
 
                 if (hole.isOpened()) {
@@ -58,22 +58,22 @@ public class Player extends Pushable{
     }
 
     @Override
-    public boolean visit(Switch lever, Direction dir) {
+    public StepResult visit(Switch lever, Direction dir) {
         Logger.getInstance().log("Player", "visit(Switch, Direction)");
 
-        boolean result = true;
+        StepResult result = StepResult.SUCCESS;
         if (lever.isEmpty()) {
             actCell.stepOff();
             lever.stepOn(this);
         } else {
             result = lever.getActPushable().push(this, dir);
-            if (result) {
+            if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 lever.stepOn(this);
             }
         }
 
-        if (result) {
+        if (result != StepResult.FAIL) {
             lever.change();
         }
 
@@ -82,16 +82,16 @@ public class Player extends Pushable{
     }
 
     @Override
-    public boolean visit(Target target, Direction dir) {
+    public StepResult visit(Target target, Direction dir) {
         Logger.getInstance().log("Player", "visit(Switch, Direction)");
 
-        boolean result = true;
+        StepResult result = StepResult.SUCCESS;
         if (target.isEmpty()) {
             actCell.stepOff();
             target.stepOn(this);
         } else {
             result = target.getActPushable().push(this, dir);
-            if (result) {
+            if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 target.stepOn(this);
             }
@@ -101,20 +101,20 @@ public class Player extends Pushable{
         return result;
     }
 
-    public boolean push(Direction dir) {
+    public StepResult push(Direction dir) {
         Logger.getInstance().log("Player", "push(Direction)");
 
         Cell nextCell = actCell.getNext(dir);
-        boolean result = nextCell.accept(this, dir);
+        StepResult result = nextCell.accept(this, dir);
 
         Logger.getInstance().decIndentDepth();
 
         return result;
     }
 
-    public boolean push(Player actor, Direction dir) {
+    public StepResult push(Player actor, Direction dir) {
         Logger.getInstance().logWithDec("Player", "push(Player, Direction)");
-        return false;
+        return StepResult.FAIL;
     }
 
     public void addOnePoint() {
@@ -122,10 +122,14 @@ public class Player extends Pushable{
         points++;
     }
 
-    public boolean move(Direction dir){
+    public StepResult move(Direction dir) {
         Logger.getInstance().log("Player", "move(Direction)");
 
-        boolean result = push(dir);
+        StepResult result = push(dir);
+        if (result == StepResult.SUCCESS_POINT) {
+            addOnePoint();
+            result = StepResult.SUCCESS;
+        }
 
         Logger.getInstance().decIndentDepth();
 
