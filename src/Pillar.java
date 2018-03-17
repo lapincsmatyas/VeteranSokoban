@@ -1,11 +1,11 @@
 public class Pillar extends Cell{
     @Override
     public boolean accept(Visitor visitor, Direction dir) {
-        return visitor.visit(this, dir);
-    }
+        Logger.getInstance().log("Pillar", "accept(Visitor, Direction)");
 
-    @Override
-    public void printCell() {
-        System.out.print("X");
+        boolean result = visitor.visit(this, dir);
+
+        Logger.getInstance().decIndentDepth();
+        return result;
     }
 }

@@ -7,9 +7,6 @@ public class Program {
 
     public static void main(String [ ] args) {
         Program p = new Program();
-        /*Game g = new Game();
-        g.init();*/
-
         p.run();
     }
 
@@ -39,8 +36,10 @@ public class Program {
 
         switch (code) {
             case 1:
+                SkeletonTests.initTest();
                 break;
             case 21:
+                SkeletonTests.movePlayerTest();
                 break;
             case 22:
                 break;

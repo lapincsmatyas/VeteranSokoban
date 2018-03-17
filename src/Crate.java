@@ -3,32 +3,30 @@ public class Crate extends Pushable{
         super(actCell);
     }
 
-
-    @Override
-    public void printPushable() {
-        System.out.print("||");
-    }
-
     public boolean cratesPushable(){return true;}
 
-    public boolean visit(Field cell, Direction dir) {
-        if(cell.isEmpty()){
+    public boolean visit(Field field, Direction dir) {
+        Logger.getInstance().log("Crate", "visit(Field, Direction)");
+
+        boolean result = true;
+        if (field.isEmpty()) {
             actCell.stepOff();
-            cell.stepOn(this);
-            return true;
+            field.stepOn(this);
         } else {
-            boolean isPushSuccess = cell.getActPushable().push(this, dir);
-            if (isPushSuccess) {
+            result = field.getActPushable().push(this, dir);
+            if (result) {
                 actCell.stepOff();
-                cell.stepOn(this);
-                return true;
+                field.stepOn(this);
             }
         }
-        return false;
+
+        Logger.getInstance().decIndentDepth();
+        return result;
     }
 
     @Override
-    public boolean visit(Hole hole, Direction dir) {
+    public boolean visit(Target target, Direction dir) {
+        //TODO implementálni
         return false;
     }
 }

@@ -3,33 +3,28 @@ public class Player extends Pushable{
 
     public Player(Cell actCell) {
         super(actCell);
+        Logger.getInstance().logWithDec("Player", "Player(Cell)");
         points = 0;
     }
 
-    public boolean visit(Field cell, Direction dir) {
-        if (cell.isEmpty()) {
+    @Override
+    public boolean visit(Field field, Direction dir) {
+        Logger.getInstance().log("Player", "visit(Field, Direction)");
+
+        boolean result = true;
+        if (field.isEmpty()) {
             actCell.stepOff();
-            cell.stepOn(this);
-            return true;
+            field.stepOn(this);
         } else {
-            boolean isPushSuccess = cell.getActPushable().push(this, dir);
-            if (isPushSuccess) {
+            result = field.getActPushable().push(this, dir);
+            if (result) {
                 actCell.stepOff();
-                cell.stepOn(this);
-                return true;
+                field.stepOn(this);
             }
         }
-        return false;
-    }
 
-    @Override
-    public boolean visit(Hole hole, Direction dir) {
-        if (hole.isOpened()) {
-            this.die();
-            return true;
-        }
-
-        return false;
+        Logger.getInstance().decIndentDepth();
+        return result;
     }
 
     public boolean visit(Switch lever, Direction dir) {
@@ -38,25 +33,40 @@ public class Player extends Pushable{
         return true;
     }
 
-    public boolean push(Direction dir) {
-        Cell nextCell = actCell.getNext(dir);
-        return nextCell.accept(this, dir);
-    }
-
-    public boolean push(Player actor, Direction dir) {
+    @Override
+    public boolean visit(Target target, Direction dir) {
+        //TODO implementálni
         return false;
     }
 
-    @Override
-    public void printPushable() {
-        System.out.print("o");
+    public boolean push(Direction dir) {
+        Logger.getInstance().log("Player", "push(Direction)");
+
+        Cell nextCell = actCell.getNext(dir);
+        boolean result = nextCell.accept(this, dir);
+
+        Logger.getInstance().decIndentDepth();
+
+        return result;
     }
 
-    public void addOnePoint(){
+    public boolean push(Player actor, Direction dir) {
+        Logger.getInstance().logWithDec("Player", "push(Player, Direction)");
+        return false;
+    }
+
+    public void addOnePoint() {
+        Logger.getInstance().logWithDec("Player", "addOnePoint()");
         points++;
     }
 
     public boolean move(Direction dir){
-        return push(dir);
-    };
+        Logger.getInstance().log("Player", "move(Direction)");
+
+        boolean result = push(dir);
+
+        Logger.getInstance().decIndentDepth();
+
+        return result;
+    }
 }
