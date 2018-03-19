@@ -117,6 +117,21 @@ public class Player extends Pushable{
         return StepResult.FAIL;
     }
 
+    @Override
+    public StepResult push(Crate actor, Direction dir) {
+        Logger.getInstance().log("Player", "push(Crate, Direction)");
+
+        Cell nextCell = actCell.getNext(dir);
+        StepResult result = nextCell.accept(this, dir);
+
+        if (result == StepResult.FAIL) {
+            this.die();
+        }
+
+        Logger.getInstance().decIndentDepth();
+        return StepResult.SUCCESS;
+    }
+
     public void addOnePoint() {
         Logger.getInstance().logWithDec("Player", "addOnePoint()");
         points++;
