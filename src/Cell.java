@@ -100,14 +100,20 @@ public abstract class  Cell implements Visitable{
     }
 
     /**
-     * 
-     * @return
+     * Ezzel a fuggvennyel lekerdezheto a mezon talalhato
+     * aktualis pushable objektum
+     * @return a mezon levo aktualis pushable objektum
      */
     public Pushable getActPushable() {
         Logger.getInstance().logWithDec("Cell", "getActPushable()");
         return actPushable;
     }
 
+    /**
+     * Ezzel a fuggvennyel lekerdezheto, hogy az
+     * a cellan van-e pushable objektum
+     * @return
+     */
     public boolean isEmpty() {
         Logger.getInstance().logWithDec("Cell", "isEmpty()");
         return actPushable == null;
