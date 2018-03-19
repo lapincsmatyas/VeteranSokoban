@@ -2,14 +2,30 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * A program feladata a skeleton mukodesenek megvalositasa,
+ * a bemenetek kezelese, a megfelelo tesztesetek lefuttatasa
+ *
+ * @author Veteranok
+ */
+
 public class Program {
     private static boolean exit = false;
 
+    /**
+     * Ez a fuggveny kezdemenyezi a program futasat
+     * @param args unused
+     */
     public static void main(String [ ] args) {
         Program p = new Program();
         p.run();
     }
 
+    /**
+     * Ez a fuggvény felel a bemenetek bekereseert,
+     * prompt kiirasaert es az esetleges bemenethez
+     * kapcsolodo hibak kezeleseert
+     */
     private void run() {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -32,11 +48,14 @@ public class Program {
 
     }
 
+    /**
+     * A megfelelo bemenet alapjan lefuttatja a hozza
+     * tartozo tesztesetet.
+     * @param input a bemenetkent kapott teszteset szama
+     */
     private void handleInput(String input) {
         int code = parseCode(input);
 
-        //A tesztesetek csak próbára voltak, nem ezek az igaziak.
-        //A kódokat is át lehet írni, ha máshogy lesz a menürendszer.
         switch (code) {
             case 1:
                 SkeletonTests.initTest();
@@ -106,6 +125,12 @@ public class Program {
         }
     }
 
+    /**
+     * Ez a fuggveny konvertalja at a megadott bemenetet
+     * olyan formatumra, amit a handleInput kezelni tud
+     * @param input a kapott bemenet
+     * @return az atkonvertalt egesz szam
+     */
     private int parseCode(String input) {
         //Kell a 2 visszaper, mert regexben a sima pont a bármilyen karakter.
         String[] codeSegments = input.split("\\.");

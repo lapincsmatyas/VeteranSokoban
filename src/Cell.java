@@ -1,8 +1,16 @@
+/**
+ * A jatekban talalhato cellak ososztolya.
+ * Tartalmazza a szomszedjait es a rajta levo aktualis pushable objektumot
+ */
+
 public abstract class  Cell implements Visitable{
     protected Pushable actPushable;
 
     private Cell[] neighbors;
 
+    /**
+     * A konstruktor inicializalja a szomszedokat.
+     */
     public Cell(){
         Logger.getInstance().log("Cell", "Cell()");
 
@@ -15,6 +23,11 @@ public abstract class  Cell implements Visitable{
         Logger.getInstance().decIndentDepth();
     }
 
+    /**
+     * Ezzel a fuggvennyel lekerhetok a szomszedok.
+     * @param dir az adott irany
+     * @return a dir iranyban levo szomszed referenciaja
+     */
     public Cell getNext(Direction dir){
         Logger.getInstance().logWithDec("Cell", "getNext(Direction)");
 
@@ -32,6 +45,10 @@ public abstract class  Cell implements Visitable{
         }
     }
 
+    /**
+     * Ezzel a fuggvennyel lehet ralepni a cellara
+     * @param pushable a pushable, ami ralep a cellara
+     */
     public void stepOn(Pushable pushable){
         Logger.getInstance().logWithDec("Cell", "stepOn(Pushable)");
 
@@ -39,6 +56,12 @@ public abstract class  Cell implements Visitable{
         actPushable.actCell = this;
     }
 
+    /**
+     * Ezzel a fuggvennyel adhato meg egy cella adott iranyban
+     * levo szomszedja
+     * @param dir irany
+     * @param nextCell a dir-en levo szomszed
+     */
     public void setNeighbor(Direction dir, Cell nextCell){
         Logger.getInstance().logWithDec("Cell", "setNeighbor(Direction, Cell)");
 
@@ -58,16 +81,28 @@ public abstract class  Cell implements Visitable{
         }
     }
 
+    /**
+     * Ezzel a fuggvennyel lelephetunk a cellarol
+     */
     public void stepOff(){
         Logger.getInstance().logWithDec("Cell", "stepOff()");
         actPushable = null;
     }
 
+    /**
+     * Ezzel a fuggvennyel beallithato a cellan
+     * levo aktualis pushable objektum-
+     * @param item
+     */
     public void setActPushable(Pushable item) {
         Logger.getInstance().logWithDec("Cell", "setActPushable(Pushable)");
         this.actPushable = item;
     }
 
+    /**
+     * 
+     * @return
+     */
     public Pushable getActPushable() {
         Logger.getInstance().logWithDec("Cell", "getActPushable()");
         return actPushable;
