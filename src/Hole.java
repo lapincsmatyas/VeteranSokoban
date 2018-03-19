@@ -46,7 +46,7 @@ public class Hole extends Cell {
 
         try {
             System.out.print("Lyukra lépés történt. Nyitva van a lyuk? I/N: ");
-            String input = br.readLine();
+            String input = br.readLine().toUpperCase();
             if(input.equals("I")){
                 return true;
             }
