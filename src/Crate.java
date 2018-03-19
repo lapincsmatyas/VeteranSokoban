@@ -73,11 +73,13 @@ public class Crate extends Pushable{
         if (lever.isEmpty()) {
             actCell.stepOff();
             lever.stepOn(this);
+            lever.change();
         } else {
             result = lever.getActPushable().push(this, dir);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 lever.stepOn(this);
+                lever.change();
             }
         }
 

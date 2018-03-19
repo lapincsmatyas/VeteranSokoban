@@ -1,5 +1,5 @@
 public class Hole extends Cell {
-    private boolean opened = false;
+    private boolean opened = true;
 
     public Hole() {
         Logger.getInstance().logWithDec("Hole", "Hole()");
@@ -21,6 +21,7 @@ public class Hole extends Cell {
     }
 
     public boolean isOpened() {
+        //TODO szkeletonba implementálni a kérdést, ami alapján eldöntheti az user, hogy most éppen nyitott, vagy zárt
         Logger.getInstance().logWithDec("Hole", "isOpened()");
         return opened;
     }

@@ -31,6 +31,21 @@ public class Logger {
         }
     }
 
+    public void logStepResult(StepResult result){
+        System.out.print("The step was a: ");
+        switch (result){
+            case FAIL:
+                System.out.println("fail.");
+                break;
+            case SUCCESS:
+                System.out.println("success.");
+                break;
+            case SUCCESS_POINT:
+                System.out.println("new point.");
+                break;
+        }
+    }
+
     //Ha a függvényben nincs több függvényhívás, ez is hívható.
     public void logWithDec(String namespace, String method) {
         log(namespace, method);

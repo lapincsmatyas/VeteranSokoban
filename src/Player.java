@@ -126,10 +126,6 @@ public class Player extends Pushable{
         Logger.getInstance().log("Player", "move(Direction)");
 
         StepResult result = push(dir);
-        if (result == StepResult.SUCCESS_POINT) {
-            addOnePoint();
-            result = StepResult.SUCCESS;
-        }
 
         Logger.getInstance().decIndentDepth();
 

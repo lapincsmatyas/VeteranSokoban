@@ -16,6 +16,7 @@ public class Switch extends Cell {
 
     @Override
     public StepResult accept(Visitor visitor, Direction dir) {
+        //TODO implementálni a Player és a Crate visit függvényeket
         Logger.getInstance().log("Switch", "accept(Visitor, Direction)");
 
         StepResult result = visitor.visit(this, dir);
@@ -23,6 +24,8 @@ public class Switch extends Cell {
         Logger.getInstance().decIndentDepth();
         return result;
     }
+
+
 
     public void change(){
         Logger.getInstance().log("Switch", "change()");

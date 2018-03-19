@@ -11,6 +11,7 @@ public class Program {
     }
 
     private void run() {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         try {
@@ -41,45 +42,61 @@ public class Program {
                 SkeletonTests.initTest();
                 break;
             case 21:
-                SkeletonTests.playerMovesToEmptyFieldTest();
+                SkeletonTests.playerMovesToEmpty();
                 break;
             case 22:
-                SkeletonTests.playerMovesToPillarTest();
+                SkeletonTests.playerMovesToPillar();
                 break;
             case 23:
-                SkeletonTests.playerGetsPointTest();
+                SkeletonTests.playerMovesToTarget();
                 break;
             case 24:
+                SkeletonTests.playerMovesToSwitch();
                 break;
-            case 251:
-                break;
-            case 252:
+            case 25:
+                SkeletonTests.playerMovesToHole();
                 break;
             case 26:
+                SkeletonTests.playerMovesACrate();
                 break;
             case 27:
+                SkeletonTests.playerMovesToPlayer();
                 break;
             case 31:
+                SkeletonTests.crateMovesToEmpty();
                 break;
             case 32:
+                SkeletonTests.crateMovesToPillar();
                 break;
             case 33:
+                SkeletonTests.crateMovesToTarget();
                 break;
             case 34:
+                SkeletonTests.crateMovesToSwitch();
                 break;
-            case 351:
-                break;
-            case 352:
+            case 35:
+                SkeletonTests.crateMovesToHole();
                 break;
             case 36:
+                SkeletonTests.crateMovesToCrate();
                 break;
             case 371:
+                SkeletonTests.crateMovesToUserEmpty();
                 break;
             case 372:
+                SkeletonTests.crateMovesToUserWall();
                 break;
             case 373:
+                SkeletonTests.crateMovesToPlayerCrate();
                 break;
             case 374:
+                SkeletonTests.crateMovesToCratePlayerWall();
+                break;
+            case 41:
+                SkeletonTests.MLMMLLMF();
+                break;
+            case 42:
+                SkeletonTests.MLMMF();
                 break;
             case 4:
                 exit = true;
