@@ -29,12 +29,13 @@ public class Switch extends Cell {
      * @param dir
      * @return
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult accept(Visitor visitor, Direction dir) {
+    public StepResult accept(Visitor visitor, Direction dir, int force) {
         //TODO implementálni a Player és a Crate visit függvényeket
         Logger.getInstance().log("Switch", "accept(Visitor, Direction)");
 
-        StepResult result = visitor.visit(this, dir);
+        StepResult result = visitor.visit(this, dir, force);
 
         Logger.getInstance().decIndentDepth();
         return result;

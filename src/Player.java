@@ -8,16 +8,22 @@ public class Player extends Pushable{
      */
     private int points;
 
+    private Slime slime;
+
+    private int force;
+
     /**
      * A játékos konstruktora.
      * Beállítja a mezőt, amin tartózkodik és nullázza a pontokat.
      *
      * @param actCell A mező, amin a játékos tartózkodik.
      */
-    public Player(Cell actCell) {
+    public Player(Cell actCell, int force) {
         super(actCell);
         Logger.getInstance().logWithDec("Player", "Player(Cell)");
         points = 0;
+        slime = null;
+        this.force = force;
     }
 
     /**
@@ -27,8 +33,9 @@ public class Player extends Pushable{
      * @param dir Az irány, amelyről a játékos van.
      * @return A lépés sikeressége.
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult visit(Field field, Direction dir) {
+    public StepResult visit(Field field, Direction dir, int force) {
         Logger.getInstance().log("Player", "visit(Field, Direction)");
 
         StepResult result = StepResult.SUCCESS;
@@ -36,7 +43,7 @@ public class Player extends Pushable{
             actCell.stepOff();
             field.stepOn(this);
         } else {
-            result = field.getActPushable().push(this, dir);
+            result = field.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 field.stepOn(this);
@@ -55,8 +62,9 @@ public class Player extends Pushable{
      * @param dir Az irány, amelyről a játékos van.
      * @return A lépés sikeressége.
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult visit(Hole hole, Direction dir) {
+    public StepResult visit(Hole hole, Direction dir, int force) {
         Logger.getInstance().log("Player", "visit(Switch, Direction)");
 
         StepResult result = StepResult.SUCCESS;
@@ -69,7 +77,7 @@ public class Player extends Pushable{
                 hole.stepOn(this);
             }
         } else {
-            result = hole.getActPushable().push(this, dir);
+            result = hole.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
 
@@ -92,8 +100,9 @@ public class Player extends Pushable{
      * @param dir Az irány, amelyről a játékos van.
      * @return A lépés sikeressége.
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult visit(Switch lever, Direction dir) {
+    public StepResult visit(Switch lever, Direction dir, int force) {
         Logger.getInstance().log("Player", "visit(Switch, Direction)");
 
         StepResult result = StepResult.SUCCESS;
@@ -101,7 +110,7 @@ public class Player extends Pushable{
             actCell.stepOff();
             lever.stepOn(this);
         } else {
-            result = lever.getActPushable().push(this, dir);
+            result = lever.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 lever.stepOn(this);
@@ -119,8 +128,9 @@ public class Player extends Pushable{
      * @param dir Az irány, amelyről a játékos van.
      * @return A lépés sikeressége.
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult visit(Target target, Direction dir) {
+    public StepResult visit(Target target, Direction dir, int force) {
         Logger.getInstance().log("Player", "visit(Switch, Direction)");
 
         StepResult result = StepResult.SUCCESS;
@@ -128,7 +138,7 @@ public class Player extends Pushable{
             actCell.stepOff();
             target.stepOn(this);
         } else {
-            result = target.getActPushable().push(this, dir);
+            result = target.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 target.stepOn(this);
@@ -144,11 +154,11 @@ public class Player extends Pushable{
      * @param dir Az irány, amelyre a játékost tolni akarják.
      * @return A tolás sikeressége.
      */
-    public StepResult push(Direction dir) {
+    public StepResult push(Direction dir, int force) {
         Logger.getInstance().log("Player", "push(Direction)");
 
         Cell nextCell = actCell.getNext(dir);
-        StepResult result = nextCell.accept(this, dir);
+        StepResult result = nextCell.accept(this, dir, force);
 
         Logger.getInstance().decIndentDepth();
 
@@ -161,7 +171,8 @@ public class Player extends Pushable{
      * @param dir Az irány, amelybe tolni akarják a játékost.
      * @return Mindig hamis, mert játékos nem tolhat játékost.
      */
-    public StepResult push(Player actor, Direction dir) {
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
+    public StepResult push(Player actor, Direction dir, int force) {
         Logger.getInstance().logWithDec("Player", "push(Player, Direction)");
         return StepResult.FAIL;
     }
@@ -172,12 +183,13 @@ public class Player extends Pushable{
      * @param dir Az irány, amelybe tolni akarják a játékost.
      * @return A tolás sikeressége.
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult push(Crate actor, Direction dir) {
+    public StepResult push(Crate actor, Direction dir, int force) {
         Logger.getInstance().log("Player", "push(Crate, Direction)");
 
         Cell nextCell = actCell.getNext(dir);
-        StepResult result = nextCell.accept(this, dir);
+        StepResult result = nextCell.accept(this, dir, force);
 
         if (result == StepResult.FAIL) {
             this.die();
@@ -203,10 +215,26 @@ public class Player extends Pushable{
     public StepResult move(Direction dir) {
         Logger.getInstance().log("Player", "move(Direction)");
 
-        StepResult result = push(dir);
+        StepResult result = push(dir, force);
 
         Logger.getInstance().decIndentDepth();
 
         return result;
+    }
+
+    @Override
+    public int getFriction() {
+        return 0;
+    }
+
+    public void putSlime() {
+        if (actCell != null) {
+            actCell.putSlime(slime);
+            slime = null;
+        }
+    }
+
+    public void giveSlime(Slime slime) {
+        this.slime = slime;
     }
 }

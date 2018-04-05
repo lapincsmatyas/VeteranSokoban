@@ -14,11 +14,12 @@ public class Target extends Cell {
      * @param dir ebbe az iranyba szeretne lepni a visitor
      * @return a lepes sikeressege (StepResult tipusu)
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult accept(Visitor visitor, Direction dir) {
+    public StepResult accept(Visitor visitor, Direction dir, int force) {
         Logger.getInstance().logWithDec("Target", "accept(Visitor, Direction)");
 
-        StepResult result = visitor.visit(this, dir);
+        StepResult result = visitor.visit(this, dir, force);
 
         Logger.getInstance().decIndentDepth();
         return result;

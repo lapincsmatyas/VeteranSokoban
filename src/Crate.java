@@ -34,8 +34,9 @@ public class Crate extends Pushable{
      * @param dir Az irány, amelyről a láda van.
      * @return A lépés sikeressége.
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult visit(Field field, Direction dir) {
+    public StepResult visit(Field field, Direction dir, int force) {
         Logger.getInstance().log("Crate", "visit(Field, Direction)");
 
         StepResult result = StepResult.SUCCESS;
@@ -43,7 +44,7 @@ public class Crate extends Pushable{
             actCell.stepOff();
             field.stepOn(this);
         } else {
-            result = field.getActPushable().push(this, dir);
+            result = field.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 field.stepOn(this);
@@ -62,8 +63,9 @@ public class Crate extends Pushable{
      * @param dir Az irány, amelyről a láda van.
      * @return A lépés sikeressége.
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult visit(Hole hole, Direction dir) {
+    public StepResult visit(Hole hole, Direction dir, int force) {
         Logger.getInstance().log("Crate", "visit(Switch, Direction)");
 
         StepResult result = StepResult.SUCCESS;
@@ -76,7 +78,7 @@ public class Crate extends Pushable{
                 hole.stepOn(this);
             }
         } else {
-            result = hole.getActPushable().push(this, dir);
+            result = hole.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
 
@@ -100,8 +102,9 @@ public class Crate extends Pushable{
      * @param dir Az irány, amelyről a láda van.
      * @return A lépés sikeressége.
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult visit(Switch lever, Direction dir) {
+    public StepResult visit(Switch lever, Direction dir, int force) {
         Logger.getInstance().log("Crate", "visit(Switch, Direction)");
 
         StepResult result = StepResult.SUCCESS;
@@ -110,7 +113,7 @@ public class Crate extends Pushable{
             lever.stepOn(this);
             lever.change();
         } else {
-            result = lever.getActPushable().push(this, dir);
+            result = lever.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 lever.stepOn(this);
@@ -130,8 +133,9 @@ public class Crate extends Pushable{
      * @param dir Az irány, amelyről a láda van.
      * @return A lépés sikeressége.
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult visit(Target target, Direction dir) {
+    public StepResult visit(Target target, Direction dir, int force) {
         Logger.getInstance().log("Crate", "visit(Switch, Direction)");
 
         StepResult result = StepResult.SUCCESS;
@@ -140,7 +144,7 @@ public class Crate extends Pushable{
             target.stepOn(this);
             result = StepResult.SUCCESS_POINT;
         } else {
-            result = target.getActPushable().push(this, dir);
+            result = target.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 target.stepOn(this);
@@ -149,5 +153,10 @@ public class Crate extends Pushable{
 
         Logger.getInstance().decIndentDepth();
         return result;
+    }
+
+    @Override
+    public int getFriction() {
+        return 2;
     }
 }

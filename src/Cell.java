@@ -7,6 +7,7 @@ public abstract class  Cell implements Visitable{
     protected Pushable actPushable;
 
     private Cell[] neighbors;
+    protected Slime slime;
 
     /**
      * A konstruktor inicializalja a szomszedokat.
@@ -19,6 +20,8 @@ public abstract class  Cell implements Visitable{
         for (int i = 0; i < 4; i++) {
             neighbors[i] = null;
         }
+
+        slime = null;
 
         Logger.getInstance().decIndentDepth();
     }
@@ -117,5 +120,27 @@ public abstract class  Cell implements Visitable{
     public boolean isEmpty() {
         Logger.getInstance().logWithDec("Cell", "isEmpty()");
         return actPushable == null;
+    }
+
+    public void putSlime(Slime slime) {
+        this.slime = slime;
+    }
+
+    public void clearSlime() {
+        this.slime = null;
+    }
+
+    public int getFriction() {
+        int friction = 0;
+
+        if (slime != null) {
+            friction += slime.getFriction();
+        }
+
+        if (actPushable != null) {
+            friction += actPushable.getFriction();
+        }
+
+        return friction;
     }
 }

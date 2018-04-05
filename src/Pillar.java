@@ -14,11 +14,12 @@ public class Pillar extends Cell{
      * @param dir a visitor ebbe az iranyba szeretne lepni
      * @return a lepes sikeressege (StepResult tipusu)
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult accept(Visitor visitor, Direction dir) {
+    public StepResult accept(Visitor visitor, Direction dir, int force) {
         Logger.getInstance().log("Pillar", "accept(Visitor, Direction)");
 
-        StepResult result = visitor.visit(this, dir);
+        StepResult result = visitor.visit(this, dir, force);
 
         Logger.getInstance().decIndentDepth();
         return result;

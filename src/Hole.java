@@ -65,11 +65,12 @@ public class Hole extends Cell {
      * @param dir a latogatas iranya - ebbe az iranyba szeretne haladni a visitor
      * @return
      */
+    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
-    public StepResult accept(Visitor visitor, Direction dir) {
+    public StepResult accept(Visitor visitor, Direction dir, int force) {
         Logger.getInstance().log("Hole", "accept(Visitor, Direction)");
 
-        StepResult result = visitor.visit(this, dir);
+        StepResult result = visitor.visit(this, dir, force);
 
         Logger.getInstance().decIndentDepth();
         return result;
