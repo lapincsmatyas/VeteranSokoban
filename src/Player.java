@@ -1,43 +1,47 @@
 /**
- * A játékos, amit a felhasználók irányíthatnak.
- * Ők kezdeményezhetnek tolást és kaphatnak pontokat.
+ * A jatekos, amit a felhasznalok iranyithatnak.
+ * Ok kezdemenyezhetnek tolast es kaphatnak pontokat.
  */
 public class Player extends Pushable{
     /**
-     * A kapott pontok száma.
+     * A kapott pontok szama.
      */
     private int points;
 
+    /**
+     * A Slime, amit a jatekos lerakhat.
+     */
     private Slime slime;
 
+    /**
+     * A jatekos tolasanak ereje.
+     */
     private int force;
 
     /**
-     * A játékos konstruktora.
-     * Beállítja a mezőt, amin tartózkodik és nullázza a pontokat.
-     *
-     * @param actCell A mező, amin a játékos tartózkodik.
+     * A jatekos konstruktora.
+     * Beallítja a mezot, amin tartozkodik es nullazza a pontokat.
+     * @param actCell A mezo, amin a jatekos tartozkodik.
+     * @param force Az ero, amivel a jatekos tolhat.
      */
     public Player(Cell actCell, int force) {
-        super(actCell);
-        Logger.getInstance().logWithDec("Player", "Player(Cell)");
+        super(actCell, 0);
         points = 0;
         slime = null;
         this.force = force;
     }
 
     /**
-     * A Visitor patternt megvalósító függvény.
-     * A játékos ellenőrzi, hogy tud-e lépni a mezőre.
-     * @param field A mező, amit a játékos visitel.
-     * @param dir Az irány, amelyről a játékos van.
-     * @return A lépés sikeressége.
+     * A Visitor patternt megvalosito fuggveny.
+     * A jatekos ellenorzi, hogy tud-e lepni a mezore.
+     * @param field A mezo, amit a jatekos visitel.
+     * @param dir Az irany, amelyrol a játékos van.
+     * @param force A tolas ereje.
+     * @return A lepes sikeressege.
      */
     //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Field field, Direction dir, int force) {
-        Logger.getInstance().log("Player", "visit(Field, Direction)");
-
         StepResult result = StepResult.SUCCESS;
         if (field.isEmpty()) {
             actCell.stepOff();
@@ -50,23 +54,21 @@ public class Player extends Pushable{
             }
         }
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
     /**
-     * A Visitor patternt megvalósító függvény.
-     * A játékos ellenőrzi, hogy tud-e lépni a lyukra.
-     * Ha a lyuk nyitva van, akkor a játékos meghal, ha rálép.
-     * @param hole A lyuk, amit a játékos visitel.
-     * @param dir Az irány, amelyről a játékos van.
-     * @return A lépés sikeressége.
+     * A Visitor patternt megvalosito fuggveny.
+     * A jatekos ellenorzi, hogy tud-e lepni a lyukra.
+     * Ha a lyuk nyitva van, akkor a jatekos meghal, ha ralep.
+     * @param hole A lyuk, amit a játekos visitel.
+     * @param dir Az irany, amelyrol a játékos van.
+     * @param force A tolas ereje.
+     * @return A lepes sikeressege.
      */
     //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Hole hole, Direction dir, int force) {
-        Logger.getInstance().log("Player", "visit(Switch, Direction)");
-
         StepResult result = StepResult.SUCCESS;
         if (hole.isEmpty()) {
             actCell.stepOff();
@@ -89,22 +91,20 @@ public class Player extends Pushable{
             }
         }
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
     /**
-     * A Visitor patternt megvalósító függvény.
-     * A játékos ellenőrzi, hogy tud-e lépni a kapcsolóra.
-     * @param lever A kapcsoló, amit a játékos visitel.
-     * @param dir Az irány, amelyről a játékos van.
-     * @return A lépés sikeressége.
+     * A Visitor patternt megvalosito fuggveny.
+     * A jatekos ellenorzi, hogy tud-e lepni a kapcsolora.
+     * @param lever A kapcsolo, amit a jatekos visitel.
+     * @param dir Az irany, amelyrol a játékos van.
+     * @param force A tolas ereje.
+     * @return A lepes sikeressege.
      */
     //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Switch lever, Direction dir, int force) {
-        Logger.getInstance().log("Player", "visit(Switch, Direction)");
-
         StepResult result = StepResult.SUCCESS;
         if (lever.isEmpty()) {
             actCell.stepOff();
@@ -117,22 +117,20 @@ public class Player extends Pushable{
             }
         }
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
     /**
-     * A Visitor patternt megvalósító függvény.
-     * A játékos ellenőrzi, hogy tud-e lépni a célra.
-     * @param target A cél, amit a játékos visitel.
-     * @param dir Az irány, amelyről a játékos van.
-     * @return A lépés sikeressége.
+     * A Visitor patternt megvalosito fuggveny.
+     * A jatekos ellenorzi, hogy tud-e lepni a celra.
+     * @param target A cel, amit a jatekos visitel.
+     * @param dir Az irany, amelyrol a játékos van.
+     * @param force A tolas ereje.
+     * @return A lepes sikeressege.
      */
     //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Target target, Direction dir, int force) {
-        Logger.getInstance().log("Player", "visit(Switch, Direction)");
-
         StepResult result = StepResult.SUCCESS;
         if (target.isEmpty()) {
             actCell.stepOff();
@@ -145,49 +143,44 @@ public class Player extends Pushable{
             }
         }
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
     /**
-     * A játékost lehet vele odébbtolni a megadott irányba.
-     * @param dir Az irány, amelyre a játékost tolni akarják.
-     * @return A tolás sikeressége.
+     * A jatekost lehet vele odebbtolni a megadott iranyba.
+     * @param dir Az irany, amelyre a jatekost tolni akarjak.
+     * @param force A tolas ereje.
+     * @return A tolas sikeressege.
      */
     public StepResult push(Direction dir, int force) {
-        Logger.getInstance().log("Player", "push(Direction)");
-
         Cell nextCell = actCell.getNext(dir);
         StepResult result = nextCell.accept(this, dir, force);
 
-        Logger.getInstance().decIndentDepth();
-
         return result;
     }
 
     /**
-     * A játékost lehet vele odébbtolni
-     * @param actor A játékos objektum, ami kezdeményezte a tolást.
-     * @param dir Az irány, amelybe tolni akarják a játékost.
-     * @return Mindig hamis, mert játékos nem tolhat játékost.
+     * A jatekost lehet vele odebbtolni a megadott iranyba.
+     * @param actor A jatekos objektum, ami kezdemenyezte a tolast.
+     * @param dir Az irany, amelyre a jatekost tolni akarjak.
+     * @param force A tolas ereje.
+     * @return Mindig hamis, mert jatekos nem tolhat jatekost.
      */
     //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     public StepResult push(Player actor, Direction dir, int force) {
-        Logger.getInstance().logWithDec("Player", "push(Player, Direction)");
         return StepResult.FAIL;
     }
 
     /**
-     * A játékost lehet vele odébbtolni
-     * @param actor A láda objektum, ami kezdeményezte a tolást.
-     * @param dir Az irány, amelybe tolni akarják a játékost.
-     * @return A tolás sikeressége.
+     * A jatekost lehet vele odebbtolni a megadott iranyba.
+     * @param actor A lada objektum, ami kezdemenyezte a tolast.
+     * @param dir Az irany, amelyre a jatekost tolni akarjak.
+     * @param force A tolas ereje.
+     * @return A tolas sikeressege.
      */
     //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult push(Crate actor, Direction dir, int force) {
-        Logger.getInstance().log("Player", "push(Crate, Direction)");
-
         Cell nextCell = actCell.getNext(dir);
         StepResult result = nextCell.accept(this, dir, force);
 
@@ -195,38 +188,30 @@ public class Player extends Pushable{
             this.die();
         }
 
-        Logger.getInstance().decIndentDepth();
         return StepResult.SUCCESS;
     }
 
     /**
-     * A játékos pontjait növeli eggyel.
+     * A jatekos pontjait noveli eggyel.
      */
     public void addOnePoint() {
-        Logger.getInstance().logWithDec("Player", "addOnePoint()");
         points++;
     }
 
     /**
-     * A játékost ezzel mozgathatja a felhasználó.
-     * @param dir Az irány, amelyre mozgatni akarják a játékost.
-     * @return A mozgatás sikeressége.
+     * A jatekost ezzel mozgathatja a felhasznalo.
+     * @param dir Az irany, amelyre mozgatni akarjak a jatekost.
+     * @return A mozgatas sikeresege.
      */
     public StepResult move(Direction dir) {
-        Logger.getInstance().log("Player", "move(Direction)");
-
         StepResult result = push(dir, force);
-
-        Logger.getInstance().decIndentDepth();
 
         return result;
     }
 
-    @Override
-    public int getFriction() {
-        return 0;
-    }
-
+    /**
+     * Ezzel lehet lehelyezni a jatekos Slimejat a mezore, amin all.
+     */
     public void putSlime() {
         if (actCell != null) {
             actCell.putSlime(slime);
@@ -234,6 +219,11 @@ public class Player extends Pushable{
         }
     }
 
+    /**
+     * A jatekost ezzel lehet jutalmazni Slimemal.
+     *
+     * @param slime A Slime, amit a jatekos kap.
+     */
     public void giveSlime(Slime slime) {
         this.slime = slime;
     }

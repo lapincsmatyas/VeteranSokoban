@@ -1,29 +1,40 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A jatekban talalhato cellak ososztolya.
  * Tartalmazza a szomszedjait es a rajta levo aktualis pushable objektumot
  */
 
 public abstract class  Cell implements Visitable{
+    /**
+     * A Pushable, ami eppen a mezon all.
+     */
     protected Pushable actPushable;
 
-    private Cell[] neighbors;
+    /**
+     * A mezo szomszedos mezoi.
+     */
+    private Map<Direction, Cell> neighbors;
+
+    /**
+     * A Slime, ami a mezon van.
+     */
     protected Slime slime;
 
     /**
      * A konstruktor inicializalja a szomszedokat.
      */
     public Cell(){
-        Logger.getInstance().log("Cell", "Cell()");
-
         this.actPushable = null;
-        neighbors = new Cell[4];
-        for (int i = 0; i < 4; i++) {
-            neighbors[i] = null;
-        }
+
+        neighbors = new HashMap<>();
+        neighbors.put(Direction.LEFT, null);
+        neighbors.put(Direction.RIGHT, null);
+        neighbors.put(Direction.DOWN, null);
+        neighbors.put(Direction.UP, null);
 
         slime = null;
-
-        Logger.getInstance().decIndentDepth();
     }
 
     /**
@@ -32,20 +43,7 @@ public abstract class  Cell implements Visitable{
      * @return a dir iranyban levo szomszed referenciaja
      */
     public Cell getNext(Direction dir){
-        Logger.getInstance().logWithDec("Cell", "getNext(Direction)");
-
-        switch (dir) {
-            case LEFT:
-                return neighbors[0];
-            case RIGHT:
-                return neighbors[1];
-            case UP:
-                return neighbors[2];
-            case DOWN:
-                return neighbors[3];
-            default:
-                return null;
-        }
+        return neighbors.get(dir);
     }
 
     /**
@@ -53,8 +51,6 @@ public abstract class  Cell implements Visitable{
      * @param pushable a pushable, ami ralep a cellara
      */
     public void stepOn(Pushable pushable){
-        Logger.getInstance().logWithDec("Cell", "stepOn(Pushable)");
-
         actPushable = pushable;
         actPushable.actCell = this;
     }
@@ -66,29 +62,13 @@ public abstract class  Cell implements Visitable{
      * @param nextCell a dir-en levo szomszed
      */
     public void setNeighbor(Direction dir, Cell nextCell){
-        Logger.getInstance().logWithDec("Cell", "setNeighbor(Direction, Cell)");
-
-        switch (dir) {
-            case LEFT:
-                neighbors[0] = nextCell;
-                break;
-            case RIGHT:
-                neighbors[1] = nextCell;
-                break;
-            case UP:
-                neighbors[2] = nextCell;
-                break;
-            case DOWN:
-                neighbors[3] = nextCell;
-                break;
-        }
+        neighbors.put(dir, nextCell);
     }
 
     /**
      * Ezzel a fuggvennyel lelephetunk a cellarol
      */
     public void stepOff(){
-        Logger.getInstance().logWithDec("Cell", "stepOff()");
         actPushable = null;
     }
 
@@ -98,7 +78,6 @@ public abstract class  Cell implements Visitable{
      * @param item
      */
     public void setActPushable(Pushable item) {
-        Logger.getInstance().logWithDec("Cell", "setActPushable(Pushable)");
         this.actPushable = item;
     }
 
@@ -108,7 +87,6 @@ public abstract class  Cell implements Visitable{
      * @return a mezon levo aktualis pushable objektum
      */
     public Pushable getActPushable() {
-        Logger.getInstance().logWithDec("Cell", "getActPushable()");
         return actPushable;
     }
 
@@ -118,18 +96,29 @@ public abstract class  Cell implements Visitable{
      * @return
      */
     public boolean isEmpty() {
-        Logger.getInstance().logWithDec("Cell", "isEmpty()");
         return actPushable == null;
     }
 
+    /**
+     * Lehelyezi a parameterben megadott Slimeot a mezore.
+     *
+     * @param slime A kenoanyag, amit le szeretnenek helyezni.
+     */
     public void putSlime(Slime slime) {
         this.slime = slime;
     }
 
+    /**
+     * Eltunteti a Slimeot a mezorol.
+     */
     public void clearSlime() {
         this.slime = null;
     }
 
+    /**
+     * Visszaadja, hogy mennyi a tapadasi surlodasi egyutthatoja a mezonek.
+     * @return A tapadasi surlodasi egyutthato.
+     */
     public int getFriction() {
         int friction = 0;
 

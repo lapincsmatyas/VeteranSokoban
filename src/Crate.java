@@ -1,44 +1,39 @@
 /**
- * A láda osztály. A munkások ezt tologathatják a pályán.
+ * A lada osztaly. A munkasok ezt tologathatjak a palyan.
  */
 public class Crate extends Pushable{
     /**
-     * A láda konstruktora.
-     *
-     * @param actCell Az a mező, amin a láda áll.
+     * A lada konstruktora.
+     * @param actCell Az a mezo, amin a lada all.
+     * @param friction A lada tapadasi surlodasi egyutthatoja.
      */
-    public Crate(Cell actCell){
-        super(actCell);
-        Logger.getInstance().logWithDec("Crate", "Crate(Cell)");
+    public Crate(Cell actCell, int friction) {
+        super(actCell, friction);
     }
 
     /**
-     * Azt adja meg, hogy a láda tolható-e még vagy be van ragadva valahova.
-     * @return Tolható-e a láda.
+     * Azt adja meg, hogy a lada tolhato-e meg vagy be van ragadva valahova.
+     * @return Tolhato-e a lada.
      */
     public boolean cratePushable() {
-        Logger.getInstance().log("Crate", "craePushable()");
-
         boolean result = true;
 
         // TODO implementálni
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
     /**
-     * A Visitor patternt megvalósító függvény.
-     * A láda ellenőrzi, hogy tud-e lépni a mezőre.
-     * @param field A mező, amit a láda visitel.
-     * @param dir Az irány, amelyről a láda van.
-     * @return A lépés sikeressége.
+     * A Visitor patternt megvalosito fuggveny.
+     * A lada ellenorzi, hogy tud-e lepni a mezore.
+     * @param field A mezo, amit a lada visitel.
+     * @param dir Az irany, amelyrol a lada van.
+     * @param force Az ero, amivel a ladat toljak.
+     * @return A lepes sikeressege.
      */
     //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Field field, Direction dir, int force) {
-        Logger.getInstance().log("Crate", "visit(Field, Direction)");
-
         StepResult result = StepResult.SUCCESS;
         if (field.isEmpty()) {
             actCell.stepOff();
@@ -51,23 +46,21 @@ public class Crate extends Pushable{
             }
         }
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
     /**
-     * A Visitor patternt megvalósító függvény.
-     * A láda ellenőrzi, hogy tud-e lépni a lyukra.
+     * A Visitor patternt megvalosito fuggveny.
+     * A lada ellenorzi, hogy tud-e lepni a lyukra.
      * Ha nyitva van a lyuk, akkor a láda meghal
-     * @param hole A lyuk, amit a láda visitel.
-     * @param dir Az irány, amelyről a láda van.
-     * @return A lépés sikeressége.
+     * @param hole A lyuk, amit a lada visitel.
+     * @param dir Az irany, amelyrol a lada van.
+     * @param force Az ero, amivel a ladat toljak.
+     * @return A lepes sikeressege.
      */
     //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Hole hole, Direction dir, int force) {
-        Logger.getInstance().log("Crate", "visit(Switch, Direction)");
-
         StepResult result = StepResult.SUCCESS;
         if (hole.isEmpty()) {
             actCell.stepOff();
@@ -90,23 +83,21 @@ public class Crate extends Pushable{
             }
         }
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
     /**
-     * A Visitor patternt megvalósító függvény.
-     * A láda ellenőrzi, hogy tud-e lépni a kapcsolóra.
-     * Ha rálépett, akkor átállítja a kapcsolót, ami kinyitja a hozzátartozó lyukakat.
-     * @param lever A kapcsoló, amit a láda visitel.
-     * @param dir Az irány, amelyről a láda van.
-     * @return A lépés sikeressége.
+     * A Visitor patternt megvalosito fuggveny.
+     * A lada ellenorzi, hogy tud-e lepni a kapcsolora.
+     * Ha ralepett, akkor atallitja a kapcsolot, ami kinyitja a hozzatartozo lyukakat.
+     * @param lever A kapcsolo, amit a lada visitel.
+     * @param dir Az irany, amelyrol a lada van.
+     * @param force Az ero, amivel a ladat toljak.
+     * @return A lepes sikeressege.
      */
     //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Switch lever, Direction dir, int force) {
-        Logger.getInstance().log("Crate", "visit(Switch, Direction)");
-
         StepResult result = StepResult.SUCCESS;
         if (lever.isEmpty()) {
             actCell.stepOff();
@@ -121,23 +112,21 @@ public class Crate extends Pushable{
             }
         }
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
     /**
-     * A Visitor patternt megvalósító függvény.
-     * A láda ellenőrzi, hogy tud-e lépni a célra.
-     * Ha rálépett, akkor a játékos, aki kezdeményezte az egész tolást, ponttal jutalmazódik
-     * @param target A cél, amit a láda visitel.
-     * @param dir Az irány, amelyről a láda van.
-     * @return A lépés sikeressége.
+     * A Visitor patternt megvalosito fuggveny.
+     * A lada ellenorzi, hogy tud-e lepni a kapcsolora.
+     * Ha ralepett, akkor a jatekos, aki kezdemenyezte az egesz tolast, ponttal jutalmazodik
+     * @param target A cel, amit a lada visitel.
+     * @param dir Az irany, amelyrol a lada van.
+     * @param force Az ero, amivel a ladat toljak.
+     * @return A lepes sikeressege.
      */
     //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Target target, Direction dir, int force) {
-        Logger.getInstance().log("Crate", "visit(Switch, Direction)");
-
         StepResult result = StepResult.SUCCESS;
         if (target.isEmpty()) {
             actCell.stepOff();
@@ -151,12 +140,6 @@ public class Crate extends Pushable{
             }
         }
 
-        Logger.getInstance().decIndentDepth();
         return result;
-    }
-
-    @Override
-    public int getFriction() {
-        return 2;
     }
 }

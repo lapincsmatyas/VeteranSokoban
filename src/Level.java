@@ -1,26 +1,32 @@
 /**
- * A palyak betolteseert felel
+ * A palyak betolteseert felel.
  */
 public class Level {
+
+    /**
+     * Az osztaly default konstruktora.
+     */
+    //TODO implementalni
     public Level() {
-        Logger.getInstance().logWithDec("Level", "Level()");
+
     }
 
     /**
      * A parameterben megadott azonositoju
-     * palya adatait tolti be
-     * @param id a betoltendo palya azonositoja
+     * palya adatait tolti be.
+     * @param id A betoltendo palya azonositoja.
      */
+    //TODO implementalni
     public void loadMap(int id) {
-        Logger.getInstance().logWithDec("Level", "loadMap(int)");
+
     }
 
     /**
      * Megadja a betoltott palya adatait.
-     * @return a betoltott palya adatai
+     * @return A betoltott palya adatai.
      */
+    //TODO implementalni
     public String getLevelData() {
-        Logger.getInstance().logWithDec("Level", "getLevelData()");
         return null;
     }
 }

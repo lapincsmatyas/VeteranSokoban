@@ -2,26 +2,26 @@
  * Ez az osztaly valositja meg az ures mezoket
  */
 public class Field extends Cell {
+    /**
+     * Az ures mezo osztaly konstruktora.
+     */
     public Field() {
         super();
-        Logger.getInstance().logWithDec("Field", "Field()");
     }
 
     /**
      * A visitor patternt megvalosito accept fuggveny.
      * Meghivja a visitor visit fuggvenyet.
-     * @param visitor az aktualis visitor
-     * @param dir ebbe az iranyba szeretne a visitor haladni
-     * @return a lepes sikeressegevel ter vissza (StepResult tipusu)
+     * @param visitor Az aktualis visitor.
+     * @param dir Ebbe az iranyba szeretne a visitor haladni.
+     * @param force A tolas erossege.
+     * @return A lepes sikeressegevel ter vissza (StepResult tipusu).
      */
     //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult accept(Visitor visitor, Direction dir, int force) {
-        Logger.getInstance().log("Field", "accept(Visitor, Direction)");
-
         StepResult result = visitor.visit(this, dir, force);
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 }

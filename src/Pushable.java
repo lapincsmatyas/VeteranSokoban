@@ -8,18 +8,22 @@ public abstract class Pushable implements Visitor{
     protected Cell actCell;
 
     /**
+     * A tapadasi surlodasi egyutthato.
+     */
+    protected int friction;
+
+    /**
      * A tolható konstruktora. Beállítja a mezőt, amelyen tartózkodik
      * és a mezőn is beállítja magát ott tartózkodó tolhatóként.
      *
      * @param actCell A mező, amelyen a tolható tartózkodik.
+     * @param friction A Pushable tapadasi surlodasi egyutthatoja.
      */
-    public Pushable(Cell actCell){
-        Logger.getInstance().log("Pushable", "Pushable(Cell)");
-
+    public Pushable(Cell actCell, int friction) {
         this.actCell = actCell;
         actCell.setActPushable(this);
 
-        Logger.getInstance().decIndentDepth();
+        this.friction = friction;
     }
 
     /**
@@ -29,12 +33,9 @@ public abstract class Pushable implements Visitor{
      * @return A tolás sikeressége.
      */
     public StepResult push(Player actor, Direction dir, int force) {
-        Logger.getInstance().log("Pushable", "push(Player, Direction)");
-
         Cell nextCell = actCell.getNext(dir);
         StepResult result = nextCell.accept(this, dir, force);
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
@@ -45,12 +46,9 @@ public abstract class Pushable implements Visitor{
      * @return A tolás sikeressége.
      */
     public StepResult push(Crate actor, Direction dir, int force) {
-        Logger.getInstance().log("Pushable", "push(Crate, Direction)");
-
         Cell nextCell = actCell.getNext(dir);
         StepResult result = nextCell.accept(this, dir, force);
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
@@ -63,7 +61,6 @@ public abstract class Pushable implements Visitor{
      * @return A lépés sikeressége, mindig sikertelen.
      */
     public StepResult visit(Pillar pillar, Direction dir, int force) {
-        Logger.getInstance().logWithDec("Pushable", "visit(Pillar, Direction)");
         return StepResult.FAIL;
     }
 
@@ -71,9 +68,15 @@ public abstract class Pushable implements Visitor{
      * Ha meghívják, akkor a tohlató meghal és nem vesz részt a játékban többé.
      */
     public void die(){
-        Logger.getInstance().logWithDec("Pushable", "die()");
         actCell = null;
     }
 
-    public abstract int getFriction();
+    /**
+     * A tapadasi surlodasi egyutthatot adja vissza.
+     *
+     * @return A tapadasi surlodasi egyutthato.
+     */
+    public int getFriction() {
+        return friction;
+    }
 }

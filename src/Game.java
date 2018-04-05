@@ -8,22 +8,14 @@ public class Game {
 
 
     public Game(){
-        Logger.getInstance().log("Game", "Game()");
-
         cells = new ArrayList<>();
         players = new ArrayList<>();
         crates = new ArrayList<>();
-
-        Logger.getInstance().decIndentDepth();
     }
 
     public void init(){
-        Logger.getInstance().log("Game", "init()");
-
         Level level = new Level();
         level.loadMap(1);
         level.getLevelData();
-
-        Logger.getInstance().decIndentDepth();
     }
 }
