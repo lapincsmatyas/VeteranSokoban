@@ -2,9 +2,11 @@
  * A jatekban levo oszlopokat valositja meg.
  */
 public class Pillar extends Cell{
+    private char display;
+
     public Pillar() {
         super();
-        Logger.getInstance().logWithDec("Pillar", "Pillar()");
+        display = 'p';
     }
 
     /**
@@ -15,12 +17,15 @@ public class Pillar extends Cell{
      * @return a lepes sikeressege (StepResult tipusu)
      */
     @Override
-    public StepResult accept(Visitor visitor, Direction dir) {
-        Logger.getInstance().log("Pillar", "accept(Visitor, Direction)");
+    public StepResult accept(Visitor visitor, Direction dir, int force) {
 
-        StepResult result = visitor.visit(this, dir);
+        StepResult result = visitor.visit(this, dir, force);
 
-        Logger.getInstance().decIndentDepth();
         return result;
+    }
+
+    @Override
+    public void draw() {
+        System.out.print(display);
     }
 }

@@ -6,10 +6,11 @@ import java.util.List;
  */
 public class Switch extends Cell {
     private List<Hole> holes = new ArrayList<Hole>();
+    private final char display;
 
     public Switch() {
         super();
-        Logger.getInstance().logWithDec("Switch", "Switch()");
+        display = 's';
     }
 
     /**
@@ -19,7 +20,6 @@ public class Switch extends Cell {
      */
     public void addHole(Hole hole) {
         holes.add(hole);
-        Logger.getInstance().logWithDec("Switch", "addHole(Hole)");
     }
 
     /**
@@ -30,13 +30,9 @@ public class Switch extends Cell {
      * @return
      */
     @Override
-    public StepResult accept(Visitor visitor, Direction dir) {
-        //TODO implementálni a Player és a Crate visit függvényeket
-        Logger.getInstance().log("Switch", "accept(Visitor, Direction)");
+    public StepResult accept(Visitor visitor, Direction dir, int force) {
 
-        StepResult result = visitor.visit(this, dir);
-
-        Logger.getInstance().decIndentDepth();
+        StepResult result = visitor.visit(this, dir, force);
         return result;
     }
 
@@ -45,12 +41,15 @@ public class Switch extends Cell {
      * valtoztatja meg az ellenekezo allapotukba
      */
     public void change(){
-        Logger.getInstance().log("Switch", "change()");
 
         for (Hole hole : holes) {
             hole.change();
         }
 
-        Logger.getInstance().decIndentDepth();
+    }
+
+    @Override
+    public void draw() {
+        System.out.print(display);
     }
 }

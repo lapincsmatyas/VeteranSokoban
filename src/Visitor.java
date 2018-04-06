@@ -8,7 +8,7 @@ public interface Visitor {
      * @param dir ebbe az iranyba lepne a visitor
      * @return a lepes sikeressege (StepResult tipusu)
      */
-    public StepResult visit(Field field, Direction dir);
+    public StepResult visit(Field field, Direction dir, int force);
 
     /**
      * A visitor falat/oszlopot latogat
@@ -16,7 +16,7 @@ public interface Visitor {
      * @param dir  ebbe az iranyba lepne a visitor
      * @return ebbe az iranyba lepne a visitor
      */
-    public StepResult visit(Pillar pillar, Direction dir);
+    public StepResult visit(Pillar pillar, Direction dir, int force);
 
     /**
      * A visitor lyukat latogat
@@ -24,7 +24,7 @@ public interface Visitor {
      * @param dir ebbe az iranyba lepne a visitor
      * @return a lepes sikeressege (StepResult tipusu)
      */
-    public StepResult visit(Hole hole, Direction dir);
+    public StepResult visit(Hole hole, Direction dir, int force);
 
     /**
      * A visitor kapcsolot latogat
@@ -32,7 +32,7 @@ public interface Visitor {
      * @param dir ebbe az iranyba lepne a visitor
      * @return a lepes sikeressege (StepResult tipusu)
      */
-    public StepResult visit(Switch lever, Direction dir);
+    public StepResult visit(Switch lever, Direction dir, int force);
 
     /**
      * A visitor celt latogat
@@ -40,5 +40,5 @@ public interface Visitor {
      * @param dir ebbe az iranyba lepne a visitor
      * @return a lepes sikeressege (StepResult tipusu)
      */
-    public StepResult visit(Target target, Direction dir);
+    public StepResult visit(Target target, Direction dir, int force);
 }

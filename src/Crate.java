@@ -2,14 +2,16 @@
  * A láda osztály. A munkások ezt tologathatják a pályán.
  */
 public class Crate extends Pushable{
+
     /**
      * A láda konstruktora.
      *
      * @param actCell Az a mező, amin a láda áll.
+     * @param friction A surlodas, amivel a padlot nyomja maga alatt
      */
-    public Crate(Cell actCell){
-        super(actCell);
-        Logger.getInstance().logWithDec("Crate", "Crate(Cell)");
+    public Crate(Cell actCell, int friction){
+        super(actCell, friction);
+        display = 'c';
     }
 
     /**
@@ -17,13 +19,7 @@ public class Crate extends Pushable{
      * @return Tolható-e a láda.
      */
     public boolean cratePushable() {
-        Logger.getInstance().log("Crate", "craePushable()");
-
         boolean result = true;
-
-        // TODO implementálni
-
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
@@ -35,22 +31,21 @@ public class Crate extends Pushable{
      * @return A lépés sikeressége.
      */
     @Override
-    public StepResult visit(Field field, Direction dir) {
-        Logger.getInstance().log("Crate", "visit(Field, Direction)");
-
+    public StepResult visit(Field field, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
         if (field.isEmpty()) {
-            actCell.stepOff();
-            field.stepOn(this);
+            if(force > 0) {
+                actCell.stepOff();
+                field.stepOn(this);
+            } else
+                result = StepResult.FAIL;
         } else {
-            result = field.getActPushable().push(this, dir);
+            result = field.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 field.stepOn(this);
             }
         }
-
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
@@ -63,20 +58,22 @@ public class Crate extends Pushable{
      * @return A lépés sikeressége.
      */
     @Override
-    public StepResult visit(Hole hole, Direction dir) {
-        Logger.getInstance().log("Crate", "visit(Switch, Direction)");
-
+    public StepResult visit(Hole hole, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
         if (hole.isEmpty()) {
-            actCell.stepOff();
+            if(force > 0) {
+                actCell.stepOff();
 
-            if (hole.isOpened()) {
-                this.die();
-            } else {
-                hole.stepOn(this);
+                if (hole.isOpened()) {
+                    this.die();
+                } else {
+                    hole.stepOn(this);
+                }
+            } else{
+                result = StepResult.FAIL;
             }
         } else {
-            result = hole.getActPushable().push(this, dir);
+            result = hole.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
 
@@ -87,8 +84,6 @@ public class Crate extends Pushable{
                 }
             }
         }
-
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
@@ -101,24 +96,24 @@ public class Crate extends Pushable{
      * @return A lépés sikeressége.
      */
     @Override
-    public StepResult visit(Switch lever, Direction dir) {
-        Logger.getInstance().log("Crate", "visit(Switch, Direction)");
-
+    public StepResult visit(Switch lever, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
         if (lever.isEmpty()) {
-            actCell.stepOff();
-            lever.stepOn(this);
-            lever.change();
+            if(force >0) {
+                actCell.stepOff();
+                lever.stepOn(this);
+                lever.change();
+            }  else {
+                result = StepResult.FAIL;
+            }
         } else {
-            result = lever.getActPushable().push(this, dir);
+            result = lever.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 lever.stepOn(this);
                 lever.change();
             }
         }
-
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
@@ -131,23 +126,33 @@ public class Crate extends Pushable{
      * @return A lépés sikeressége.
      */
     @Override
-    public StepResult visit(Target target, Direction dir) {
-        Logger.getInstance().log("Crate", "visit(Switch, Direction)");
-
+    public StepResult visit(Target target, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
         if (target.isEmpty()) {
-            actCell.stepOff();
-            target.stepOn(this);
-            result = StepResult.SUCCESS_POINT;
+            if(force >0) {
+                actCell.stepOff();
+                target.stepOn(this);
+                result = StepResult.SUCCESS_POINT;
+            } else{
+                result = StepResult.FAIL;
+            }
         } else {
-            result = target.getActPushable().push(this, dir);
+            result = target.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 target.stepOn(this);
             }
         }
-
-        Logger.getInstance().decIndentDepth();
         return result;
     }
+
+    /**
+     * Ezzel e metodussal lekerdezheto a lada tapadasi surlodasi egyutthatoja.
+     * @return a lada tapadasi egyutthatoja
+     */
+    public int getFriction(){
+        return friction;
+}
+
+
 }

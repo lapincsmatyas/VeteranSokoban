@@ -1,40 +1,39 @@
 /**
  * Tolható osztály. Absztrakt, nem példányosítható.
  */
-public abstract class Pushable implements Visitor{
+public abstract class Pushable implements Visitor, Drawable{
     /**
      * A mező, amelyen a tolható tartózkodik.
      */
     protected Cell actCell;
+    protected int friction;
 
+    protected char display;
     /**
      * A tolható konstruktora. Beállítja a mezőt, amelyen tartózkodik
      * és a mezőn is beállítja magát ott tartózkodó tolhatóként.
      *
      * @param actCell A mező, amelyen a tolható tartózkodik.
      */
-    public Pushable(Cell actCell){
-        Logger.getInstance().log("Pushable", "Pushable(Cell)");
-
+    public Pushable(Cell actCell, int friction){
+        display = ' ';
         this.actCell = actCell;
         actCell.setActPushable(this);
 
-        Logger.getInstance().decIndentDepth();
+        this.friction = friction;
     }
 
     /**
      * Odébbtolja a tolhatót, ha az lehetséges.
      * @param actor A játékos objektum, ami kezdeményezte a tolást.
      * @param dir Az irány, amelybe tolni akarják a tolhatót.
+     * @param force A tolashoz hasznalt ero
      * @return A tolás sikeressége.
      */
-    public StepResult push(Player actor, Direction dir) {
-        Logger.getInstance().log("Pushable", "push(Player, Direction)");
+    public StepResult push(Player actor, Direction dir, int force) {
 
         Cell nextCell = actCell.getNext(dir);
-        StepResult result = nextCell.accept(this, dir);
-
-        Logger.getInstance().decIndentDepth();
+        StepResult result = nextCell.accept(this, dir, force - friction - actCell.getFriction());
         return result;
     }
 
@@ -42,15 +41,14 @@ public abstract class Pushable implements Visitor{
      * Odébbtolja a tolhatót, ha az lehetséges.
      * @param actor A láda objektum, ami kezdeményezte a tolást.
      * @param dir Az irány, amelybe tolni akarják a tolhatót.
+     * @param force A tolashoz hasznalt ero
      * @return A tolás sikeressége.
      */
-    public StepResult push(Crate actor, Direction dir) {
-        Logger.getInstance().log("Pushable", "push(Crate, Direction)");
+    public StepResult push(Crate actor, Direction dir, int force) {
 
         Cell nextCell = actCell.getNext(dir);
-        StepResult result = nextCell.accept(this, dir);
+        StepResult result = nextCell.accept(this, dir, force - friction - actCell.getFriction());
 
-        Logger.getInstance().decIndentDepth();
         return result;
     }
 
@@ -62,8 +60,7 @@ public abstract class Pushable implements Visitor{
      * @param dir Az irány, amelyről a tolható van.
      * @return A lépés sikeressége, mindig sikertelen.
      */
-    public StepResult visit(Pillar pillar, Direction dir) {
-        Logger.getInstance().logWithDec("Pushable", "visit(Pillar, Direction)");
+    public StepResult visit(Pillar pillar, Direction dir, int force) {
         return StepResult.FAIL;
     }
 
@@ -71,7 +68,14 @@ public abstract class Pushable implements Visitor{
      * Ha meghívják, akkor a tohlató meghal és nem vesz részt a játékban többé.
      */
     public void die(){
-        Logger.getInstance().logWithDec("Pushable", "die()");
         actCell = null;
+    }
+
+    public void draw() {
+        System.out.print(this.getDisplay());
+    }
+
+    public char getDisplay(){
+        return this.display;
     }
 }

@@ -2,9 +2,10 @@
  * Ez az osztaly valositja meg az ures mezoket
  */
 public class Field extends Cell {
+    private char display;
     public Field() {
         super();
-        Logger.getInstance().logWithDec("Field", "Field()");
+        display = '.';
     }
 
     /**
@@ -15,12 +16,18 @@ public class Field extends Cell {
      * @return a lepes sikeressegevel ter vissza (StepResult tipusu)
      */
     @Override
-    public StepResult accept(Visitor visitor, Direction dir) {
-        Logger.getInstance().log("Field", "accept(Visitor, Direction)");
-
-        StepResult result = visitor.visit(this, dir);
-
-        Logger.getInstance().decIndentDepth();
+    public StepResult accept(Visitor visitor, Direction dir, int force) {
+        StepResult result = visitor.visit(this, dir, force);
         return result;
+    }
+
+
+    @Override
+    public void draw() {
+        if(actPushable != null){
+            actPushable.draw();
+        }
+        else
+            System.out.print(display);
     }
 }

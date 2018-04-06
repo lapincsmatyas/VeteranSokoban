@@ -8,23 +8,28 @@ import java.io.InputStreamReader;
  */
 
 public class Hole extends Cell {
+    private char display;
+    private boolean isOpen;
 
-    public Hole() {
-        Logger.getInstance().logWithDec("Hole", "Hole()");
+    public Hole(boolean isOpen) {
+        this.isOpen = isOpen;
+        display = isOpen ? 'O' : '*';
     }
 
     /**
      * Ezzel a fuggvennyel kinyithato a lyuk.
      */
     public void open() {
-        Logger.getInstance().logWithDec("Hole", "open()");
+        isOpen = true;
+        display = 'O';
     }
 
     /**
      * Ezzel a fuggvennyel bezarhato egy lyuk.
      */
     public void close() {
-        Logger.getInstance().logWithDec("Hole", "close()");
+        isOpen = false;
+        display = '*';
     }
 
     /**
@@ -32,7 +37,13 @@ public class Hole extends Cell {
      * nyitott lyukbol zart lyuk lesz.
      */
     public void change() {
-        Logger.getInstance().logWithDec("Hole", "change()");
+        if(isOpen){
+            isOpen = false;
+            display = '*';
+        } else{
+            isOpen = true;
+            display = 'O';
+        }
     }
 
     /**
@@ -41,7 +52,6 @@ public class Hole extends Cell {
      * @return true, ha a lyuk nyitva van, false, ha zarva
      */
     public boolean isOpened() {
-        Logger.getInstance().logWithDec("Hole", "isOpened()");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         try {
@@ -66,12 +76,13 @@ public class Hole extends Cell {
      * @return
      */
     @Override
-    public StepResult accept(Visitor visitor, Direction dir) {
-        Logger.getInstance().log("Hole", "accept(Visitor, Direction)");
-
-        StepResult result = visitor.visit(this, dir);
-
-        Logger.getInstance().decIndentDepth();
+    public StepResult accept(Visitor visitor, Direction dir, int force) {
+        StepResult result = visitor.visit(this, dir, force);
         return result;
+    }
+
+    @Override
+    public void draw() {
+        System.out.print(display);
     }
 }

@@ -3,7 +3,7 @@
  */
 public class Level {
     public Level() {
-        Logger.getInstance().logWithDec("Level", "Level()");
+
     }
 
     /**
@@ -12,7 +12,7 @@ public class Level {
      * @param id a betoltendo palya azonositoja
      */
     public void loadMap(int id) {
-        Logger.getInstance().logWithDec("Level", "loadMap(int)");
+
     }
 
     /**
@@ -20,7 +20,6 @@ public class Level {
      * @return a betoltott palya adatai
      */
     public String getLevelData() {
-        Logger.getInstance().logWithDec("Level", "getLevelData()");
         return null;
     }
 }

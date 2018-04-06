@@ -3,24 +3,23 @@
  * Tartalmazza a szomszedjait es a rajta levo aktualis pushable objektumot
  */
 
-public abstract class  Cell implements Visitable{
+public abstract class  Cell implements Visitable, Drawable{
     protected Pushable actPushable;
 
     private Cell[] neighbors;
+
+    Slime slime;
 
     /**
      * A konstruktor inicializalja a szomszedokat.
      */
     public Cell(){
-        Logger.getInstance().log("Cell", "Cell()");
-
         this.actPushable = null;
         neighbors = new Cell[4];
         for (int i = 0; i < 4; i++) {
             neighbors[i] = null;
         }
-
-        Logger.getInstance().decIndentDepth();
+        slime = null;
     }
 
     /**
@@ -29,7 +28,6 @@ public abstract class  Cell implements Visitable{
      * @return a dir iranyban levo szomszed referenciaja
      */
     public Cell getNext(Direction dir){
-        Logger.getInstance().logWithDec("Cell", "getNext(Direction)");
 
         switch (dir) {
             case LEFT:
@@ -50,7 +48,6 @@ public abstract class  Cell implements Visitable{
      * @param pushable a pushable, ami ralep a cellara
      */
     public void stepOn(Pushable pushable){
-        Logger.getInstance().logWithDec("Cell", "stepOn(Pushable)");
 
         actPushable = pushable;
         actPushable.actCell = this;
@@ -63,7 +60,6 @@ public abstract class  Cell implements Visitable{
      * @param nextCell a dir-en levo szomszed
      */
     public void setNeighbor(Direction dir, Cell nextCell){
-        Logger.getInstance().logWithDec("Cell", "setNeighbor(Direction, Cell)");
 
         switch (dir) {
             case LEFT:
@@ -85,7 +81,6 @@ public abstract class  Cell implements Visitable{
      * Ezzel a fuggvennyel lelephetunk a cellarol
      */
     public void stepOff(){
-        Logger.getInstance().logWithDec("Cell", "stepOff()");
         actPushable = null;
     }
 
@@ -95,7 +90,6 @@ public abstract class  Cell implements Visitable{
      * @param item
      */
     public void setActPushable(Pushable item) {
-        Logger.getInstance().logWithDec("Cell", "setActPushable(Pushable)");
         this.actPushable = item;
     }
 
@@ -105,7 +99,6 @@ public abstract class  Cell implements Visitable{
      * @return a mezon levo aktualis pushable objektum
      */
     public Pushable getActPushable() {
-        Logger.getInstance().logWithDec("Cell", "getActPushable()");
         return actPushable;
     }
 
@@ -115,7 +108,29 @@ public abstract class  Cell implements Visitable{
      * @return
      */
     public boolean isEmpty() {
-        Logger.getInstance().logWithDec("Cell", "isEmpty()");
         return actPushable == null;
+    }
+
+    /**
+     * A parameterben megadott Slime-ot lehet vele a mezon elhelyezni.
+     * @param slime Ezt a slime-ot helyezi a mezore
+     */
+    public void putSlime(Slime slime){
+        this.slime = slime;
+    }
+
+    /**
+     * Ezzel a metodussal eltavolithato a mezon levo slime
+     */
+    public void clearSlime(){
+        slime = null;
+    }
+
+    public int getFriction(){
+        if(slime != null){
+            return slime.getFriction();
+        } else{
+            return 0;
+        }
     }
 }
