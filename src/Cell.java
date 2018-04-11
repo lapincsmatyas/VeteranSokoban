@@ -73,15 +73,6 @@ public abstract class  Cell implements Visitable{
     }
 
     /**
-     * Ezzel a fuggvennyel beallithato a cellan
-     * levo aktualis pushable objektum-
-     * @param item
-     */
-    public void setActPushable(Pushable item) {
-        this.actPushable = item;
-    }
-
-    /**
      * Ezzel a fuggvennyel lekerdezheto a mezon talalhato
      * aktualis pushable objektum
      * @return a mezon levo aktualis pushable objektum

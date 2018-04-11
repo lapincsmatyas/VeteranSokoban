@@ -21,7 +21,7 @@ public abstract class Pushable implements Visitor{
      */
     public Pushable(Cell actCell, int friction) {
         this.actCell = actCell;
-        actCell.setActPushable(this);
+        actCell.stepOn(this);
 
         this.friction = friction;
     }
