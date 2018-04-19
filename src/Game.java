@@ -13,6 +13,7 @@ public class Game {
         crates = new ArrayList<>();
     }
 
+    //TODO implementalni rendesen, mert ez igy hianyos
     public void init(){
         Level level = new Level();
         level.loadMap(1);
