@@ -37,7 +37,7 @@ public class Crate extends Pushable{
         if (field.isEmpty() && force >= field.getFriction()) {
             actCell.stepOff();
             field.stepOn(this);
-        } else {
+        } else if (force >= field.getFriction()) {
             result = field.getActPushable().push(this, dir, force - field.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
@@ -57,11 +57,10 @@ public class Crate extends Pushable{
      * @param force Az ero, amivel a ladat toljak.
      * @return A lepes sikeressege.
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Hole hole, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (hole.isEmpty()) {
+        if (hole.isEmpty() && force >= hole.getFriction()) {
             actCell.stepOff();
 
             if (hole.isOpened()) {
@@ -69,8 +68,8 @@ public class Crate extends Pushable{
             } else {
                 hole.stepOn(this);
             }
-        } else {
-            result = hole.getActPushable().push(this, dir, force);
+        } else if (force >= hole.getFriction()) {
+            result = hole.getActPushable().push(this, dir, force - hole.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
 
@@ -94,16 +93,15 @@ public class Crate extends Pushable{
      * @param force Az ero, amivel a ladat toljak.
      * @return A lepes sikeressege.
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Switch lever, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (lever.isEmpty()) {
+        if (lever.isEmpty() && force >= lever.getFriction()) {
             actCell.stepOff();
             lever.stepOn(this);
             lever.change();
-        } else {
-            result = lever.getActPushable().push(this, dir, force);
+        } else if (force >= lever.getFriction()) {
+            result = lever.getActPushable().push(this, dir, force - lever.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 lever.stepOn(this);
@@ -123,16 +121,15 @@ public class Crate extends Pushable{
      * @param force Az ero, amivel a ladat toljak.
      * @return A lepes sikeressege.
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Target target, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (target.isEmpty()) {
+        if (target.isEmpty() && force >= target.getFriction()) {
             actCell.stepOff();
             target.stepOn(this);
             result = StepResult.SUCCESS_POINT;
-        } else {
-            result = target.getActPushable().push(this, dir, force);
+        } else if (force >= target.getFriction()) {
+            result = target.getActPushable().push(this, dir, force - target.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 target.stepOn(this);
