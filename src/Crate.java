@@ -70,22 +70,12 @@ public class Crate extends Pushable{
 
         if (hole.isEmpty()) {
             actCell.stepOff();
-
-            if (hole.isOpened()) {
-                this.die();
-            } else {
-                hole.stepOn(this);
-            }
+            hole.stepOn(this);
         } else {
             result = hole.getActPushable().push(this, dir, force - this.actCell.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
-
-                if (hole.isOpened()) {
-                    this.die();
-                } else {
-                    hole.stepOn(this);
-                }
+                hole.stepOn(this);
             }
         }
 

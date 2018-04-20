@@ -39,15 +39,18 @@ public class Player extends Pushable{
      * @param force A tolas ereje.
      * @return A lepes sikeressege.
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Field field, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
+        if (force < this.actCell.getFriction()) {
+            return StepResult.FAIL;
+        }
+
         if (field.isEmpty()) {
             actCell.stepOff();
             field.stepOn(this);
         } else {
-            result = field.getActPushable().push(this, dir, force);
+            result = field.getActPushable().push(this, dir, force - this.actCell.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 field.stepOn(this);
@@ -66,28 +69,21 @@ public class Player extends Pushable{
      * @param force A tolas ereje.
      * @return A lepes sikeressege.
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Hole hole, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
+        if (force < this.actCell.getFriction()) {
+            return StepResult.FAIL;
+        }
+
         if (hole.isEmpty()) {
             actCell.stepOff();
-
-            if (hole.isOpened()) {
-                this.die();
-            } else {
-                hole.stepOn(this);
-            }
+            hole.stepOn(this);
         } else {
-            result = hole.getActPushable().push(this, dir, force);
+            result = hole.getActPushable().push(this, dir, force - this.actCell.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
-
-                if (hole.isOpened()) {
-                    this.die();
-                } else {
-                    hole.stepOn(this);
-                }
+                hole.stepOn(this);
             }
         }
 
@@ -102,15 +98,18 @@ public class Player extends Pushable{
      * @param force A tolas ereje.
      * @return A lepes sikeressege.
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Switch lever, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
+        if (force < this.actCell.getFriction()) {
+            return StepResult.FAIL;
+        }
+
         if (lever.isEmpty()) {
             actCell.stepOff();
             lever.stepOn(this);
         } else {
-            result = lever.getActPushable().push(this, dir, force);
+            result = lever.getActPushable().push(this, dir, force - this.actCell.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 lever.stepOn(this);
@@ -128,15 +127,18 @@ public class Player extends Pushable{
      * @param force A tolas ereje.
      * @return A lepes sikeressege.
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Target target, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
+        if (force < this.actCell.getFriction()) {
+            return StepResult.FAIL;
+        }
+
         if (target.isEmpty()) {
             actCell.stepOff();
             target.stepOn(this);
         } else {
-            result = target.getActPushable().push(this, dir, force);
+            result = target.getActPushable().push(this, dir, force - this.actCell.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 target.stepOn(this);
@@ -166,7 +168,6 @@ public class Player extends Pushable{
      * @param force A tolas ereje.
      * @return Mindig hamis, mert jatekos nem tolhat jatekost.
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     public StepResult push(Player actor, Direction dir, int force) {
         return StepResult.FAIL;
     }
@@ -178,7 +179,6 @@ public class Player extends Pushable{
      * @param force A tolas ereje.
      * @return A tolas sikeressege.
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult push(Crate actor, Direction dir, int force) {
         Cell nextCell = actCell.getNext(dir);

@@ -3,6 +3,11 @@
  */
 public abstract class Pushable implements Visitor{
     /**
+     * Azt jelzi, hogy el-e meg a Pushable
+     */
+    private boolean dead = false;
+
+    /**
      * A mező, amelyen a tolható tartózkodik.
      */
     protected Cell actCell;
@@ -68,7 +73,9 @@ public abstract class Pushable implements Visitor{
      * Ha meghívják, akkor a tohlató meghal és nem vesz részt a játékban többé.
      */
     public void die(){
+        actCell.stepOff();
         actCell = null;
+        dead = true;
     }
 
     /**
@@ -78,5 +85,14 @@ public abstract class Pushable implements Visitor{
      */
     public int getFriction() {
         return friction;
+    }
+
+    /**
+     * Azt lehet lekerdezni vele, hogy a Pushable halott-e.
+     *
+     * @return Halott-e a Pushable.
+     */
+    public boolean isDead() {
+        return dead;
     }
 }
