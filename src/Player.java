@@ -154,11 +154,9 @@ public class Player extends Pushable{
      * @param force A tolas ereje.
      * @return A tolas sikeressege.
      */
-    public StepResult push(Direction dir, int force) {
+    private StepResult push(Direction dir, int force) {
         Cell nextCell = actCell.getNext(dir);
-        StepResult result = nextCell.accept(this, dir, force);
-
-        return result;
+        return nextCell.accept(this, dir, force);
     }
 
     /**
@@ -204,9 +202,7 @@ public class Player extends Pushable{
      * @return A mozgatas sikeresege.
      */
     public StepResult move(Direction dir) {
-        StepResult result = push(dir, force);
-
-        return result;
+        return push(dir, force);
     }
 
     /**

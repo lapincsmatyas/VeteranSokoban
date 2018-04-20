@@ -17,11 +17,8 @@ public class Field extends Cell {
      * @param force A tolas erossege.
      * @return A lepes sikeressegevel ter vissza (StepResult tipusu).
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult accept(Visitor visitor, Direction dir, int force) {
-        StepResult result = visitor.visit(this, dir, force);
-
-        return result;
+        return visitor.visit(this, dir, force);
     }
 }

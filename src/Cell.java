@@ -84,7 +84,7 @@ public abstract class  Cell implements Visitable{
     /**
      * Ezzel a fuggvennyel lekerdezheto, hogy az
      * a cellan van-e pushable objektum
-     * @return
+     * @return Ures-e a mezo.
      */
     public boolean isEmpty() {
         return actPushable == null;

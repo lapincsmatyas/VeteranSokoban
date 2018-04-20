@@ -39,9 +39,8 @@ public abstract class Pushable implements Visitor{
      */
     public StepResult push(Player actor, Direction dir, int force) {
         Cell nextCell = actCell.getNext(dir);
-        StepResult result = nextCell.accept(this, dir, force);
 
-        return result;
+        return nextCell.accept(this, dir, force);
     }
 
     /**
@@ -52,9 +51,8 @@ public abstract class Pushable implements Visitor{
      */
     public StepResult push(Crate actor, Direction dir, int force) {
         Cell nextCell = actCell.getNext(dir);
-        StepResult result = nextCell.accept(this, dir, force);
 
-        return result;
+        return nextCell.accept(this, dir, force);
     }
 
     /**

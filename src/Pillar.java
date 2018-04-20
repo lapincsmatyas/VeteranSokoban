@@ -17,11 +17,8 @@ public class Pillar extends Cell{
      * @param force A tolas ereje.
      * @return A lepes sikeressege (StepResult tipusu).
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult accept(Visitor visitor, Direction dir, int force) {
-        StepResult result = visitor.visit(this, dir, force);
-
-        return result;
+        return visitor.visit(this, dir, force);
     }
 }

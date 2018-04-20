@@ -125,7 +125,7 @@ public class Crate extends Pushable{
      */
     @Override
     public StepResult visit(Target target, Direction dir, int force) {
-        StepResult result = StepResult.SUCCESS;
+        StepResult result;
         if (force < this.actCell.getFriction()) {
             return StepResult.FAIL;
         }

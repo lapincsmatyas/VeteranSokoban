@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -20,10 +21,10 @@ public class Switch extends Cell {
     /**
      * Ezzel a fuggvennyel lyukak adhatok a
      * kapcsolo felelossege ala.
-     * @param hole
+     * @param holes A hozzaadando lyukak listaja
      */
-    public void addHole(Hole hole) {
-        holes.add(hole);
+    public void addHoles(Collection<Hole> holes) {
+        this.holes.addAll(holes);
     }
 
     /**
@@ -34,14 +35,9 @@ public class Switch extends Cell {
      * @param force A tolas ereje.
      * @return A lepes sikeressege (StepResult tipusu).
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult accept(Visitor visitor, Direction dir, int force) {
-        //TODO implementálni a Player és a Crate visit függvényeket
-
-        StepResult result = visitor.visit(this, dir, force);
-
-        return result;
+        return visitor.visit(this, dir, force);
     }
 
     /**
