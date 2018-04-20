@@ -31,15 +31,14 @@ public class Crate extends Pushable{
      * @param force Az ero, amivel a ladat toljak.
      * @return A lepes sikeressege.
      */
-    //TODO implementalni a forceos mukodest, egyelore csak parameterben van
     @Override
     public StepResult visit(Field field, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (field.isEmpty()) {
+        if (field.isEmpty() && force >= field.getFriction()) {
             actCell.stepOff();
             field.stepOn(this);
         } else {
-            result = field.getActPushable().push(this, dir, force);
+            result = field.getActPushable().push(this, dir, force - field.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 field.stepOn(this);
