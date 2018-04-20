@@ -34,11 +34,15 @@ public class Crate extends Pushable{
     @Override
     public StepResult visit(Field field, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (field.isEmpty() && force >= field.getFriction()) {
+        if (force < this.actCell.getFriction()) {
+            return StepResult.FAIL;
+        }
+
+        if (field.isEmpty()) {
             actCell.stepOff();
             field.stepOn(this);
-        } else if (force >= field.getFriction()) {
-            result = field.getActPushable().push(this, dir, force - field.getFriction());
+        } else {
+            result = field.getActPushable().push(this, dir, force - this.actCell.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 field.stepOn(this);
@@ -60,7 +64,11 @@ public class Crate extends Pushable{
     @Override
     public StepResult visit(Hole hole, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (hole.isEmpty() && force >= hole.getFriction()) {
+        if (force < this.actCell.getFriction()) {
+            return StepResult.FAIL;
+        }
+
+        if (hole.isEmpty()) {
             actCell.stepOff();
 
             if (hole.isOpened()) {
@@ -68,8 +76,8 @@ public class Crate extends Pushable{
             } else {
                 hole.stepOn(this);
             }
-        } else if (force >= hole.getFriction()) {
-            result = hole.getActPushable().push(this, dir, force - hole.getFriction());
+        } else {
+            result = hole.getActPushable().push(this, dir, force - this.actCell.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
 
@@ -96,12 +104,16 @@ public class Crate extends Pushable{
     @Override
     public StepResult visit(Switch lever, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (lever.isEmpty() && force >= lever.getFriction()) {
+        if (force < this.actCell.getFriction()) {
+            return StepResult.FAIL;
+        }
+
+        if (lever.isEmpty()) {
             actCell.stepOff();
             lever.stepOn(this);
             lever.change();
-        } else if (force >= lever.getFriction()) {
-            result = lever.getActPushable().push(this, dir, force - lever.getFriction());
+        } else {
+            result = lever.getActPushable().push(this, dir, force - this.actCell.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 lever.stepOn(this);
@@ -124,12 +136,16 @@ public class Crate extends Pushable{
     @Override
     public StepResult visit(Target target, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (target.isEmpty() && force >= target.getFriction()) {
+        if (force < this.actCell.getFriction()) {
+            return StepResult.FAIL;
+        }
+
+        if (target.isEmpty()) {
             actCell.stepOff();
             target.stepOn(this);
             result = StepResult.SUCCESS_POINT;
-        } else if (force >= target.getFriction()) {
-            result = target.getActPushable().push(this, dir, force - target.getFriction());
+        } else {
+            result = target.getActPushable().push(this, dir, force - this.actCell.getFriction());
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 target.stepOn(this);
