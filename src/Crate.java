@@ -12,18 +12,6 @@ public class Crate extends Pushable{
     }
 
     /**
-     * Azt adja meg, hogy a lada tolhato-e meg vagy be van ragadva valahova.
-     * @return Tolhato-e a lada.
-     */
-    public boolean cratePushable() {
-        boolean result = true;
-
-        // TODO implementálni
-
-        return result;
-    }
-
-    /**
      * A Visitor patternt megvalosito fuggveny.
      * A lada ellenorzi, hogy tud-e lepni a mezore.
      * @param field A mezo, amit a lada visitel.
