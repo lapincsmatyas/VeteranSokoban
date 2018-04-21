@@ -56,6 +56,8 @@ public class Crate extends Pushable{
             return StepResult.FAIL;
         }
 
+        //Csak gyakorlok
+
         if (hole.isEmpty()) {
             actCell.stepOff();
             hole.stepOn(this);
