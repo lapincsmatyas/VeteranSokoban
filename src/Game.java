@@ -1,8 +1,11 @@
+import javafx.geometry.Point3D;
+
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class Game {
     private List<Cell> cells;
@@ -46,6 +49,9 @@ public class Game {
                 nomore = true;
             }
         }
+
+        System.out.println();
+        System.out.println();
     }
 
     /**
@@ -61,44 +67,42 @@ public class Game {
         }
 
         buildLevel(level);
-        players.get(0).giveSlime(new Honey());
+        drawMap();
+    }
 
+    public void movePlayer(int playerId, Direction dir) {
+        for (Player p : players) {
+            if (p.getId() == playerId) {
+                StepResult result = p.move(dir);
+                if (result == StepResult.SUCCESS_POINT) {
+                    p.addOnePoint();
 
-        try {
-            boolean go = true;
-            while(go){
+                    Random r = new Random();
 
-                char c = (char) System.in.read();
-                switch (c){
-                    case '4':
-                        players.get(0).move(Direction.LEFT);
-                        break;
-                    case '8':
-                        players.get(0).move(Direction.UP);
-                        break;
-                    case '6':
-                        players.get(0).move(Direction.RIGHT);
-                        break;
-                    case '2':
-                        players.get(0).move(Direction.DOWN);
-                        break;
-                    case '5':
-                        players.get(0).putSlime();
-                        break;
-                    case '\n':
-                        break;
-                    default:
-                        go = false;
-                        break;
+                    if (r.nextInt(2) == 0) {
+                        p.giveSlime(new Oil());
+                    } else {
+                        p.giveSlime(new Honey());
+                    }
                 }
-                drawMap();
-                System.out.println();
-                System.out.println();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+    }
 
+    public void putSlime(int playerId) {
+        for (Player p : players) {
+            if (p.getId() == playerId) {
+                p.putSlime();
+            }
+        }
+    }
+
+    public void giveSlime(int playerId, Slime slime) {
+        for (Player p : players) {
+            if (p.getId() == playerId) {
+                p.giveSlime(slime);
+            }
+        }
     }
 
     private void buildLevel(Level level){
@@ -169,9 +173,10 @@ public class Game {
             c.putSlime(new Honey());
         }
 
-        for (Point p : level.getCrates()) {
-            int x = (int) p.getX() - 1;
-            int y = (int) p.getY() - 1;
+        for (Point3D p : level.getCrates()) {
+            int friction = (int) p.getX();
+            int x = (int) p.getY() - 1;
+            int y = (int) p.getZ() - 1;
 
             Cell c = cells.get(y * level.getWidth() + x);
             for (Switch lever: levers) {
@@ -179,18 +184,19 @@ public class Game {
                     lever.change();
                 }
             }
-            crates.add(new Crate(c, 0));
+            crates.add(new Crate(c, friction));
         }
 
-        for (Map.Entry<Integer, Point> entry : level.getPlayers().entrySet()) {
-            Point p = entry.getValue();
+        for (Map.Entry<Integer, Point3D> entry : level.getPlayers().entrySet()) {
+            Point3D p = entry.getValue();
             Integer id = entry.getKey();
 
-            int x = (int) p.getX() - 1;
-            int y = (int) p.getY() - 1;
+            int force = (int) p.getX();
+            int x = (int) p.getY() - 1;
+            int y = (int) p.getZ() - 1;
             Cell c = cells.get(y * level.getWidth() + x);
 
-            players.add(new Player(c, 0, id));
+            players.add(new Player(c, force, id));
         }
     }
 
