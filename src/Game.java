@@ -15,8 +15,11 @@ public class Game {
         crates = new ArrayList<>();
     }
 
-    public void run() {
-        //while (running) {
+    public void init(){
+        levelLoader = new LevelLoader();
+    }
+
+    public void drawMap(){
         Cell c1 = cells.get(0);
 
         boolean nomore = false;
@@ -42,10 +45,6 @@ public class Game {
             }
         }
     }
-    //TODO implementalni rendesen, mert ez igy hianyos
-    public void init(){
-        levelLoader = new LevelLoader();
-    }
 
     /**
      * A parameterben megadott azonostioju palyaval indit egy jatekot
@@ -60,6 +59,7 @@ public class Game {
         Level level = levelLoader.getLevel();
 
         buildLevel(level);
+        drawMap();
     }
 
     private void buildLevel(Level level){
@@ -143,14 +143,20 @@ public class Game {
         }
 
         //Utolso sor
-        cells.get(0).setNeighbor(Direction.RIGHT, cells.get(1));
-        cells.get(0).setNeighbor(Direction.DOWN, cells.get(0 + width));
-        for(int i = 1; i < width-1; i++){
-            cells.get(i).setNeighbor(Direction.LEFT, cells.get(i-1));
-            cells.get(i).setNeighbor(Direction.RIGHT, cells.get(i+1));
-            cells.get(i).setNeighbor(Direction.DOWN, cells.get(i + width));
+
+        int actPos = (height-1)*width;
+
+        cells.get(actPos).setNeighbor(Direction.RIGHT, cells.get(actPos+1));
+        cells.get(actPos).setNeighbor(Direction.UP, cells.get(actPos - width));
+        actPos++;
+
+        for(; actPos < height*width-1; actPos++){
+            cells.get(actPos).setNeighbor(Direction.LEFT, cells.get(actPos - 1));
+            cells.get(actPos).setNeighbor(Direction.RIGHT, cells.get(actPos + 1));
+            cells.get(actPos).setNeighbor(Direction.UP, cells.get(actPos - width));
         }
-        cells.get(width-1).setNeighbor(Direction.LEFT, cells.get(width-2));
-        cells.get(width-1).setNeighbor(Direction.DOWN, cells.get(width - 1 + width));
+        cells.get(actPos).setNeighbor(Direction.LEFT, cells.get(actPos - 1));
+        cells.get(actPos).setNeighbor(Direction.UP, cells.get(actPos - width));
+
     }
 }
