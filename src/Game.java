@@ -1,6 +1,8 @@
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Game {
     private List<Cell> cells;
@@ -51,12 +53,12 @@ public class Game {
      * @param id Level azonosito
      */
     public void start(int id){
+        Level level = null;
         try {
-            levelLoader.loadMap(1);
+            level = levelLoader.loadMap(id);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Level level = levelLoader.getLevel();
 
         buildLevel(level);
         drawMap();
@@ -69,7 +71,7 @@ public class Game {
 
         for(int i = 0; i < level.getHeight(); i++){
             for(int j = 0; j < level.getWidth(); j++){
-                char act = level.getItemAt(i,j);
+                char act = level.getCellAt(i,j);
                 switch (act){
                     case '.':
                         cells.add(new Field());
@@ -77,37 +79,58 @@ public class Game {
                     case 'p':
                         cells.add(new Pillar());
                         break;
-                    case 'c':
-                        Field temp = new Field();
-                        Crate crate = new Crate(temp, 0);
-                        cells.add(temp);
-                        crates.add(crate);
-                        break;
                     case 's':
-                        //TODO
+                        cells.add(new Switch());
                         break;
                     case 't':
-                        //TODO
-                        break;
-                    case 'O':
-                        //TODO
+                        cells.add(new Target());
                         break;
                     case '*':
-                        //TODO
-                        break;
-                    case 'm':
-                        //TODO
-                        break;
-                    case 'o':
-                        //TODO
-                        break;
-                    default:
-                        //TODO jatekos felismerese
+                        cells.add(new Hole());
                         break;
                 }
             }
         }
+
         connectNeighbors(level.getWidth(), level.getHeight());
+        placeEntities(level);
+    }
+
+    private void placeEntities(Level level) {
+        for (Point p : level.getOil()) {
+            int x = (int) p.getX();
+            int y = (int) p.getY();
+
+            Cell c = cells.get(y * level.getHeight() + x);
+            c.putSlime(new Oil());
+        }
+
+        for (Point p : level.getHoney()) {
+            int x = (int) p.getX();
+            int y = (int) p.getY();
+
+            Cell c = cells.get(y * level.getHeight() + x);
+            c.putSlime(new Honey());
+        }
+
+        for (Point p : level.getCrates()) {
+            int x = (int) p.getX();
+            int y = (int) p.getY();
+
+            Cell c = cells.get(y * level.getHeight() + x);
+            crates.add(new Crate(c, 0));
+        }
+
+        for (Map.Entry<Integer, Point> entry : level.getPlayers().entrySet()) {
+            Point p = entry.getValue();
+            Integer id = entry.getKey();
+
+            int x = (int) p.getX();
+            int y = (int) p.getY();
+            Cell c = cells.get(y * level.getHeight() + x);
+
+            players.add(new Player(c, 0, id));
+        }
     }
 
     private void connectNeighbors(int width, int height){
@@ -157,6 +180,5 @@ public class Game {
         }
         cells.get(actPos).setNeighbor(Direction.LEFT, cells.get(actPos - 1));
         cells.get(actPos).setNeighbor(Direction.UP, cells.get(actPos - width));
-
     }
 }
