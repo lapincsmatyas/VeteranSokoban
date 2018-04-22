@@ -7,4 +7,6 @@ p....O....p
 p.........p
 ppppppppppp
 
-player 1 4 4
+player 1 4 8
+crate 4 9
+player 2 4 10

@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class Game {
     private List<Cell> cells;
@@ -23,23 +22,23 @@ public class Game {
     }
 
     public void drawMap(){
-        Cell c1 = cells.get(0);
+        Cell cell = cells.get(0);
 
         boolean nomore = false;
         Direction dir = Direction.RIGHT;
         while (!nomore) {
-            c1.draw();
-            while (c1.getNext(dir) != null) {
-                c1 = c1.getNext(dir);
-                c1.draw();
+            cell.draw();
+            while (cell.getNext(dir) != null) {
+                cell = cell.getNext(dir);
+                cell.draw();
             }
 
-            if (c1.getNext(Direction.DOWN) != null) {
+            if (cell.getNext(Direction.DOWN) != null) {
                 System.out.println();
-                c1 = c1.getNext(Direction.DOWN);
+                cell = cell.getNext(Direction.DOWN);
                 dir = Direction.LEFT;
-                while (c1.getNext(dir) != null) {
-                    c1 = c1.getNext(dir);
+                while (cell.getNext(dir) != null) {
+                    cell = cell.getNext(dir);
                 }
 
                 dir = Direction.RIGHT;
@@ -63,7 +62,7 @@ public class Game {
 
         buildLevel(level);
         players.get(0).giveSlime(new Honey());
-        drawMap();
+
 
         try {
             boolean go = true;
@@ -150,10 +149,10 @@ public class Game {
         }
 
         connectNeighbors(level.getWidth(), level.getHeight());
-        placeEntities(level);
+        placeEntities(level, levers);
     }
 
-    private void placeEntities(Level level) {
+    private void placeEntities(Level level, List<Switch> levers) {
         for (Point p : level.getOil()) {
             int x = (int) p.getX() - 1;
             int y = (int) p.getY() - 1;
@@ -175,6 +174,11 @@ public class Game {
             int y = (int) p.getY() - 1;
 
             Cell c = cells.get(y * level.getWidth() + x);
+            for (Switch lever: levers) {
+                if(lever == c){
+                    lever.change();
+                }
+            }
             crates.add(new Crate(c, 0));
         }
 

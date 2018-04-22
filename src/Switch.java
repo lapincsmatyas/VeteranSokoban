@@ -6,6 +6,9 @@ import java.util.List;
  * A jatekban talalhato kapcsolokat valositja meg
  */
 public class Switch extends Cell {
+
+    private boolean hasChanged = false;
+
     /**
      * A kapcsolohoz tartozo lyukak listaja.
      */
@@ -48,14 +51,14 @@ public class Switch extends Cell {
         for (Hole hole : holes) {
             hole.change();
         }
+        hasChanged = !hasChanged;
     }
 
     @Override
     public void stepOff(){
         super.stepOff();
-        for (Hole hole : holes) {
-            hole.change();
-        }
+        if(hasChanged)
+            change();
     }
 
     @Override
