@@ -1,6 +1,3 @@
-import javafx.geometry.Point3D;
-
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -173,7 +170,7 @@ public class Game {
             c.putSlime(new Honey());
         }
 
-        for (Point3D p : level.getCrates()) {
+        for (Point p : level.getCrates()) {
             int friction = (int) p.getX();
             int x = (int) p.getY() - 1;
             int y = (int) p.getZ() - 1;
@@ -187,8 +184,8 @@ public class Game {
             crates.add(new Crate(c, friction));
         }
 
-        for (Map.Entry<Integer, Point3D> entry : level.getPlayers().entrySet()) {
-            Point3D p = entry.getValue();
+        for (Map.Entry<Integer, Point> entry : level.getPlayers().entrySet()) {
+            Point p = entry.getValue();
             Integer id = entry.getKey();
 
             int force = (int) p.getX();

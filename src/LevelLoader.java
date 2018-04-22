@@ -27,7 +27,7 @@ public class LevelLoader {
         if (id < 10) path = "0" + id;
         path += ".map";
 
-        File file = Paths.get("res/Levels/" + path).toFile();
+        File file = Paths.get("res\\Levels\\" + path).toFile();
         FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
         String line = "";

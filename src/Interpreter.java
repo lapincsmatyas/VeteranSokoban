@@ -12,7 +12,7 @@ public class Interpreter {
     }
 
     public void run(String[] args) throws IOException {
-        File file = Paths.get("tests/" + args[0]).toFile();
+        File file = Paths.get("res\\tests\\" + args[0]).toFile();
         FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
 
