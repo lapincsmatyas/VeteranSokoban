@@ -1,32 +1,26 @@
-/**
- * A palyak betolteseert felel.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class Level {
+    private int id;
+    private int width;
+    private int height;
 
-    /**
-     * Az osztaly default konstruktora.
-     */
-    //TODO implementalni
-    public Level() {
+    List<Character> map;
 
+    public Level(){
+        map = new ArrayList<>();
+        height = 0;
     }
 
-    /**
-     * A parameterben megadott azonositoju
-     * palya adatait tolti be.
-     * @param id A betoltendo palya azonositoja.
-     */
-    //TODO implementalni
-    public void loadMap(int id) {
+    public void addLine(String line){
+        width = line.length();
+        height++;
 
+        for(int i = 0; i < line.length(); i++){
+            map.add(line.charAt(i));
+        }
     }
 
-    /**
-     * Megadja a betoltott palya adatait.
-     * @return A betoltott palya adatai.
-     */
-    //TODO implementalni
-    public String getLevelData() {
-        return null;
-    }
+
 }
