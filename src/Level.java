@@ -6,7 +6,7 @@ public class Level {
     private int width;
     private int height;
 
-    List<Character> map;
+    private List<Character> map;
 
     public Level(){
         map = new ArrayList<>();
@@ -22,5 +22,14 @@ public class Level {
         }
     }
 
+    public char getItemAt(int x, int y){
+        return map.get(x*width + y);
+    }
 
+    public int getWidth(){
+        return width;
+    }
+    public int getHeight(){
+        return height;
+    }
 }
