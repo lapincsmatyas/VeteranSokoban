@@ -65,4 +65,14 @@ public class Hole extends Cell {
             pushable.die();
         }
     }
+
+    @Override
+    public void draw() {
+        if (open) {
+            super.draw('O');
+        } else {
+            super.draw('*');
+        }
+
+    }
 }

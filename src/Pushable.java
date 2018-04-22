@@ -1,7 +1,7 @@
 /**
  * Tolható osztály. Absztrakt, nem példányosítható.
  */
-public abstract class Pushable implements Visitor{
+public abstract class Pushable implements Visitor, Drawable {
     /**
      * Azt jelzi, hogy el-e meg a Pushable
      */

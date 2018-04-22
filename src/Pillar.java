@@ -21,4 +21,9 @@ public class Pillar extends Cell{
     public StepResult accept(Visitor visitor, Direction dir, int force) {
         return visitor.visit(this, dir, force);
     }
+
+    @Override
+    public void draw() {
+        super.draw('p');
+    }
 }

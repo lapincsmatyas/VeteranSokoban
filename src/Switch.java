@@ -49,4 +49,9 @@ public class Switch extends Cell {
             hole.change();
         }
     }
+
+    @Override
+    public void draw() {
+        super.draw('s');
+    }
 }

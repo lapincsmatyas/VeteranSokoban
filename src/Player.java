@@ -4,6 +4,11 @@
  */
 public class Player extends Pushable{
     /**
+     * A jatekos azonositoja.
+     */
+    private int id = 0;
+
+    /**
      * A kapott pontok szama.
      */
     private int points;
@@ -24,11 +29,12 @@ public class Player extends Pushable{
      * @param actCell A mezo, amin a jatekos tartozkodik.
      * @param force Az ero, amivel a jatekos tolhat.
      */
-    public Player(Cell actCell, int force) {
+    public Player(Cell actCell, int force, int playerId) {
         super(actCell, 0);
         points = 0;
         slime = null;
         this.force = force;
+        id = playerId;
     }
 
     /**
@@ -222,5 +228,10 @@ public class Player extends Pushable{
      */
     public void giveSlime(Slime slime) {
         this.slime = slime;
+    }
+
+    @Override
+    public void draw() {
+        System.out.print(id);
     }
 }

@@ -134,4 +134,9 @@ public class Crate extends Pushable{
 
         return result;
     }
+
+    @Override
+    public void draw() {
+        System.out.print("c");
+    }
 }

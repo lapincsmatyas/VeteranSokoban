@@ -3,7 +3,7 @@
  * Rendelkezik tapadasi surlodasi egyutthatoval.
  * Le lehet helyezni mezore.
  */
-public abstract class Slime {
+public abstract class Slime implements Drawable {
     /**
      * A Slime tapadasi surlodasi egyutthatoja.
      */

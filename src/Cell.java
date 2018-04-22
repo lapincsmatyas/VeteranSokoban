@@ -6,7 +6,7 @@ import java.util.Map;
  * Tartalmazza a szomszedjait es a rajta levo aktualis pushable objektumot
  */
 
-public abstract class  Cell implements Visitable{
+public abstract class Cell implements Visitable, Drawable {
     /**
      * A Pushable, ami eppen a mezon all.
      */
@@ -122,5 +122,28 @@ public abstract class  Cell implements Visitable{
         }
 
         return friction;
+    }
+
+    public void draw(char toDraw) {
+        boolean pushbool = actPushable != null;
+        boolean slimebool = slime != null;
+
+        if (pushbool || slimebool) {
+            System.out.print("{");
+        }
+
+        System.out.print(toDraw);
+
+        if (actPushable != null) {
+            actPushable.draw();
+        }
+
+        if (slime != null) {
+            slime.draw();
+        }
+
+        if (pushbool || slimebool) {
+            System.out.print("}");
+        }
     }
 }

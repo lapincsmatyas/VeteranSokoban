@@ -12,6 +12,6 @@ public class Program {
      * @param args unused
      */
     public static void main(String [ ] args) {
-        Program p = new Program();
+        Game g = new Game();
     }
 }
