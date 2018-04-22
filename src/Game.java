@@ -1,3 +1,5 @@
+import javafx.geometry.Point3D;
+
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ public class Game {
 
         buildLevel(level);
         players.get(0).giveSlime(new Honey());
-
+        drawMap();
 
         try {
             boolean go = true;
@@ -169,9 +171,10 @@ public class Game {
             c.putSlime(new Honey());
         }
 
-        for (Point p : level.getCrates()) {
-            int x = (int) p.getX() - 1;
-            int y = (int) p.getY() - 1;
+        for (Point3D p : level.getCrates()) {
+            int friction = (int) p.getX();
+            int x = (int) p.getY() - 1;
+            int y = (int) p.getZ() - 1;
 
             Cell c = cells.get(y * level.getWidth() + x);
             for (Switch lever: levers) {
@@ -179,18 +182,19 @@ public class Game {
                     lever.change();
                 }
             }
-            crates.add(new Crate(c, 0));
+            crates.add(new Crate(c, friction));
         }
 
-        for (Map.Entry<Integer, Point> entry : level.getPlayers().entrySet()) {
-            Point p = entry.getValue();
+        for (Map.Entry<Integer, Point3D> entry : level.getPlayers().entrySet()) {
+            Point3D p = entry.getValue();
             Integer id = entry.getKey();
 
-            int x = (int) p.getX() - 1;
-            int y = (int) p.getY() - 1;
+            int force = (int) p.getX();
+            int x = (int) p.getY() - 1;
+            int y = (int) p.getZ() - 1;
             Cell c = cells.get(y * level.getWidth() + x);
 
-            players.add(new Player(c, 0, id));
+            players.add(new Player(c, force, id));
         }
     }
 

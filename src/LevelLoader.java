@@ -44,10 +44,10 @@ public class LevelLoader {
                 String[] attrs = line.split(" ");
                 switch (attrs[0]) {
                     case "player":
-                        level.addPlayer(Integer.parseInt(attrs[1]),Integer.parseInt(attrs[2]),Integer.parseInt(attrs[3]));
+                        level.addPlayer(Integer.parseInt(attrs[1]),Integer.parseInt(attrs[2]),Integer.parseInt(attrs[3]), Integer.parseInt(attrs[4]));
                         break;
                     case "crate":
-                        level.addCrate(Integer.parseInt(attrs[1]), Integer.parseInt(attrs[2]));
+                        level.addCrate(Integer.parseInt(attrs[1]), Integer.parseInt(attrs[2]), Integer.parseInt(attrs[3]));
                         break;
                     case "oil":
                         level.addOil(Integer.parseInt(attrs[1]), Integer.parseInt(attrs[2]));
