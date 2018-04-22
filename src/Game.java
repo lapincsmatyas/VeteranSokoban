@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class Game {
     private List<Cell> cells;
@@ -48,6 +49,9 @@ public class Game {
                 nomore = true;
             }
         }
+
+        System.out.println();
+        System.out.println();
     }
 
     /**
@@ -63,44 +67,42 @@ public class Game {
         }
 
         buildLevel(level);
-        players.get(0).giveSlime(new Honey());
         drawMap();
+    }
 
-        try {
-            boolean go = true;
-            while(go){
+    public void movePlayer(int playerId, Direction dir) {
+        for (Player p : players) {
+            if (p.getId() == playerId) {
+                StepResult result = p.move(dir);
+                if (result == StepResult.SUCCESS_POINT) {
+                    p.addOnePoint();
 
-                char c = (char) System.in.read();
-                switch (c){
-                    case '4':
-                        players.get(0).move(Direction.LEFT);
-                        break;
-                    case '8':
-                        players.get(0).move(Direction.UP);
-                        break;
-                    case '6':
-                        players.get(0).move(Direction.RIGHT);
-                        break;
-                    case '2':
-                        players.get(0).move(Direction.DOWN);
-                        break;
-                    case '5':
-                        players.get(0).putSlime();
-                        break;
-                    case '\n':
-                        break;
-                    default:
-                        go = false;
-                        break;
+                    Random r = new Random();
+
+                    if (r.nextInt(2) == 0) {
+                        p.giveSlime(new Oil());
+                    } else {
+                        p.giveSlime(new Honey());
+                    }
                 }
-                drawMap();
-                System.out.println();
-                System.out.println();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+    }
 
+    public void putSlime(int playerId) {
+        for (Player p : players) {
+            if (p.getId() == playerId) {
+                p.putSlime();
+            }
+        }
+    }
+
+    public void giveSlime(int playerId, Slime slime) {
+        for (Player p : players) {
+            if (p.getId() == playerId) {
+                p.giveSlime(slime);
+            }
+        }
     }
 
     private void buildLevel(Level level){

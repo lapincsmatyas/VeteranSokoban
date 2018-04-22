@@ -220,6 +220,10 @@ public class Player extends Pushable{
         this.slime = slime;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public void draw() {
         System.out.print(id);

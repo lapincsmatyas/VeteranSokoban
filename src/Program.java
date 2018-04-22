@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /**
  * A program feladata a skeleton mukodesenek megvalositasa,
  * a bemenetek kezelese, a megfelelo tesztesetek lefuttatasa
@@ -11,9 +13,17 @@ public class Program {
      * Ez a fuggveny kezdemenyezi a program futasat
      * @param args unused
      */
-    public static void main(String [ ] args) {
+    public static void main(String [] args) {
         Game game = new Game();
         game.init();
-        game.start(99);
+
+        if (args.length > 0) {
+            Interpreter i = new Interpreter(game);
+            try {
+                i.run(args);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
