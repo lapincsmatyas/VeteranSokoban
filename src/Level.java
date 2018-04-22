@@ -48,7 +48,7 @@ public class Level {
         honeys.add(new Point(width, height));
     }
 
-    public void addOil(int width, int height) {
+    public void addOil(int height, int width) {
         oils.add(new Point(width, height));
     }
 
