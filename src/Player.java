@@ -9,7 +9,7 @@ public class Player extends Pushable{
     private int id = 0;
 
     /**
-     * A kapott pontok szama.
+     * A kapott pontok szama.8
      */
     private int points;
 
@@ -48,15 +48,12 @@ public class Player extends Pushable{
     @Override
     public StepResult visit(Field field, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (force < this.actCell.getFriction()) {
-            return StepResult.FAIL;
-        }
 
         if (field.isEmpty()) {
             actCell.stepOff();
             field.stepOn(this);
         } else {
-            result = field.getActPushable().push(this, dir, force - this.actCell.getFriction());
+            result = field.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 field.stepOn(this);
@@ -78,15 +75,13 @@ public class Player extends Pushable{
     @Override
     public StepResult visit(Hole hole, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (force < this.actCell.getFriction()) {
-            return StepResult.FAIL;
-        }
+
 
         if (hole.isEmpty()) {
             actCell.stepOff();
             hole.stepOn(this);
         } else {
-            result = hole.getActPushable().push(this, dir, force - this.actCell.getFriction());
+            result = hole.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 hole.stepOn(this);
@@ -107,15 +102,12 @@ public class Player extends Pushable{
     @Override
     public StepResult visit(Switch lever, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (force < this.actCell.getFriction()) {
-            return StepResult.FAIL;
-        }
 
         if (lever.isEmpty()) {
             actCell.stepOff();
             lever.stepOn(this);
         } else {
-            result = lever.getActPushable().push(this, dir, force - this.actCell.getFriction());
+            result = lever.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 lever.stepOn(this);
@@ -136,15 +128,13 @@ public class Player extends Pushable{
     @Override
     public StepResult visit(Target target, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
-        if (force < this.actCell.getFriction()) {
-            return StepResult.FAIL;
-        }
+
 
         if (target.isEmpty()) {
             actCell.stepOff();
             target.stepOn(this);
         } else {
-            result = target.getActPushable().push(this, dir, force - this.actCell.getFriction());
+            result = target.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
                 actCell.stepOff();
                 target.stepOn(this);

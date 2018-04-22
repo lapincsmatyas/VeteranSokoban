@@ -51,6 +51,14 @@ public class Switch extends Cell {
     }
 
     @Override
+    public void stepOff(){
+        super.stepOff();
+        for (Hole hole : holes) {
+            hole.change();
+        }
+    }
+
+    @Override
     public void draw() {
         super.draw('s');
     }

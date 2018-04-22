@@ -68,7 +68,8 @@ public abstract class Cell implements Visitable, Drawable {
     /**
      * Ezzel a fuggvennyel lelephetunk a cellarol
      */
-    public void stepOff(){
+    public void stepOff()
+    {
         actPushable = null;
     }
 

@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Game {
     private List<Cell> cells;
@@ -61,13 +62,53 @@ public class Game {
         }
 
         buildLevel(level);
+        players.get(0).giveSlime(new Honey());
         drawMap();
+
+        try {
+            boolean go = true;
+            while(go){
+
+                char c = (char) System.in.read();
+                switch (c){
+                    case '4':
+                        players.get(0).move(Direction.LEFT);
+                        break;
+                    case '8':
+                        players.get(0).move(Direction.UP);
+                        break;
+                    case '6':
+                        players.get(0).move(Direction.RIGHT);
+                        break;
+                    case '2':
+                        players.get(0).move(Direction.DOWN);
+                        break;
+                    case '5':
+                        players.get(0).putSlime();
+                        break;
+                    case '\n':
+                        break;
+                    default:
+                        go = false;
+                        break;
+                }
+                drawMap();
+                System.out.println();
+                System.out.println();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void buildLevel(Level level){
         cells = new ArrayList<>();
         players = new ArrayList<>();
         crates = new ArrayList<>();
+
+        List<Hole> holes = new ArrayList<>();
+        List<Switch> levers = new ArrayList<>();
 
         for(int i = 0; i < level.getHeight(); i++){
             for(int j = 0; j < level.getWidth(); j++){
@@ -80,16 +121,32 @@ public class Game {
                         cells.add(new Pillar());
                         break;
                     case 's':
-                        cells.add(new Switch());
+                        Switch lever = new Switch();
+                        levers.add(lever);
+                        cells.add(lever);
                         break;
                     case 't':
                         cells.add(new Target());
                         break;
                     case '*':
-                        cells.add(new Hole());
+                    {
+                        Hole hole = new Hole();
+                        holes.add(hole);
+                        cells.add(hole);
+                        break;
+                    }
+                    case 'O':
+                        Hole hole = new Hole();
+                        hole.open();
+                        holes.add(hole);
+                        cells.add(hole);
                         break;
                 }
             }
+        }
+
+        for (Switch lever: levers) {
+            lever.addHoles(holes);
         }
 
         connectNeighbors(level.getWidth(), level.getHeight());
@@ -98,26 +155,26 @@ public class Game {
 
     private void placeEntities(Level level) {
         for (Point p : level.getOil()) {
-            int x = (int) p.getX();
-            int y = (int) p.getY();
+            int x = (int) p.getX() - 1;
+            int y = (int) p.getY() - 1;
 
-            Cell c = cells.get(y * level.getHeight() + x);
+            Cell c = cells.get(y * level.getWidth() + x);
             c.putSlime(new Oil());
         }
 
         for (Point p : level.getHoney()) {
-            int x = (int) p.getX();
-            int y = (int) p.getY();
+            int x = (int) p.getX() - 1;
+            int y = (int) p.getY() - 1;
 
-            Cell c = cells.get(y * level.getHeight() + x);
+            Cell c = cells.get(y * level.getWidth() + x);
             c.putSlime(new Honey());
         }
 
         for (Point p : level.getCrates()) {
-            int x = (int) p.getX();
-            int y = (int) p.getY();
+            int x = (int) p.getX() - 1;
+            int y = (int) p.getY() - 1;
 
-            Cell c = cells.get(y * level.getHeight() + x);
+            Cell c = cells.get(y * level.getWidth() + x);
             crates.add(new Crate(c, 0));
         }
 
@@ -125,9 +182,9 @@ public class Game {
             Point p = entry.getValue();
             Integer id = entry.getKey();
 
-            int x = (int) p.getX();
-            int y = (int) p.getY();
-            Cell c = cells.get(y * level.getHeight() + x);
+            int x = (int) p.getX() - 1;
+            int y = (int) p.getY() - 1;
+            Cell c = cells.get(y * level.getWidth() + x);
 
             players.add(new Player(c, 0, id));
         }

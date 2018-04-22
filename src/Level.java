@@ -12,15 +12,15 @@ public class Level {
     private List<Character> map;
     private Map<Integer, Point> players;
     private List<Point> crates;
-    private List<Point> honey;
-    private List<Point> oil;
+    private List<Point> honeys;
+    private List<Point> oils;
 
     public Level(int id){
         map = new ArrayList<>();
         players = new HashMap<>();
         crates = new ArrayList<>();
-        honey = new ArrayList<>();
-        oil = new ArrayList<>();
+        honeys = new ArrayList<>();
+        oils = new ArrayList<>();
         width = 0;
         height = 0;
 
@@ -45,11 +45,11 @@ public class Level {
     }
 
     public void addHoney(int height, int width) {
-        honey.add(new Point(width, height));
+        honeys.add(new Point(width, height));
     }
 
     public void addOil(int width, int height) {
-        oil.add(new Point(width, height));
+        oils.add(new Point(width, height));
     }
 
     public char getCellAt(int x, int y){
@@ -73,11 +73,11 @@ public class Level {
     }
 
     public List<Point> getOil() {
-        return oil;
+        return oils;
     }
 
     public List<Point> getHoney() {
-        return honey;
+        return honeys;
     }
 
     public int getId() {
