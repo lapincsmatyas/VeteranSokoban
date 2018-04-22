@@ -134,12 +134,12 @@ public abstract class Cell implements Visitable, Drawable {
 
         System.out.print(toDraw);
 
-        if (actPushable != null) {
-            actPushable.draw();
-        }
-
         if (slime != null) {
             slime.draw();
+        }
+
+        if (actPushable != null) {
+            actPushable.draw();
         }
 
         if (pushbool || slimebool) {
