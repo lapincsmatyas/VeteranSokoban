@@ -1,3 +1,4 @@
+<<<<<<< .merge_file_a10224
 /**
  * A Slime osztaly, ami a kenoanyag rendszerhez kell.
  * Rendelkezik tapadasi surlodasi egyutthatoval.
@@ -23,6 +24,12 @@ public abstract class Slime implements Drawable {
      * @return A tapadasi surlodasi egyutthato.
      */
     public int getFriction() {
+=======
+public abstract class Slime {
+    protected int friction;
+
+    public int getFriction(){
+>>>>>>> .merge_file_a14156
         return friction;
     }
 }

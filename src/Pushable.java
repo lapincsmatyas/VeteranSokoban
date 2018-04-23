@@ -1,17 +1,23 @@
 /**
  * Tolható osztály. Absztrakt, nem példányosítható.
  */
+<<<<<<< .merge_file_a12720
 public abstract class Pushable implements Visitor, Drawable {
     /**
      * Azt jelzi, hogy el-e meg a Pushable
      */
     private boolean dead = false;
 
+=======
+public abstract class Pushable implements Visitor, Drawable{
+>>>>>>> .merge_file_a11604
     /**
      * A mező, amelyen a tolható tartózkodik.
      */
     protected Cell actCell;
+    protected int friction;
 
+    protected char display;
     /**
      * A tapadasi surlodasi egyutthato.
      */
@@ -24,7 +30,12 @@ public abstract class Pushable implements Visitor, Drawable {
      * @param actCell A mező, amelyen a tolható tartózkodik.
      * @param friction A Pushable tapadasi surlodasi egyutthatoja.
      */
+<<<<<<< .merge_file_a12720
     public Pushable(Cell actCell, int friction) {
+=======
+    public Pushable(Cell actCell, int friction){
+        display = ' ';
+>>>>>>> .merge_file_a11604
         this.actCell = actCell;
         actCell.stepOn(this);
 
@@ -35,24 +46,41 @@ public abstract class Pushable implements Visitor, Drawable {
      * Odébbtolja a tolhatót, ha az lehetséges.
      * @param actor A játékos objektum, ami kezdeményezte a tolást.
      * @param dir Az irány, amelybe tolni akarják a tolhatót.
+     * @param force A tolashoz hasznalt ero
      * @return A tolás sikeressége.
      */
     public StepResult push(Player actor, Direction dir, int force) {
+<<<<<<< .merge_file_a12720
         Cell nextCell = actCell.getNext(dir);
 
         return nextCell.accept(this, dir, force);
+=======
+
+        Cell nextCell = actCell.getNext(dir);
+        StepResult result = nextCell.accept(this, dir, force - friction - actCell.getFriction());
+        return result;
+>>>>>>> .merge_file_a11604
     }
 
     /**
      * Odébbtolja a tolhatót, ha az lehetséges.
      * @param actor A láda objektum, ami kezdeményezte a tolást.
      * @param dir Az irány, amelybe tolni akarják a tolhatót.
+     * @param force A tolashoz hasznalt ero
      * @return A tolás sikeressége.
      */
     public StepResult push(Crate actor, Direction dir, int force) {
+<<<<<<< .merge_file_a12720
         Cell nextCell = actCell.getNext(dir);
 
         return nextCell.accept(this, dir, force);
+=======
+
+        Cell nextCell = actCell.getNext(dir);
+        StepResult result = nextCell.accept(this, dir, force - friction - actCell.getFriction());
+
+        return result;
+>>>>>>> .merge_file_a11604
     }
 
     /**
@@ -71,7 +99,10 @@ public abstract class Pushable implements Visitor, Drawable {
      * Ha meghívják, akkor a tohlató meghal és nem vesz részt a játékban többé.
      */
     public void die(){
+<<<<<<< .merge_file_a12720
         actCell.stepOff();
+=======
+>>>>>>> .merge_file_a11604
         actCell = null;
         dead = true;
     }
@@ -92,5 +123,13 @@ public abstract class Pushable implements Visitor, Drawable {
      */
     public boolean isDead() {
         return dead;
+    }
+
+    public void draw() {
+        System.out.print(this.getDisplay());
+    }
+
+    public char getDisplay(){
+        return this.display;
     }
 }

@@ -13,6 +13,7 @@ public class Program {
      * Ez a fuggveny kezdemenyezi a program futasat
      * @param args unused
      */
+<<<<<<< .merge_file_a12600
     public static void main(String [] args) {
         //System.out.println("VeteranSokoban");
         /*for(int i = 0; i <args.length; i++){
@@ -30,5 +31,22 @@ public class Program {
                 e.printStackTrace();
             }
         }
+=======
+    public static void main(String [ ] args) {
+        Program p = new Program();
+        p.run();
+    }
+
+    /**
+     * Ez a fuggvény felel a bemenetek bekereseert,
+     * prompt kiirasaert es az esetleges bemenethez
+     * kapcsolodo hibak kezeleseert
+     */
+
+    private void run() {
+        Game g = new Game();
+        g.init();
+        g.draw();
+>>>>>>> .merge_file_a13584
     }
 }

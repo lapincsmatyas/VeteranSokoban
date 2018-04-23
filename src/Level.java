@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Level {
+<<<<<<< .merge_file_a13764
     private int id;
     private int width;
     private int height;
@@ -82,5 +83,26 @@ public class Level {
 
     public int getId() {
         return id;
+=======
+    public Level() {
+
+    }
+
+    /**
+     * A parameterben megadott azonositoju
+     * palya adatait tolti be
+     * @param id a betoltendo palya azonositoja
+     */
+    public void loadMap(int id) {
+
+    }
+
+    /**
+     * Megadja a betoltott palya adatait.
+     * @return a betoltott palya adatai
+     */
+    public String getLevelData() {
+        return null;
+>>>>>>> .merge_file_a12612
     }
 }

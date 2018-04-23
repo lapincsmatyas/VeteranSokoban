@@ -12,10 +12,14 @@ public class Player extends Pushable{
      * A kapott pontok szama.8
      */
     private int points;
+    private int force;
+    private Slime slime;
+    private int id;
 
     /**
      * A Slime, amit a jatekos lerakhat.
      */
+<<<<<<< .merge_file_a09636
     private Slime slime;
 
     /**
@@ -35,6 +39,14 @@ public class Player extends Pushable{
         slime = null;
         this.force = force;
         id = playerId;
+=======
+    public Player(int id, Cell actCell, int force) {
+        super(actCell, force);
+        this.id = id;
+        points = 0;
+        this.force = force;
+        this.slime = null;
+>>>>>>> .merge_file_a06020
     }
 
     /**
@@ -47,11 +59,19 @@ public class Player extends Pushable{
      */
     @Override
     public StepResult visit(Field field, Direction dir, int force) {
+<<<<<<< .merge_file_a09636
+=======
+
+>>>>>>> .merge_file_a06020
         StepResult result = StepResult.SUCCESS;
 
         if (field.isEmpty()) {
-            actCell.stepOff();
-            field.stepOn(this);
+            if(force >0) {
+                actCell.stepOff();
+                field.stepOn(this);
+            } else{
+                result = StepResult.FAIL;
+            }
         } else {
             result = field.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
@@ -74,12 +94,30 @@ public class Player extends Pushable{
      */
     @Override
     public StepResult visit(Hole hole, Direction dir, int force) {
+<<<<<<< .merge_file_a09636
+=======
+
+>>>>>>> .merge_file_a06020
         StepResult result = StepResult.SUCCESS;
 
 
         if (hole.isEmpty()) {
+<<<<<<< .merge_file_a09636
             actCell.stepOff();
             hole.stepOn(this);
+=======
+            if(force > 0) {
+                actCell.stepOff();
+
+                if (hole.isOpened()) {
+                    this.die();
+                } else {
+                    hole.stepOn(this);
+                }
+            } else{
+                result = StepResult.FAIL;
+            }
+>>>>>>> .merge_file_a06020
         } else {
             result = hole.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
@@ -101,11 +139,19 @@ public class Player extends Pushable{
      */
     @Override
     public StepResult visit(Switch lever, Direction dir, int force) {
+<<<<<<< .merge_file_a09636
+=======
+
+>>>>>>> .merge_file_a06020
         StepResult result = StepResult.SUCCESS;
 
         if (lever.isEmpty()) {
-            actCell.stepOff();
-            lever.stepOn(this);
+            if(force > 0) {
+                actCell.stepOff();
+                lever.stepOn(this);
+            } else{
+                result = StepResult.FAIL;
+            }
         } else {
             result = lever.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
@@ -127,12 +173,20 @@ public class Player extends Pushable{
      */
     @Override
     public StepResult visit(Target target, Direction dir, int force) {
+<<<<<<< .merge_file_a09636
+=======
+
+>>>>>>> .merge_file_a06020
         StepResult result = StepResult.SUCCESS;
 
 
         if (target.isEmpty()) {
-            actCell.stepOff();
-            target.stepOn(this);
+            if(force > 0) {
+                actCell.stepOff();
+                target.stepOn(this);
+            } else {
+                result = StepResult.FAIL;
+            }
         } else {
             result = target.getActPushable().push(this, dir, force);
             if (result != StepResult.FAIL) {
@@ -145,6 +199,7 @@ public class Player extends Pushable{
     }
 
     /**
+<<<<<<< .merge_file_a09636
      * A jatekost lehet vele odebbtolni a megadott iranyba.
      * @param dir Az irany, amelyre a jatekost tolni akarjak.
      * @param force A tolas ereje.
@@ -161,12 +216,35 @@ public class Player extends Pushable{
      * @param dir Az irany, amelyre a jatekost tolni akarjak.
      * @param force A tolas ereje.
      * @return Mindig hamis, mert jatekos nem tolhat jatekost.
+=======
+     * A játékost lehet vele odébbtolni a megadott irányba.
+     * @param dir Az irány, amelyre a játékost tolni akarják.
+     * @param force A tolashoz hasznalt ero
+     * @return A tolás sikeressége.
+     */
+    public StepResult push(Direction dir, int force) {
+
+        Cell nextCell = actCell.getNext(dir);
+        StepResult result = nextCell.accept(this, dir, force);
+
+
+        return result;
+    }
+
+    /**
+     * A játékost lehet vele odébbtolni
+     * @param actor A játékos objektum, ami kezdeményezte a tolást.
+     * @param dir Az irány, amelybe tolni akarják a játékost.
+     * @param force A tolashoz hasznalt ero
+     * @return Mindig hamis, mert játékos nem tolhat játékost.
+>>>>>>> .merge_file_a06020
      */
     public StepResult push(Player actor, Direction dir, int force) {
         return StepResult.FAIL;
     }
 
     /**
+<<<<<<< .merge_file_a09636
      * A jatekost lehet vele odebbtolni a megadott iranyba.
      * @param actor A lada objektum, ami kezdemenyezte a tolast.
      * @param dir Az irany, amelyre a jatekost tolni akarjak.
@@ -175,13 +253,27 @@ public class Player extends Pushable{
      */
     @Override
     public StepResult push(Crate actor, Direction dir, int force) {
+=======
+     * A játékost lehet vele odébbtolni
+     * @param actor A láda objektum, ami kezdeményezte a tolást.
+     * @param dir Az irány, amelybe tolni akarják a játékost
+     * @param force A tolashoz hasznalt ero
+     * @return A tolás sikeressége.
+     */
+    @Override
+    public StepResult push(Crate actor, Direction dir, int force) {
+
+>>>>>>> .merge_file_a06020
         Cell nextCell = actCell.getNext(dir);
         StepResult result = nextCell.accept(this, dir, force);
 
         if (result == StepResult.FAIL) {
             this.die();
         }
+<<<<<<< .merge_file_a09636
 
+=======
+>>>>>>> .merge_file_a06020
         return StepResult.SUCCESS;
     }
 
@@ -198,6 +290,7 @@ public class Player extends Pushable{
      * @return A mozgatas sikeresege.
      */
     public StepResult move(Direction dir) {
+<<<<<<< .merge_file_a09636
         return push(dir, force);
     }
 
@@ -223,9 +316,36 @@ public class Player extends Pushable{
     public int getId() {
         return id;
     }
+=======
+
+        StepResult result = push(dir, force);
+>>>>>>> .merge_file_a06020
 
     @Override
     public void draw() {
         System.out.print(id);
     }
+
+    /**
+     * A jatekosnal levo slime-ot lehelyezi arra a mezore, amin eppen all
+     */
+    public void putSlime(){
+        actCell.putSlime(this.slime);
+    }
+
+    /**
+     * A jatekosnak ad egy slimeot
+     * @param slime ezt a slimeot adja a jatekosnak
+     */
+    public void giveSlime(Slime slime){
+        this.slime = slime;
+        this.slime = slime;
+    }
+
+    @Override
+    public void draw() {
+        System.out.print(id);
+    }
+
+
 }
