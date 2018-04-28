@@ -72,8 +72,8 @@ public class MainMenu extends JPanel implements ActionListener {
         public Square(Dimension dimension){
             r = new Random();
             this.dimension = dimension;
-            this.x = r.nextInt(dimension.width);
-            this.y = r.nextInt(dimension.height);
+            this.x = r.nextInt(dimension.width - 40)+20;
+            this.y = r.nextInt(dimension.height-40)+20;
             this.rotate = r.nextInt(180);
             this.size = r.nextInt(30)+10;
 
@@ -101,15 +101,11 @@ public class MainMenu extends JPanel implements ActionListener {
             this.x += dirX;
             this.y += dirY;
 
-            if(this.x > dimension.width + 50)
-                this.x = -50;
-            if(this.x < - 50)
-                this.x = dimension.width + 50;
+            if(this.x > dimension.width - this.size || this.x < 0)
+                this.dirX = -this.dirX;
 
-            if(this.y > dimension.height + 50)
-                this.y = -50;
-            if(this.y < -50)
-                this.y = dimension.height + 50;
+                if(this.y > dimension.height - this.size||this.y < 0)
+                this.dirY = -this.dirY;
         }
     }
 
