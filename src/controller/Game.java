@@ -13,15 +13,16 @@ import views.graphical.SokobanGraphView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
-public class Game {
+public class Game implements ControllerEventListener {
     private List<Cell> cells;
     private List<Crate> crates;
     private List<Player> players;
 
     private LevelLoader levelLoader;
+
+    SokobanGraphView view;
 
     public Game(){
         cells = new ArrayList<>();
@@ -32,8 +33,9 @@ public class Game {
     public void init(){
         levelLoader = new LevelLoader();
 
-        SokobanGraphView view = new SokobanGraphView();
-        view.Show();
+        view = new SokobanGraphView();
+        view.init(this);
+        view.view();
     }
 
     /**
@@ -49,6 +51,10 @@ public class Game {
         }
 
         buildLevel(level);
+
+        //TODO random, de ures hely generalasa
+        Cell random = cells.get(10);
+        players.add(new Player(random,10,1));
     }
 
     public void movePlayer(int playerId, Direction dir) {
@@ -88,7 +94,6 @@ public class Game {
 
     private void buildLevel(Level level){
         cells = new ArrayList<>();
-        players = new ArrayList<>();
         crates = new ArrayList<>();
 
         List<Hole> holes = new ArrayList<>();
@@ -168,17 +173,6 @@ public class Game {
             crates.add(new Crate(c, friction));
         }
 
-        for (Map.Entry<Integer, Point> entry : level.getPlayers().entrySet()) {
-            Point p = entry.getValue();
-            Integer id = entry.getKey();
-
-            int force = (int) p.getX();
-            int x = (int) p.getY() - 1;
-            int y = (int) p.getZ() - 1;
-            Cell c = cells.get(y * level.getWidth() + x);
-
-            players.add(new Player(c, force, id));
-        }
     }
 
     private void connectNeighbors(int width, int height){
@@ -228,5 +222,33 @@ public class Game {
         }
         cells.get(actPos).setNeighbor(Direction.LEFT, cells.get(actPos - 1));
         cells.get(actPos).setNeighbor(Direction.UP, cells.get(actPos - width));
+    }
+
+    public void addPlayer() {
+        System.out.println("Player added");
+    }
+
+    public void removePlayer(){
+        System.out.println("Player removed");
+    }
+
+    @Override
+    public void userAdded() {
+        addPlayer();
+    }
+
+    @Override
+    public void userRemoved() {
+        removePlayer();
+    }
+
+    @Override
+    public void userStepped(int id, Direction direction) {
+
+    }
+
+    @Override
+    public void userDroppedSlime(int id) {
+
     }
 }

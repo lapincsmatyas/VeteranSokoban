@@ -1,28 +1,32 @@
 package views.graphical;
 
+import controller.ControllerEventListener;
 import views.View;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class SokobanGraphView extends JFrame implements View {
+public class SokobanGraphView extends JFrame implements View{
+
+    ControllerEventListener listener;
+
     public SokobanGraphView(){
         super();
-        Init();
     }
 
+
     @Override
-    public void Init() {
+    public void init(ControllerEventListener listener) {
         setSize(500,500);
         setTitle("Sokoban");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        add(new MainMenu());
+        this.listener = listener;
+        add(new MainMenu(this.listener));
     }
 
     @Override
-    public void Show() {
+    public void view() {
         setVisible(true);
     }
 }

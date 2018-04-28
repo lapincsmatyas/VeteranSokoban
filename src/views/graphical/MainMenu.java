@@ -1,9 +1,14 @@
 package views.graphical;
 
+import controller.ControllerEventListener;
+import controller.Game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,14 +17,20 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.List;
 
-public class MainMenu extends JPanel implements ActionListener {
+public class MainMenu extends JPanel implements ActionListener, KeyListener {
+
+    ControllerEventListener listener;
 
     private List<Square> squares;
 
-    public MainMenu(){
+    public MainMenu(ControllerEventListener listener) {
         setDoubleBuffered(true);
+        this.addKeyListener(this);
+        this.setFocusable(true);
 
-        Timer t = new Timer(10, this);
+        this.listener = listener;
+
+        Timer t = new Timer(40, this);
         t.start();
     }
 
@@ -28,9 +39,9 @@ public class MainMenu extends JPanel implements ActionListener {
         super.paintComponent(g);
 
         setBackground(new Color(40, 35, 53));
-        if(squares == null){
+        if (squares == null) {
             squares = new ArrayList<>();
-            for(int i = 0; i < 20; i++){
+            for (int i = 0; i < 20; i++) {
                 squares.add(new Square(this.getSize()));
             }
         }
@@ -43,18 +54,47 @@ public class MainMenu extends JPanel implements ActionListener {
         repaint();
     }
 
-    private void drawSquares(Graphics g){
+    private void drawSquares(Graphics g) {
         Graphics2D squaresG = (Graphics2D) g;
 
-        for(int i = 0; i < squares.size(); i++){
+        for (int i = 0; i < squares.size(); i++) {
             Square actSquare = squares.get(i);
-            squaresG.setColor(new Color(255,255,255));
-            squaresG.drawRect(actSquare.getX(),actSquare.getY(),actSquare.getSize(),actSquare.getSize());
-            squaresG.setColor(new Color(255,255,255,20));
-            squaresG.fillRect(actSquare.getX(),actSquare.getY(),actSquare.getSize(),actSquare.getSize());
+            squaresG.setColor(new Color(255, 255, 255));
+            squaresG.drawRect(actSquare.getX(), actSquare.getY(), actSquare.getSize(), actSquare.getSize());
+            squaresG.setColor(new Color(255, 255, 255, 20));
+            squaresG.fillRect(actSquare.getX(), actSquare.getY(), actSquare.getSize(), actSquare.getSize());
 
             actSquare.move();
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    boolean secondActivated = false;
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == 83) {
+            if (secondActivated) {
+                if (listener != null) {
+                    listener.userRemoved();
+                    secondActivated = !secondActivated;
+                }
+            } else {
+                if(listener != null) {
+                    listener.userAdded();
+                    secondActivated = !secondActivated;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 
     public class Square{
