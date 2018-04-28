@@ -8,6 +8,7 @@ import models.slimes.Honey;
 import models.slimes.Oil;
 import models.slimes.Slime;
 import push_enums.*;
+import views.graphical.SokobanGraphView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +31,9 @@ public class Game {
 
     public void init(){
         levelLoader = new LevelLoader();
+
+        SokobanGraphView view = new SokobanGraphView();
+        view.Show();
     }
 
     /**

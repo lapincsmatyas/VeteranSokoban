@@ -1,4 +1,6 @@
-package views;
+package views.graphical;
+
+import views.View;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +18,7 @@ public class SokobanGraphView extends JFrame implements View {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        add(new JPanel());
+        add(new MainMenu());
     }
 
     @Override
