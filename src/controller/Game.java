@@ -51,10 +51,6 @@ public class Game implements ControllerEventListener {
         }
 
         buildLevel(level);
-
-        //TODO random, de ures hely generalasa
-        Cell random = cells.get(10);
-        players.add(new Player(random,10,1));
     }
 
     public void movePlayer(int playerId, Direction dir) {
