@@ -1,3 +1,14 @@
+package controller;
+
+import loader.*;
+import models.cells.*;
+import models.pushables.Crate;
+import models.pushables.Player;
+import models.slimes.Honey;
+import models.slimes.Oil;
+import models.slimes.Slime;
+import push_enums.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,39 +32,9 @@ public class Game {
         levelLoader = new LevelLoader();
     }
 
-    public void drawMap(){
-        Cell cell = cells.get(0);
-
-        boolean nomore = false;
-        Direction dir = Direction.RIGHT;
-        while (!nomore) {
-            cell.draw();
-            while (cell.getNext(dir) != null) {
-                cell = cell.getNext(dir);
-                cell.draw();
-            }
-
-            if (cell.getNext(Direction.DOWN) != null) {
-                System.out.println();
-                cell = cell.getNext(Direction.DOWN);
-                dir = Direction.LEFT;
-                while (cell.getNext(dir) != null) {
-                    cell = cell.getNext(dir);
-                }
-
-                dir = Direction.RIGHT;
-            } else {
-                nomore = true;
-            }
-        }
-
-        System.out.println();
-        System.out.println();
-    }
-
     /**
      * A parameterben megadott azonostioju palyaval indit egy jatekot
-     * @param id Level azonosito
+     * @param id loader.Level azonosito
      */
     public void start(int id){
         Level level = null;
@@ -64,7 +45,6 @@ public class Game {
         }
 
         buildLevel(level);
-        drawMap();
     }
 
     public void movePlayer(int playerId, Direction dir) {

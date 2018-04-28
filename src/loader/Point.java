@@ -1,3 +1,5 @@
+package loader;
+
 public class Point {
     private int x,y,z;
 

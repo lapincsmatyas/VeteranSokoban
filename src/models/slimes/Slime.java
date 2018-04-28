@@ -1,11 +1,13 @@
+package models.slimes;
+
 /**
- * A Slime osztaly, ami a kenoanyag rendszerhez kell.
+ * A models.slimes.Slime osztaly, ami a kenoanyag rendszerhez kell.
  * Rendelkezik tapadasi surlodasi egyutthatoval.
  * Le lehet helyezni mezore.
  */
-public abstract class Slime implements Drawable {
+public abstract class Slime {
     /**
-     * A Slime tapadasi surlodasi egyutthatoja.
+     * A models.slimes.Slime tapadasi surlodasi egyutthatoja.
      */
     private int friction;
 

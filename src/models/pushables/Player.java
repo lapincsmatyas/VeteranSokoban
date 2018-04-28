@@ -1,3 +1,10 @@
+package models.pushables;
+
+import models.cells.*;
+import models.slimes.Slime;
+import push_enums.Direction;
+import push_enums.StepResult;
+
 /**
  * A jatekos, amit a felhasznalok iranyithatnak.
  * Ok kezdemenyezhetnek tolast es kaphatnak pontokat.
@@ -14,7 +21,7 @@ public class Player extends Pushable{
     private int points;
 
     /**
-     * A Slime, amit a jatekos lerakhat.
+     * A models.slimes.Slime, amit a jatekos lerakhat.
      */
     private Slime slime;
 
@@ -38,7 +45,7 @@ public class Player extends Pushable{
     }
 
     /**
-     * A Visitor patternt megvalosito fuggveny.
+     * A visitor_pattern.Visitor patternt megvalosito fuggveny.
      * A jatekos ellenorzi, hogy tud-e lepni a mezore.
      * @param field A mezo, amit a jatekos visitel.
      * @param dir Az irany, amelyrol a játékos van.
@@ -64,7 +71,7 @@ public class Player extends Pushable{
     }
 
     /**
-     * A Visitor patternt megvalosito fuggveny.
+     * A visitor_pattern.Visitor patternt megvalosito fuggveny.
      * A jatekos ellenorzi, hogy tud-e lepni a lyukra.
      * Ha a lyuk nyitva van, akkor a jatekos meghal, ha ralep.
      * @param hole A lyuk, amit a játekos visitel.
@@ -92,7 +99,7 @@ public class Player extends Pushable{
     }
 
     /**
-     * A Visitor patternt megvalosito fuggveny.
+     * A visitor_pattern.Visitor patternt megvalosito fuggveny.
      * A jatekos ellenorzi, hogy tud-e lepni a kapcsolora.
      * @param lever A kapcsolo, amit a jatekos visitel.
      * @param dir Az irany, amelyrol a játékos van.
@@ -118,7 +125,7 @@ public class Player extends Pushable{
     }
 
     /**
-     * A Visitor patternt megvalosito fuggveny.
+     * A visitor_pattern.Visitor patternt megvalosito fuggveny.
      * A jatekos ellenorzi, hogy tud-e lepni a celra.
      * @param target A cel, amit a jatekos visitel.
      * @param dir Az irany, amelyrol a játékos van.
@@ -214,7 +221,7 @@ public class Player extends Pushable{
     /**
      * A jatekost ezzel lehet jutalmazni Slimemal.
      *
-     * @param slime A Slime, amit a jatekos kap.
+     * @param slime A models.slimes.Slime, amit a jatekos kap.
      */
     public void giveSlime(Slime slime) {
         this.slime = slime;
@@ -222,10 +229,5 @@ public class Player extends Pushable{
 
     public int getId() {
         return id;
-    }
-
-    @Override
-    public void draw() {
-        System.out.print(id);
     }
 }

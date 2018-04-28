@@ -1,3 +1,10 @@
+package models.cells;
+
+import models.pushables.Pushable;
+import models.slimes.Slime;
+import push_enums.Direction;
+import visitor_pattern.Visitable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -6,9 +13,9 @@ import java.util.Map;
  * Tartalmazza a szomszedjait es a rajta levo aktualis pushable objektumot
  */
 
-public abstract class Cell implements Visitable, Drawable {
+public abstract class Cell implements Visitable {
     /**
-     * A Pushable, ami eppen a mezon all.
+     * A models.pushables.Pushable, ami eppen a mezon all.
      */
     protected Pushable actPushable;
 
@@ -18,7 +25,7 @@ public abstract class Cell implements Visitable, Drawable {
     private Map<Direction, Cell> neighbors;
 
     /**
-     * A Slime, ami a mezon van.
+     * A models.slimes.Slime, ami a mezon van.
      */
     protected Slime slime;
 
@@ -52,7 +59,7 @@ public abstract class Cell implements Visitable, Drawable {
      */
     public void stepOn(Pushable pushable){
         actPushable = pushable;
-        actPushable.actCell = this;
+        actPushable.setActCell(this);
     }
 
     /**
@@ -123,28 +130,5 @@ public abstract class Cell implements Visitable, Drawable {
         }
 
         return friction;
-    }
-
-    public void draw(char toDraw) {
-        boolean pushbool = actPushable != null;
-        boolean slimebool = slime != null;
-
-        if (pushbool || slimebool) {
-            System.out.print("{");
-        }
-
-        System.out.print(toDraw);
-
-        if (slime != null) {
-            slime.draw();
-        }
-
-        if (actPushable != null) {
-            actPushable.draw();
-        }
-
-        if (pushbool || slimebool) {
-            System.out.print("}");
-        }
     }
 }

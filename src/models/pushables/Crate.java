@@ -1,3 +1,9 @@
+package models.pushables;
+
+import models.cells.*;
+import push_enums.Direction;
+import push_enums.StepResult;
+
 /**
  * A lada osztaly. A munkasok ezt tologathatjak a palyan.
  */
@@ -133,10 +139,5 @@ public class Crate extends Pushable{
         }
 
         return result;
-    }
-
-    @Override
-    public void draw() {
-        System.out.print("c");
     }
 }

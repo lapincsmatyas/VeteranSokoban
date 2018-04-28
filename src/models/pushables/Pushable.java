@@ -1,9 +1,17 @@
+package models.pushables;
+
+import models.cells.Cell;
+import models.cells.Pillar;
+import push_enums.Direction;
+import push_enums.StepResult;
+import visitor_pattern.Visitor;
+
 /**
  * Tolható osztály. Absztrakt, nem példányosítható.
  */
-public abstract class Pushable implements Visitor, Drawable {
+public abstract class Pushable implements Visitor {
     /**
-     * Azt jelzi, hogy el-e meg a Pushable
+     * Azt jelzi, hogy el-e meg a models.pushables.Pushable
      */
     private boolean dead = false;
 
@@ -22,7 +30,7 @@ public abstract class Pushable implements Visitor, Drawable {
      * és a mezőn is beállítja magát ott tartózkodó tolhatóként.
      *
      * @param actCell A mező, amelyen a tolható tartózkodik.
-     * @param friction A Pushable tapadasi surlodasi egyutthatoja.
+     * @param friction A models.pushables.Pushable tapadasi surlodasi egyutthatoja.
      */
     public Pushable(Cell actCell, int friction) {
         this.actCell = actCell;
@@ -56,7 +64,7 @@ public abstract class Pushable implements Visitor, Drawable {
     }
 
     /**
-     * A Visitor patternt megvalósító függvény.
+     * A visitor_pattern.Visitor patternt megvalósító függvény.
      * A tolható ellenőrzi, hogy tud-e lépni az oszlopra.
      * Mindig hamissal fog visszatérni.
      * @param pillar Az oszlop, amit a tolható visitel.
@@ -86,11 +94,15 @@ public abstract class Pushable implements Visitor, Drawable {
     }
 
     /**
-     * Azt lehet lekerdezni vele, hogy a Pushable halott-e.
+     * Azt lehet lekerdezni vele, hogy a models.pushables.Pushable halott-e.
      *
-     * @return Halott-e a Pushable.
+     * @return Halott-e a models.pushables.Pushable.
      */
     public boolean isDead() {
         return dead;
+    }
+
+    public void setActCell(Cell actCell) {
+        this.actCell = actCell;
     }
 }

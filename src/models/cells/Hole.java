@@ -1,3 +1,10 @@
+package models.cells;
+
+import models.pushables.Pushable;
+import push_enums.Direction;
+import push_enums.StepResult;
+import visitor_pattern.Visitor;
+
 /**
  * Ez az osztaly valositja meg a jatekban
  * levo lyukakat.
@@ -45,10 +52,10 @@ public class Hole extends Cell {
     }
 
     /**
-     * A visitor patternt megvalosito visit fuggveny.
-     * Meghivja a visitor visit fuggvenyet.
+     * A visitor_pattern patternt megvalosito visit fuggveny.
+     * Meghivja a visitor_pattern visit fuggvenyet.
      * @param visitor Az aktuals latogato.
-     * @param dir A latogatas iranya - ebbe az iranyba szeretne haladni a visitor.
+     * @param dir A latogatas iranya - ebbe az iranyba szeretne haladni a visitor_pattern.
      * @param force A tolas ereje.
      * @return A lepes sikeressege.
      */
@@ -64,15 +71,5 @@ public class Hole extends Cell {
         if (open) {
             pushable.die();
         }
-    }
-
-    @Override
-    public void draw() {
-        if (open) {
-            super.draw('O');
-        } else {
-            super.draw('*');
-        }
-
     }
 }

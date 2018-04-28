@@ -1,3 +1,9 @@
+package models.cells;
+
+import push_enums.Direction;
+import push_enums.StepResult;
+import visitor_pattern.Visitor;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,12 +37,12 @@ public class Switch extends Cell {
     }
 
     /**
-     * A visitor patternt megvalosito accept fuggveny.
-     * Mehivja a visitor visit fuggvenyet.
-     * @param visitor Az aktualis visitor.
-     * @param dir A visitor ebbe az iranyba szeretne lepni.
+     * A visitor_pattern patternt megvalosito accept fuggveny.
+     * Mehivja a visitor_pattern visit fuggvenyet.
+     * @param visitor Az aktualis visitor_pattern.
+     * @param dir A visitor_pattern ebbe az iranyba szeretne lepni.
      * @param force A tolas ereje.
-     * @return A lepes sikeressege (StepResult tipusu).
+     * @return A lepes sikeressege (push_enums.StepResult tipusu).
      */
     @Override
     public StepResult accept(Visitor visitor, Direction dir, int force) {
@@ -59,10 +65,5 @@ public class Switch extends Cell {
         super.stepOff();
         if(hasChanged)
             change();
-    }
-
-    @Override
-    public void draw() {
-        super.draw('s');
     }
 }
