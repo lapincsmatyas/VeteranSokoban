@@ -140,4 +140,9 @@ public class Crate extends Pushable{
 
         return result;
     }
+
+    @Override
+    public String getData() {
+        return "c";
+    }
 }

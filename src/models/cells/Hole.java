@@ -72,4 +72,17 @@ public class Hole extends Cell {
             pushable.die();
         }
     }
+
+    @Override
+    public String getData() {
+        String res = "";
+
+        if (open) {
+            res += super.getData('O');
+        } else {
+            res += super.getData('*');
+        }
+
+        return res;
+    }
 }

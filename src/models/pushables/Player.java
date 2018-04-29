@@ -230,4 +230,17 @@ public class Player extends Pushable{
     public int getId() {
         return id;
     }
+
+    @Override
+    public String getData() {
+        String res = "";
+
+        res += id;
+
+        if (slime != null) {
+            res += slime.getData();
+        }
+
+        return res;
+    }
 }

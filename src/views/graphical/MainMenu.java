@@ -1,8 +1,6 @@
 package views.graphical;
 
 import controller.ControllerEventListener;
-import controller.Game;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,8 +16,7 @@ import java.util.Random;
 import java.util.List;
 
 public class MainMenu extends JPanel implements ActionListener, KeyListener {
-
-    ControllerEventListener listener;
+    private ControllerEventListener listener;
 
     private List<Square> squares;
 

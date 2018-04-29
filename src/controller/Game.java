@@ -88,6 +88,35 @@ public class Game implements ControllerEventListener {
         }
     }
 
+    public List<List<String>> getMapData() {
+        List<List<String>> list = new ArrayList<>();
+
+        boolean nomore = false;
+        Cell cell = cells.get(0);
+        while (!nomore) {
+            List<String> line = new ArrayList<>();
+            while (cell.getNext(Direction.RIGHT) != null) {
+                String str = cell.getData();
+                line.add(str);
+                cell = cell.getNext(Direction.RIGHT);
+            }
+
+            cell = cell.getNext(Direction.DOWN);
+
+            if (cell != null) {
+                while (cell.getNext(Direction.LEFT) != null) {
+                    cell = cell.getNext(Direction.LEFT);
+                }
+            } else {
+                nomore = true;
+            }
+
+            list.add(line);
+        }
+
+        return list;
+    }
+
     private void buildLevel(Level level){
         cells = new ArrayList<>();
         crates = new ArrayList<>();

@@ -6,13 +6,11 @@ import views.View;
 import javax.swing.*;
 
 public class SokobanGraphView extends JFrame implements View{
-
-    ControllerEventListener listener;
+    private ControllerEventListener listener;
 
     public SokobanGraphView(){
         super();
     }
-
 
     @Override
     public void init(ControllerEventListener listener) {
