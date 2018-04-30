@@ -6,7 +6,8 @@ import controller.Game;
 import java.util.List;
 
 public interface View {
-    public void init(ControllerEventListener listener);
-    public void view();
-    public void levelLoaded(List<List<String>> data);
+    void init(ControllerEventListener listener);
+    void view();
+    void levelLoaded(List<List<String>> data);
+    void levelUpdated(List<List<String>> data);
 }

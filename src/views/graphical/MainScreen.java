@@ -64,7 +64,7 @@ public class MainScreen implements Screen {
     @Override
     public void render(Graphics g) {
 
-        g.setColor(new Color(40,35,53));
+        g.setColor(new Color(27,30,63));
         g.fillRect(0,0, size.width, size.height);
 
         drawSquares(g);
@@ -120,7 +120,7 @@ public class MainScreen implements Screen {
         switch (keyCode){
             case KeyEvent.VK_ENTER:
                 if(selectedMenu == 0)
-                    listener.loadLevel(13);
+                    listener.loadLevel(99);
                 break;
             case KeyEvent.VK_DOWN:
                 selectedMenu++;

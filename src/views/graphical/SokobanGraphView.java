@@ -74,7 +74,14 @@ public class SokobanGraphView extends JFrame implements View, KeyListener{
 
     @Override
     public void levelLoaded(List<List<String>> data) {
+        gameState = State.GAME;
         actScreen = new GameScreen(listener, this.getSize(),data, menu.getSquares());
+    }
+
+    @Override
+    public void levelUpdated(List<List<String>> data) {
+        if(gameState == State.GAME)
+            ((GameScreen)actScreen).updateMap(data);
     }
 
     class Canvas extends JPanel implements ActionListener{

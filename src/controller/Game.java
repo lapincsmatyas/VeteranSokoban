@@ -11,10 +11,7 @@ import push_enums.*;
 import views.graphical.SokobanGraphView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Game implements ControllerEventListener {
     private List<Cell> cells;
@@ -52,6 +49,7 @@ public class Game implements ControllerEventListener {
         }
 
         buildLevel(level);
+
         view.levelLoaded(getMapData());
 
     }
@@ -203,6 +201,18 @@ public class Game implements ControllerEventListener {
             crates.add(new Crate(c, friction));
         }
 
+        for (Map.Entry<Integer, Point> entry : level.getPlayers().entrySet()) {
+            Point p = entry.getValue();
+            Integer id = entry.getKey();
+
+            int force = (int) p.getX();
+            int x = (int) p.getY() - 1;
+            int y = (int) p.getZ() - 1;
+            Cell c = cells.get(y * level.getWidth() + x);
+
+            players.add(new Player(c, force, id));
+        }
+
     }
 
     private void connectNeighbors(int width, int height){
@@ -279,7 +289,8 @@ public class Game implements ControllerEventListener {
 
     @Override
     public void userStepped(int id, Direction direction) {
-
+        players.get(id-1).move(direction);
+        view.levelUpdated(getMapData());
     }
 
     @Override

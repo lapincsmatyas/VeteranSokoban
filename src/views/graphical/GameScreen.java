@@ -1,8 +1,10 @@
 package views.graphical;
 
 import controller.ControllerEventListener;
+import push_enums.Direction;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,6 +26,7 @@ public class GameScreen implements Screen {
     public GameScreen(ControllerEventListener listener, Dimension size,List<List<String>> map, List<Square> squares){
         selectedMenu = 0;
         this.size = size;
+        this.listener = listener;
 
         this.squares = squares;
         if (squares == null) {
@@ -52,9 +55,6 @@ public class GameScreen implements Screen {
 
     public void updateMap(List<List<String>> map) {
         this.map = map;
-        int width = map.get(0).size();
-        int height = map.size();
-        System.out.println(width + " " + height);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(Graphics g) {
 
-        g.setColor(new Color(40,35,53));
+        g.setColor(new Color(27,30,63));
         g.fillRect(0,0, size.width, size.height);
 
         drawSquares(g);
@@ -84,26 +84,63 @@ public class GameScreen implements Screen {
         int x = size.width / 2 - (width*squareSize/2)-10;
         int y = size.height / 2 - (height*squareSize/2)-10;
 
-        g.setColor(new Color(40,35,53));
+        g.setColor(new Color(27,30,63));
         g.fillRect(x,y, width*squareSize, height*squareSize);
 
-        g.setColor(new Color(255,255,255));
+
         for(int i = 0; i < map.size(); i++){
             for(int j = 0; j < map.get(0).size(); j++){
-                /*
+
                 String actString = map.get(i).get(j);
                 for(int k = 0; k < actString.length(); k++){
-                    switch (actString.charAt(i)){
+                    switch (actString.charAt(k)){
                         case '.':
+                            g.setColor(new Color(255,255,255));
                             g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
                             break;
                         case 'c':
+                            g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            g.drawRect(x+5 + j * squareSize,y + 5 +i*squareSize,squareSize-10, squareSize-10);
+                            g.setColor(new Color(151,83,0));
+                            g.fillRect(x+5 + j * squareSize,y + 5 +i*squareSize,squareSize-10, squareSize-10);
+                            break;
+                        case 't':
+                            g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            g.setColor(new Color(0,255,0, 100));
+                            g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            break;
+                        case 'o':
+                            g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            g.setColor(new Color(172,172,172));
+                            g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            break;
+                        case 'h':
+                            g.setColor(new Color(254,133,0));
+                            g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            g.setColor(new Color(255,255,255));
+                            g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            break;
+                        case 'O':
+                            g.setColor(new Color(0,0,0));
+                            g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            g.setColor(new Color(255,255,255));
+                            g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            break;
+                        default:
+                            if(actString.charAt(k) == '1') {
+                                g.setColor(new Color(255, 0, 255));
+                                g.fillOval(x + 10 + j * squareSize, y + 10 + i * squareSize, squareSize-20, squareSize - 20);
+                            }
+                            else if(actString.charAt(k) == '2'){
+                                g.setColor(new Color(0, 255, 255));
+                                g.fillOval(x + 10 + j * squareSize, y + 10 + i * squareSize, squareSize-20, squareSize - 20);
+                            }
                             break;
                     }
                 }
-                */
 
-                g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+
+
             }
         }
 
@@ -147,6 +184,21 @@ public class GameScreen implements Screen {
 
     @Override
     public void keyPressed(int keyCode) {
-
+        switch (keyCode){
+            case KeyEvent.VK_DOWN:
+                listener.userStepped(1, Direction.DOWN);
+                break;
+            case KeyEvent.VK_RIGHT:
+                listener.userStepped(1, Direction.RIGHT);
+                break;
+            case KeyEvent.VK_LEFT:
+                listener.userStepped(1, Direction.LEFT);
+                break;
+            case KeyEvent.VK_UP:
+                listener.userStepped(1, Direction.UP);
+                break;
+            case KeyEvent.VK_M:
+                break;
+        }
     }
 }
