@@ -27,4 +27,9 @@ public class Target extends Cell {
     public StepResult accept(Visitor visitor, Direction dir, int force) {
         return visitor.visit(this, dir, force);
     }
+
+    @Override
+    public String getData() {
+        return super.getData('t');
+    }
 }

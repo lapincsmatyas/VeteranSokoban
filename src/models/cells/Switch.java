@@ -66,4 +66,9 @@ public class Switch extends Cell {
         if(hasChanged)
             change();
     }
+
+    @Override
+    public String getData() {
+        return super.getData('s');
+    }
 }

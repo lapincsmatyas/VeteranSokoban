@@ -1,5 +1,6 @@
 package models.pushables;
 
+import models.ViewData;
 import models.cells.Cell;
 import models.cells.Pillar;
 import push_enums.Direction;
@@ -9,7 +10,7 @@ import visitor_pattern.Visitor;
 /**
  * Tolható osztály. Absztrakt, nem példányosítható.
  */
-public abstract class Pushable implements Visitor {
+public abstract class Pushable implements Visitor, ViewData {
     /**
      * Azt jelzi, hogy el-e meg a models.pushables.Pushable
      */

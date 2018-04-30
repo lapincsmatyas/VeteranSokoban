@@ -1,5 +1,6 @@
 package models.cells;
 
+import models.ViewData;
 import models.pushables.Pushable;
 import models.slimes.Slime;
 import push_enums.Direction;
@@ -13,7 +14,7 @@ import java.util.Map;
  * Tartalmazza a szomszedjait es a rajta levo aktualis pushable objektumot
  */
 
-public abstract class Cell implements Visitable {
+public abstract class Cell implements Visitable, ViewData {
     /**
      * A models.pushables.Pushable, ami eppen a mezon all.
      */
@@ -130,5 +131,32 @@ public abstract class Cell implements Visitable {
         }
 
         return friction;
+    }
+
+    protected String getData(char cellChar) {
+        String res = "";
+
+        boolean slimeBool = slime != null;
+        boolean pushBool = actPushable != null;
+
+        if (slimeBool || pushBool) {
+            res += "{";
+        }
+
+        res += cellChar;
+
+        if (slimeBool) {
+            res += slime.getData();
+        }
+
+        if (pushBool) {
+            res += actPushable.getData();
+        }
+
+        if (slimeBool || pushBool) {
+            res += "}";
+        }
+
+        return res;
     }
 }
