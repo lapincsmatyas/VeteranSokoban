@@ -52,19 +52,39 @@ public class Game implements ControllerEventListener {
         }
 
         buildLevel(level);
-        view.levelLoaded(getLevelData());
+        view.levelLoaded(getMapData());
 
     }
 
-    private List<List<String>> getLevelData(){
-        List<List<String>> levelData = new ArrayList<>();
+    public List<List<String>> getMapData() {
+        List<List<String>> list = new ArrayList<>();
 
-        levelData.add(Arrays.asList( new String[]{".","{","p",".",".",".",".",".",".",".",".","."}));
-        levelData.add(Arrays.asList( new String[]{".",".","p",".",".",".",".",".",".",".",".","."}));
-        levelData.add(Arrays.asList( new String[]{".",".","p",".",".",".",".",".",".",".",".","."}));
+        boolean nomore = false;
+        Cell cell = cells.get(0);
+        while (!nomore) {
+            List<String> line = new ArrayList<>();
+            while (cell.getNext(Direction.RIGHT) != null) {
+                String str = cell.getData();
+                line.add(str);
+                cell = cell.getNext(Direction.RIGHT);
+            }
 
-        return levelData;
+            cell = cell.getNext(Direction.DOWN);
+
+            if (cell != null) {
+                while (cell.getNext(Direction.LEFT) != null) {
+                    cell = cell.getNext(Direction.LEFT);
+                }
+            } else {
+                nomore = true;
+            }
+
+            list.add(line);
+        }
+
+        return list;
     }
+
 
     public void movePlayer(int playerId, Direction dir) {
         for (Player p : players) {
@@ -100,6 +120,7 @@ public class Game implements ControllerEventListener {
             }
         }
     }
+
 
     private void buildLevel(Level level){
         cells = new ArrayList<>();

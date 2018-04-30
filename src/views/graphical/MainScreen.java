@@ -120,7 +120,7 @@ public class MainScreen implements Screen {
         switch (keyCode){
             case KeyEvent.VK_ENTER:
                 if(selectedMenu == 0)
-                    listener.loadLevel(0);
+                    listener.loadLevel(13);
                 break;
             case KeyEvent.VK_DOWN:
                 selectedMenu++;
