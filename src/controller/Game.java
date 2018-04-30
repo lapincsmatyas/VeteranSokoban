@@ -12,6 +12,7 @@ import views.graphical.SokobanGraphView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -51,6 +52,18 @@ public class Game implements ControllerEventListener {
         }
 
         buildLevel(level);
+        view.levelLoaded(getLevelData());
+
+    }
+
+    private List<List<String>> getLevelData(){
+        List<List<String>> levelData = new ArrayList<>();
+
+        levelData.add(Arrays.asList( new String[]{".","{","p",".",".",".",".",".",".",".",".","."}));
+        levelData.add(Arrays.asList( new String[]{".",".","p",".",".",".",".",".",".",".",".","."}));
+        levelData.add(Arrays.asList( new String[]{".",".","p",".",".",".",".",".",".",".",".","."}));
+
+        return levelData;
     }
 
     public void movePlayer(int playerId, Direction dir) {
@@ -236,6 +249,11 @@ public class Game implements ControllerEventListener {
     @Override
     public void userRemoved() {
         removePlayer();
+    }
+
+    @Override
+    public void loadLevel(int id) {
+        start(id);
     }
 
     @Override
