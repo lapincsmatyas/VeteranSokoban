@@ -35,8 +35,6 @@ public abstract class Pushable implements Visitor, ViewData {
      */
     public Pushable(Cell actCell, int friction) {
         this.actCell = actCell;
-        actCell.stepOn(this);
-
         this.friction = friction;
     }
 
@@ -49,6 +47,10 @@ public abstract class Pushable implements Visitor, ViewData {
     public StepResult push(Player actor, Direction dir, int force) {
         Cell nextCell = actCell.getNext(dir);
 
+        if (nextCell == null) {
+            return StepResult.FAIL;
+        }
+
         return nextCell.accept(this, dir, force);
     }
 
@@ -60,6 +62,10 @@ public abstract class Pushable implements Visitor, ViewData {
      */
     public StepResult push(Crate actor, Direction dir, int force) {
         Cell nextCell = actCell.getNext(dir);
+
+        if (nextCell == null) {
+            return StepResult.FAIL;
+        }
 
         return nextCell.accept(this, dir, force);
     }

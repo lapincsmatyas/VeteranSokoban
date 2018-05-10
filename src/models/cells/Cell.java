@@ -57,10 +57,16 @@ public abstract class Cell implements Visitable, ViewData {
     /**
      * Ezzel a fuggvennyel lehet ralepni a cellara
      * @param pushable a pushable, ami ralep a cellara
+     * @return
      */
-    public void stepOn(Pushable pushable){
-        actPushable = pushable;
-        actPushable.setActCell(this);
+    public boolean stepOn(Pushable pushable){
+        if (actPushable == null) {
+            actPushable = pushable;
+            actPushable.setActCell(this);
+            return true;
+        }
+
+        return false;
     }
 
     /**

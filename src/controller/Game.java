@@ -67,6 +67,9 @@ public class Game implements ControllerEventListener {
                 cell = cell.getNext(Direction.RIGHT);
             }
 
+            String str = cell.getData();
+            line.add(str);
+
             cell = cell.getNext(Direction.DOWN);
 
             if (cell != null) {
@@ -199,18 +202,7 @@ public class Game implements ControllerEventListener {
             crates.add(new Crate(c, friction));
         }
 
-        for (Map.Entry<Integer, Point> entry : level.getPlayers().entrySet()) {
-            Point p = entry.getValue();
-            Integer id = entry.getKey();
-
-            int force = (int) p.getX();
-            int x = (int) p.getY() - 1;
-            int y = (int) p.getZ() - 1;
-            Cell c = cells.get(y * level.getWidth() + x);
-
-            players.add(new Player(c, force, id));
-        }
-
+        addPlayer();
     }
 
     private void connectNeighbors(int width, int height){
@@ -263,7 +255,25 @@ public class Game implements ControllerEventListener {
     }
 
     public void addPlayer() {
+        if (players.isEmpty()) {
+            Player p1 = new Player(null, 10, 1);
+            while (!getRandomCell().stepOn(p1));
+            players.add(0, p1);
+        } else {
+            Player p2 = new Player(null, 10, 2);
+            while (!getRandomCell().stepOn(p2));
+            players.add(1, p2);
+        }
+
         System.out.println("Player added");
+    }
+
+    private Cell getRandomCell() {
+        int size = cells.size();
+        Random rand = new Random();
+        int n = rand.nextInt(size);
+
+        return cells.get(n);
     }
 
     public void removePlayer(){
@@ -287,7 +297,7 @@ public class Game implements ControllerEventListener {
 
     @Override
     public void userStepped(int id, Direction direction) {
-        players.get(id-1).move(direction);
+        players.get(id - 1).move(direction);
         view.levelUpdated(getMapData());
     }
 

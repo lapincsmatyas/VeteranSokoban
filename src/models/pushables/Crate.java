@@ -8,6 +8,8 @@ import push_enums.StepResult;
  * A lada osztaly. A munkasok ezt tologathatjak a palyan.
  */
 public class Crate extends Pushable{
+    private boolean onTarget = false;
+
     /**
      * A lada konstruktora.
      * @param actCell Az a mezo, amin a lada all.
@@ -15,6 +17,7 @@ public class Crate extends Pushable{
      */
     public Crate(Cell actCell, int friction) {
         super(actCell, friction);
+        actCell.stepOn(this);
     }
 
     /**
@@ -130,6 +133,7 @@ public class Crate extends Pushable{
             actCell.stepOff();
             target.stepOn(this);
             result = StepResult.SUCCESS_POINT;
+            onTarget = true;
         } else {
             result = target.getActPushable().push(this, dir, force - this.actCell.getFriction());
             if (result != StepResult.FAIL) {
