@@ -65,12 +65,15 @@ public class Hole extends Cell {
     }
 
     @Override
-    public void stepOn(Pushable pushable) {
-        super.stepOn(pushable);
+    public boolean stepOn(Pushable pushable) {
+        boolean res = super.stepOn(pushable);
 
         if (open) {
             pushable.die();
+            return false;
         }
+
+        return res;
     }
 
     @Override

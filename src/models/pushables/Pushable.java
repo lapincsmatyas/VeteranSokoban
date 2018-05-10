@@ -35,8 +35,6 @@ public abstract class Pushable implements Visitor, ViewData {
      */
     public Pushable(Cell actCell, int friction) {
         this.actCell = actCell;
-        actCell.stepOn(this);
-
         this.friction = friction;
     }
 
@@ -46,11 +44,7 @@ public abstract class Pushable implements Visitor, ViewData {
      * @param dir Az irány, amelybe tolni akarják a tolhatót.
      * @return A tolás sikeressége.
      */
-    public StepResult push(Player actor, Direction dir, int force) {
-        Cell nextCell = actCell.getNext(dir);
-
-        return nextCell.accept(this, dir, force);
-    }
+    public abstract StepResult push(Player actor, Direction dir, int force);
 
     /**
      * Odébbtolja a tolhatót, ha az lehetséges.
@@ -58,11 +52,7 @@ public abstract class Pushable implements Visitor, ViewData {
      * @param dir Az irány, amelybe tolni akarják a tolhatót.
      * @return A tolás sikeressége.
      */
-    public StepResult push(Crate actor, Direction dir, int force) {
-        Cell nextCell = actCell.getNext(dir);
-
-        return nextCell.accept(this, dir, force);
-    }
+    public abstract StepResult push(Crate actor, Direction dir, int force);
 
     /**
      * A visitor_pattern.Visitor patternt megvalósító függvény.

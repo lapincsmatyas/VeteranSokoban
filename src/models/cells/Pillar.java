@@ -1,5 +1,6 @@
 package models.cells;
 
+import models.pushables.Pushable;
 import push_enums.Direction;
 import push_enums.StepResult;
 import visitor_pattern.Visitor;
@@ -31,5 +32,10 @@ public class Pillar extends Cell{
     @Override
     public String getData() {
         return super.getData('p');
+    }
+
+    @Override
+    public boolean stepOn(Pushable pushable) {
+        return false;
     }
 }

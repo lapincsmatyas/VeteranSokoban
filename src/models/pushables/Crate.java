@@ -8,6 +8,8 @@ import push_enums.StepResult;
  * A lada osztaly. A munkasok ezt tologathatjak a palyan.
  */
 public class Crate extends Pushable{
+    private boolean onTarget = false;
+
     /**
      * A lada konstruktora.
      * @param actCell Az a mezo, amin a lada all.
@@ -15,6 +17,49 @@ public class Crate extends Pushable{
      */
     public Crate(Cell actCell, int friction) {
         super(actCell, friction);
+        actCell.stepOn(this);
+    }
+
+    /**
+     * Odébbtolja a tolhatót, ha az lehetséges.
+     * @param actor A játékos objektum, ami kezdeményezte a tolást.
+     * @param dir Az irány, amelybe tolni akarják a tolhatót.
+     * @return A tolás sikeressége.
+     */
+    @Override
+    public StepResult push(Player actor, Direction dir, int force) {
+        if (onTarget) {
+            return StepResult.FAIL;
+        }
+
+        Cell nextCell = actCell.getNext(dir);
+
+        if (nextCell == null) {
+            return StepResult.FAIL;
+        }
+
+        return nextCell.accept(this, dir, force);
+    }
+
+    /**
+     * Odébbtolja a tolhatót, ha az lehetséges.
+     * @param actor A láda objektum, ami kezdeményezte a tolást.
+     * @param dir Az irány, amelybe tolni akarják a tolhatót.
+     * @return A tolás sikeressége.
+     */
+    @Override
+    public StepResult push(Crate actor, Direction dir, int force) {
+        if (onTarget) {
+            return StepResult.FAIL;
+        }
+
+        Cell nextCell = actCell.getNext(dir);
+
+        if (nextCell == null) {
+            return StepResult.FAIL;
+        }
+
+        return nextCell.accept(this, dir, force);
     }
 
     /**
@@ -130,6 +175,7 @@ public class Crate extends Pushable{
             actCell.stepOff();
             target.stepOn(this);
             result = StepResult.SUCCESS_POINT;
+            onTarget = true;
         } else {
             result = target.getActPushable().push(this, dir, force - this.actCell.getFriction());
             if (result != StepResult.FAIL) {

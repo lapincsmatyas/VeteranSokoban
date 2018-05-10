@@ -159,6 +159,11 @@ public class Player extends Pushable{
      */
     private StepResult push(Direction dir, int force) {
         Cell nextCell = actCell.getNext(dir);
+
+        if (nextCell == null) {
+            return StepResult.FAIL;
+        }
+
         return nextCell.accept(this, dir, force);
     }
 
@@ -183,6 +188,11 @@ public class Player extends Pushable{
     @Override
     public StepResult push(Crate actor, Direction dir, int force) {
         Cell nextCell = actCell.getNext(dir);
+
+        if (nextCell == null) {
+            return StepResult.FAIL;
+        }
+
         StepResult result = nextCell.accept(this, dir, force);
 
         if (result == StepResult.FAIL) {

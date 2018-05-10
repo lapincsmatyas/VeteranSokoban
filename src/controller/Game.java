@@ -67,6 +67,9 @@ public class Game implements ControllerEventListener {
                 cell = cell.getNext(Direction.RIGHT);
             }
 
+            String str = cell.getData();
+            line.add(str);
+
             cell = cell.getNext(Direction.DOWN);
 
             if (cell != null) {
@@ -125,9 +128,14 @@ public class Game implements ControllerEventListener {
         List<Hole> holes = new ArrayList<>();
         List<Switch> levers = new ArrayList<>();
 
-        for(int i = 0; i < level.getHeight(); i++){
-            for(int j = 0; j < level.getWidth(); j++){
-                char act = level.getCellAt(i,j);
+        for(int i = -1; i <= level.getHeight(); i++){
+            for(int j = -1; j <= level.getWidth(); j++){
+                char act;
+                if (i == -1 || j == -1 || i == level.getHeight() || j == level.getWidth()) {
+                    act = 'p';
+                } else {
+                    act = level.getCellAt(i,j);
+                }
                 switch (act){
                     case '.':
                         cells.add(new Field());
@@ -164,33 +172,33 @@ public class Game implements ControllerEventListener {
             lever.addHoles(holes);
         }
 
-        connectNeighbors(level.getWidth(), level.getHeight());
+        connectNeighbors(level.getWidth() + 2, level.getHeight() + 2);
         placeEntities(level, levers);
     }
 
     private void placeEntities(Level level, List<Switch> levers) {
         for (Point p : level.getOil()) {
-            int x = (int) p.getX() - 1;
-            int y = (int) p.getY() - 1;
+            int x = (int) p.getX();
+            int y = (int) p.getY();
 
-            Cell c = cells.get(y * level.getWidth() + x);
+            Cell c = cells.get(y * (level.getWidth() + 2) + x);
             c.putSlime(new Oil());
         }
 
         for (Point p : level.getHoney()) {
-            int x = (int) p.getX() - 1;
-            int y = (int) p.getY() - 1;
+            int x = (int) p.getX();
+            int y = (int) p.getY();
 
-            Cell c = cells.get(y * level.getWidth() + x);
+            Cell c = cells.get(y * (level.getWidth() + 2) + x);
             c.putSlime(new Honey());
         }
 
         for (Point p : level.getCrates()) {
             int friction = (int) p.getX();
-            int x = (int) p.getY() - 1;
-            int y = (int) p.getZ() - 1;
+            int x = (int) p.getY();
+            int y = (int) p.getZ();
 
-            Cell c = cells.get(y * level.getWidth() + x);
+            Cell c = cells.get(y * (level.getWidth() + 2) + x);
             for (Switch lever: levers) {
                 if(lever == c){
                     lever.change();
@@ -199,18 +207,8 @@ public class Game implements ControllerEventListener {
             crates.add(new Crate(c, friction));
         }
 
-        for (Map.Entry<Integer, Point> entry : level.getPlayers().entrySet()) {
-            Point p = entry.getValue();
-            Integer id = entry.getKey();
-
-            int force = (int) p.getX();
-            int x = (int) p.getY() - 1;
-            int y = (int) p.getZ() - 1;
-            Cell c = cells.get(y * level.getWidth() + x);
-
-            players.add(new Player(c, force, id));
-        }
-
+        addPlayer();
+        addPlayer();
     }
 
     private void connectNeighbors(int width, int height){
@@ -263,7 +261,25 @@ public class Game implements ControllerEventListener {
     }
 
     public void addPlayer() {
+        if (players.isEmpty()) {
+            Player p1 = new Player(null, 10, 1);
+            while (!getRandomCell().stepOn(p1));
+            players.add(0, p1);
+        } else {
+            Player p2 = new Player(null, 10, 2);
+            while (!getRandomCell().stepOn(p2));
+            players.add(1, p2);
+        }
+
         System.out.println("Player added");
+    }
+
+    private Cell getRandomCell() {
+        int size = cells.size();
+        Random rand = new Random();
+        int n = rand.nextInt(size);
+
+        return cells.get(n);
     }
 
     public void removePlayer(){
@@ -287,7 +303,7 @@ public class Game implements ControllerEventListener {
 
     @Override
     public void userStepped(int id, Direction direction) {
-        players.get(id-1).move(direction);
+        players.get(id - 1).move(direction);
         view.levelUpdated(getMapData());
     }
 
