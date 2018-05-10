@@ -158,13 +158,18 @@ public class Player extends Pushable{
      * @return A tolas sikeressege.
      */
     private StepResult push(Direction dir, int force) {
-        Cell nextCell = actCell.getNext(dir);
+        //a jatekos nem "halott"
+        if(actCell != null) {
+            Cell nextCell = actCell.getNext(dir);
 
-        if (nextCell == null) {
-            return StepResult.FAIL;
+            if (nextCell == null) {
+                return StepResult.FAIL;
+            }
+
+            return nextCell.accept(this, dir, force);
         }
 
-        return nextCell.accept(this, dir, force);
+        return StepResult.FAIL;
     }
 
     /**

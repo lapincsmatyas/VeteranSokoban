@@ -54,6 +54,13 @@ public class GameScreen implements Screen {
     }
 
     public void updateMap(List<List<String>> map) {
+        for(int i = 0; i < map.size(); i++){
+            for(int j = 0; j < map.get(i).size(); j++){
+                System.out.print(map.get(i).get(j));
+            }
+            System.out.println();
+        }
+
         this.map = map;
     }
 
@@ -73,6 +80,7 @@ public class GameScreen implements Screen {
     }
 
     private void drawMap(Graphics g){
+
         int width = map.get(0).size();
         int height = map.size();
 
@@ -185,6 +193,18 @@ public class GameScreen implements Screen {
                 break;
             case KeyEvent.VK_UP:
                 listener.userStepped(1, Direction.UP);
+                break;
+            case KeyEvent.VK_S:
+                listener.userStepped(2, Direction.DOWN);
+                break;
+            case KeyEvent.VK_D:
+                listener.userStepped(2, Direction.RIGHT);
+                break;
+            case KeyEvent.VK_A:
+                listener.userStepped(2, Direction.LEFT);
+                break;
+            case KeyEvent.VK_W:
+                listener.userStepped(2, Direction.UP);
                 break;
         }
     }

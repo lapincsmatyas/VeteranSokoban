@@ -49,7 +49,6 @@ public class Game implements ControllerEventListener {
         }
 
         buildLevel(level);
-
         view.levelLoaded(getMapData());
 
     }
@@ -124,6 +123,7 @@ public class Game implements ControllerEventListener {
     private void buildLevel(Level level){
         cells = new ArrayList<>();
         crates = new ArrayList<>();
+        players = new ArrayList<>();
 
         List<Hole> holes = new ArrayList<>();
         List<Switch> levers = new ArrayList<>();
@@ -303,8 +303,10 @@ public class Game implements ControllerEventListener {
 
     @Override
     public void userStepped(int id, Direction direction) {
-        players.get(id - 1).move(direction);
-        view.levelUpdated(getMapData());
+        if(players.size() >=  id && players.get(id-1) != null) {
+            players.get(id - 1).move(direction);
+            view.levelUpdated(getMapData());
+        }
     }
 
     @Override
