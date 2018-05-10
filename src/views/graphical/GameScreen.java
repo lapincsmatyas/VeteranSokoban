@@ -95,46 +95,64 @@ public class GameScreen implements Screen {
         g.setColor(new Color(27,30,63));
         g.fillRect(x,y, width*squareSize, height*squareSize);
 
+        boolean isPrevPlayer = false;
 
         for(int i = 0; i < map.size(); i++){
             for(int j = 0; j < map.get(0).size(); j++){
 
                 String actString = map.get(i).get(j);
                 for(int k = 0; k < actString.length(); k++){
+
                     switch (actString.charAt(k)){
                         case '.':
                             g.setColor(new Color(255,255,255));
                             g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
                             g.setColor(new Color(255, 255, 255, 20));
                             g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            isPrevPlayer = false;
                             break;
                         case 'c':
                             g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
                             g.drawRect(x+5 + j * squareSize,y + 5 +i*squareSize,squareSize-10, squareSize-10);
                             g.setColor(new Color(151,83,0));
                             g.fillRect(x+5 + j * squareSize,y + 5 +i*squareSize,squareSize-10, squareSize-10);
+                            isPrevPlayer = false;
                             break;
                         case 't':
                             g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
                             g.setColor(new Color(0,255,0, 100));
                             g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            isPrevPlayer = false;
                             break;
                         case 'o':
-                            g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
-                            g.setColor(new Color(172,172,172));
-                            g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            if(isPrevPlayer){
+                                g.setColor(new Color(172,172,172));
+                                g.fillOval(x + j * squareSize + squareSize/2, y + i * squareSize + squareSize/2, squareSize/3, squareSize/3);
+                            } else {
+                                g.drawRect(x + j * squareSize, y + i * squareSize, squareSize, squareSize);
+                                g.setColor(new Color(172, 172, 172));
+                                g.fillRect(x + j * squareSize, y + i * squareSize, squareSize, squareSize);
+                                isPrevPlayer = false;
+                            }
                             break;
                         case 'h':
-                            g.setColor(new Color(254,133,0));
-                            g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
-                            g.setColor(new Color(255,255,255));
-                            g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            if(isPrevPlayer){
+                                g.setColor(new Color(254, 133, 0));
+                                g.fillOval(x + j * squareSize + squareSize/2, y + i * squareSize + squareSize/2, squareSize/3, squareSize/3);
+                            } else {
+                                g.setColor(new Color(254, 133, 0));
+                                g.fillRect(x + j * squareSize, y + i * squareSize, squareSize, squareSize);
+                                g.setColor(new Color(255, 255, 255));
+                                g.drawRect(x + j * squareSize, y + i * squareSize, squareSize, squareSize);
+                            }
+                            isPrevPlayer = false;
                             break;
                         case 'O':
                             g.setColor(new Color(0,0,0));
                             g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
                             g.setColor(new Color(255,255,255));
                             g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+
                             break;
                         default:
                             int temp = squareSize / 4;
@@ -146,6 +164,7 @@ public class GameScreen implements Screen {
                                 g.setColor(new Color(0, 255, 255));
                                 g.fillOval(x + temp + j * squareSize, y + temp + i * squareSize, squareSize-2*temp, squareSize - 2*temp);
                             }
+                            isPrevPlayer = true;
                             break;
                     }
                 }
@@ -194,6 +213,9 @@ public class GameScreen implements Screen {
             case KeyEvent.VK_UP:
                 listener.userStepped(1, Direction.UP);
                 break;
+            case KeyEvent.VK_NUMPAD0:
+                listener.userDroppedSlime(1);
+                break;
             case KeyEvent.VK_S:
                 listener.userStepped(2, Direction.DOWN);
                 break;
@@ -205,6 +227,9 @@ public class GameScreen implements Screen {
                 break;
             case KeyEvent.VK_W:
                 listener.userStepped(2, Direction.UP);
+                break;
+            case KeyEvent.VK_0:
+                listener.userDroppedSlime(2);
                 break;
         }
     }

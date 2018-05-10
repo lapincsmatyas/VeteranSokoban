@@ -17,17 +17,20 @@ public class MainScreen implements Screen {
     private ControllerEventListener listener;
     private MenuData selectedMenu;
     private int selectedLevel = 0;
+    private boolean isTwoPlayer = false;
     private Dimension size;
     private List<Square> squares;
     private Font titleFont = null;
     private Font menuFont = null;
+    private int numOfLevels;
 
     private List<MenuData> menus;
 
-    public MainScreen(ControllerEventListener listener, Dimension size){
+    public MainScreen(ControllerEventListener listener, Dimension size, int numOfLevels) {
 
         this.size = size;
         this.listener = listener;
+        this.numOfLevels = numOfLevels;
 
         if (squares == null) {
             squares = new ArrayList<>();
@@ -51,9 +54,9 @@ public class MainScreen implements Screen {
         }
 
         menus = new ArrayList<>();
-        menus.add(new MenuData("start", 30f, 40f ));
-        menus.add(new MenuData("<level " + selectedLevel + ">", 20f, 20f));
-        menus.add(new MenuData("exit", 30f, 30f ));
+        menus.add(new MenuData("start", 30f, 40f));
+        menus.add(new MenuData("<level " + (selectedLevel + 1) + ">", 20f, 20f));
+        menus.add(new MenuData("exit", 30f, 30f));
 
         menus.get(0).setPrev(menus.get(0));
         menus.get(0).setNext(menus.get(2));
@@ -63,7 +66,7 @@ public class MainScreen implements Screen {
         selectedMenu = menus.get(0);
     }
 
-    class MenuData{
+    class MenuData {
         private String text;
         private float size;
         private float padding;
@@ -71,7 +74,7 @@ public class MainScreen implements Screen {
         private MenuData next;
         private MenuData prev;
 
-        public MenuData(String text, float size, float padding){
+        public MenuData(String text, float size, float padding) {
             this.text = text;
             this.size = size;
             this.padding = padding;
@@ -123,21 +126,29 @@ public class MainScreen implements Screen {
     @Override
     public void render(Graphics g) {
 
-        g.setColor(new Color(27,30,63));
-        g.fillRect(0,0, size.width, size.height);
+        g.setColor(new Color(27, 30, 63));
+        g.fillRect(0, 0, size.width, size.height);
 
         drawSquares(g);
         drawTitle(g);
         drawMenu(g);
+        drawPlayerAdd(g);
     }
 
-    private void drawTitle(Graphics g){
+    private void drawPlayerAdd(Graphics g) {
+        g.setFont(menuFont.deriveFont(20f));
+        g.setColor(new Color(255, 0, 0));
+        String playerAddString = isTwoPlayer ? "Press \'S' two remove second player" : "Press 'S' two add a second player";
+        g.drawString(playerAddString, size.width / 2 - g.getFontMetrics().stringWidth(playerAddString) / 2, size.height - 50);
+    }
+
+    private void drawTitle(Graphics g) {
         Graphics2D title = (Graphics2D) g;
         title.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        title.setColor(new Color(255,255,0));
+        title.setColor(new Color(255, 255, 0));
         title.setFont(titleFont.deriveFont(70f));
 
-        title.drawString("Sokoban", size.width / 2 - title.getFontMetrics().stringWidth("Sokoban") / 2 , 150);
+        title.drawString("Sokoban", size.width / 2 - title.getFontMetrics().stringWidth("Sokoban") / 2, 150);
     }
 
     private void drawSquares(Graphics g) {
@@ -148,7 +159,7 @@ public class MainScreen implements Screen {
             squaresG.setColor(new Color(255, 255, 255));
 
             AffineTransform transform = new AffineTransform();
-            transform.rotate(actSquare.getRotate(), actSquare.getX() + actSquare.getSize()/2, actSquare.getY() + actSquare.getSize()/2);
+            transform.rotate(actSquare.getRotate(), actSquare.getX() + actSquare.getSize() / 2, actSquare.getY() + actSquare.getSize() / 2);
             AffineTransform old = squaresG.getTransform();
             squaresG.transform(transform);
 
@@ -168,19 +179,28 @@ public class MainScreen implements Screen {
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
 
-        for(int i = 0; i< menus.size(); i++) {
+        for (int i = 0; i < menus.size(); i++) {
             title.setFont(menuFont.deriveFont(menus.get(i).getSize()));
-            title.setColor(selectedMenu == menus.get(i) ? new Color(0, 255, 0):new Color(255, 255, 0));
-            title.drawString(menus.get(i).getText(), size.width / 2 - title.getFontMetrics().stringWidth(menus.get(i).getText()) / 2, size.height / 2 + i*menus.get(i).getPadding());
+            title.setColor(selectedMenu == menus.get(i) ? new Color(0, 255, 0) : new Color(255, 255, 0));
+            title.drawString(menus.get(i).getText(), size.width / 2 - title.getFontMetrics().stringWidth(menus.get(i).getText()) / 2, size.height / 2 + i * menus.get(i).getPadding());
         }
     }
 
     @Override
     public void keyPressed(int keyCode) {
-        switch (keyCode){
+        switch (keyCode) {
             case KeyEvent.VK_ENTER:
-                if(selectedMenu == menus.get(0))
+                if (selectedMenu == menus.get(0))
                     listener.loadLevel(selectedLevel);
+                else if (selectedMenu == menus.get(2))
+                    System.exit(0);
+                break;
+            case KeyEvent.VK_S:
+                if(isTwoPlayer){
+                    listener.userRemoved();
+                } else
+                    listener.userAdded();
+                isTwoPlayer = !isTwoPlayer;
                 break;
             case KeyEvent.VK_DOWN:
                 selectedMenu = selectedMenu.getNext();
@@ -189,15 +209,17 @@ public class MainScreen implements Screen {
                 selectedMenu = selectedMenu.getPrev();
                 break;
             case KeyEvent.VK_RIGHT:
-                if(selectedMenu == menus.get(0)){
-                    selectedLevel++;
-                    menus.get(1).setText("<level " + selectedLevel + ">");
+                if (selectedMenu == menus.get(0)) {
+                    selectedLevel = (selectedLevel + 1) % numOfLevels;
+                    menus.get(1).setText("<level " + (selectedLevel + 1) + ">");
                 }
                 break;
             case KeyEvent.VK_LEFT:
-                if(selectedMenu == menus.get(0)){
+                if (selectedMenu == menus.get(0)) {
                     selectedLevel--;
-                    menus.get(1).setText("<level " + selectedLevel + ">");
+                    if (selectedLevel < 0)
+                        selectedLevel = numOfLevels - 1;
+                    menus.get(1).setText("<level " + (selectedLevel + 1) + ">");
                 }
                 break;
         }

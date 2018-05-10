@@ -10,13 +10,16 @@ import models.slimes.Slime;
 import push_enums.*;
 import views.graphical.SokobanGraphView;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Game implements ControllerEventListener {
     private List<Cell> cells;
     private List<Crate> crates;
     private List<Player> players;
+    private int numOfPlayers;
 
     private LevelLoader levelLoader;
 
@@ -26,14 +29,21 @@ public class Game implements ControllerEventListener {
         cells = new ArrayList<>();
         players = new ArrayList<>();
         crates = new ArrayList<>();
+
+        numOfPlayers = 0;
     }
 
     public void init(){
         levelLoader = new LevelLoader();
 
         view = new SokobanGraphView();
-        view.init(this);
+        view.init(this, getNumOfLevels());
         view.view();
+    }
+
+    private int getNumOfLevels(){
+        File file = Paths.get("res\\Levels\\").toFile();
+        return file.listFiles().length;
     }
 
     /**
@@ -208,7 +218,9 @@ public class Game implements ControllerEventListener {
         }
 
         addPlayer();
-        addPlayer();
+        for(int i = 0; i < numOfPlayers; i++){
+            addPlayer();
+        }
     }
 
     private void connectNeighbors(int width, int height){
@@ -261,15 +273,10 @@ public class Game implements ControllerEventListener {
     }
 
     public void addPlayer() {
-        if (players.isEmpty()) {
-            Player p1 = new Player(null, 10, 1);
-            while (!getRandomCell().stepOn(p1));
-            players.add(0, p1);
-        } else {
-            Player p2 = new Player(null, 10, 2);
-            while (!getRandomCell().stepOn(p2));
-            players.add(1, p2);
-        }
+        Player p1 = new Player(null, 10, players.size()+1);
+        p1.giveSlime(new Oil());
+        while (!getRandomCell().stepOn(p1));
+        players.add(p1);
 
         System.out.println("Player added");
     }
@@ -283,17 +290,18 @@ public class Game implements ControllerEventListener {
     }
 
     public void removePlayer(){
-        System.out.println("Player removed");
+        if(players.size() > 1)
+            players.remove(players.get(players.size()-1));
     }
 
     @Override
     public void userAdded() {
-        addPlayer();
+        numOfPlayers++;
     }
 
     @Override
     public void userRemoved() {
-        removePlayer();
+        numOfPlayers--;
     }
 
     @Override
@@ -311,6 +319,7 @@ public class Game implements ControllerEventListener {
 
     @Override
     public void userDroppedSlime(int id) {
-
+        players.get(id-1).putSlime();
+        view.levelUpdated(getMapData());
     }
 }

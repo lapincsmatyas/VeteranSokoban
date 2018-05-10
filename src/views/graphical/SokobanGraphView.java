@@ -18,6 +18,7 @@ public class SokobanGraphView extends JFrame implements View, KeyListener{
     Canvas canvas;
 
     MainScreen menu;
+    int numOfLevels;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -51,10 +52,11 @@ public class SokobanGraphView extends JFrame implements View, KeyListener{
     Screen actScreen;
 
     @Override
-    public void init(ControllerEventListener listener) {
+    public void init(ControllerEventListener listener, int numOfLevels) {
         this.listener = listener;
         gameState = State.MENU;
         canvas = new Canvas();
+        this.numOfLevels = numOfLevels;
 
         setSize(600,600);
         setTitle("Sokoban");
@@ -64,7 +66,7 @@ public class SokobanGraphView extends JFrame implements View, KeyListener{
         setFocusable(true);
 
         add(canvas);
-        menu = new MainScreen(listener, getSize());
+        menu = new MainScreen(listener, getSize(), numOfLevels);
         actScreen = menu;
     }
 
