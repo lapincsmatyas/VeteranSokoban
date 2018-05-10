@@ -52,7 +52,8 @@ public class SokobanGraphView extends JFrame implements View, KeyListener{
 
     enum State{
         MENU,
-        GAME
+        GAME,
+        GAME_OVER
     }
 
     State gameState;

@@ -78,11 +78,13 @@ public class Crate extends Pushable{
         }
 
         if (field.isEmpty()) {
-            actCell.stepOff();
-            field.stepOn(this);
+            if (!disabled) {
+                actCell.stepOff();
+                field.stepOn(this);
+            }
         } else {
             result = field.getActPushable().push(this, dir, force - this.actCell.getFriction());
-            if (result != StepResult.FAIL) {
+            if (result != StepResult.FAIL && !disabled) {
                 actCell.stepOff();
                 field.stepOn(this);
             }
@@ -107,14 +109,14 @@ public class Crate extends Pushable{
             return StepResult.FAIL;
         }
 
-        //Csak gyakorlok
-
         if (hole.isEmpty()) {
-            actCell.stepOff();
-            hole.stepOn(this);
+            if (!disabled) {
+                actCell.stepOff();
+                hole.stepOn(this);
+            }
         } else {
             result = hole.getActPushable().push(this, dir, force - this.actCell.getFriction());
-            if (result != StepResult.FAIL) {
+            if (result != StepResult.FAIL && !disabled) {
                 actCell.stepOff();
                 hole.stepOn(this);
             }
@@ -140,12 +142,14 @@ public class Crate extends Pushable{
         }
 
         if (lever.isEmpty()) {
-            actCell.stepOff();
-            lever.stepOn(this);
-            lever.change();
+            if (!disabled) {
+                actCell.stepOff();
+                lever.stepOn(this);
+                lever.change();
+            }
         } else {
             result = lever.getActPushable().push(this, dir, force - this.actCell.getFriction());
-            if (result != StepResult.FAIL) {
+            if (result != StepResult.FAIL && !disabled) {
                 actCell.stepOff();
                 lever.stepOn(this);
                 lever.change();
@@ -166,19 +170,21 @@ public class Crate extends Pushable{
      */
     @Override
     public StepResult visit(Target target, Direction dir, int force) {
-        StepResult result;
+        StepResult result = StepResult.FAIL;
         if (force < this.actCell.getFriction()) {
             return StepResult.FAIL;
         }
 
         if (target.isEmpty()) {
-            actCell.stepOff();
-            target.stepOn(this);
-            result = StepResult.SUCCESS_POINT;
-            onTarget = true;
+            if (!disabled) {
+                actCell.stepOff();
+                target.stepOn(this);
+                result = StepResult.SUCCESS_POINT;
+                onTarget = true;
+            }
         } else {
             result = target.getActPushable().push(this, dir, force - this.actCell.getFriction());
-            if (result != StepResult.FAIL) {
+            if (result != StepResult.FAIL && !disabled) {
                 actCell.stepOff();
                 target.stepOn(this);
             }

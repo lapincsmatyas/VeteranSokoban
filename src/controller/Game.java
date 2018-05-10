@@ -4,9 +4,9 @@ import loader.*;
 import models.cells.*;
 import models.pushables.Crate;
 import models.pushables.Player;
+import models.pushables.Pushable;
 import models.slimes.Honey;
 import models.slimes.Oil;
-import models.slimes.Slime;
 import push_enums.*;
 import views.graphical.SokobanGraphView;
 
@@ -23,7 +23,7 @@ public class Game implements ControllerEventListener {
 
     private LevelLoader levelLoader;
 
-    SokobanGraphView view;
+    private SokobanGraphView view;
 
     public Game(){
         cells = new ArrayList<>();
@@ -124,14 +124,6 @@ public class Game implements ControllerEventListener {
         for (Player p : players) {
             if (p.getId() == playerId) {
                 p.putSlime();
-            }
-        }
-    }
-
-    public void giveSlime(int playerId, Slime slime) {
-        for (Player p : players) {
-            if (p.getId() == playerId) {
-                p.giveSlime(slime);
             }
         }
     }
@@ -295,11 +287,6 @@ public class Game implements ControllerEventListener {
         return cells.get(n);
     }
 
-    public void removePlayer(){
-        if(players.size() > 1)
-            players.remove(players.get(players.size()-1));
-    }
-
     @Override
     public void userAdded() {
         numOfPlayers++;
@@ -321,11 +308,151 @@ public class Game implements ControllerEventListener {
             movePlayer(id, direction);
             view.levelUpdated(getMapData());
         }
+
+        checkGameOver();
     }
 
     @Override
     public void userDroppedSlime(int id) {
         putSlime(id);
         view.levelUpdated(getMapData());
+    }
+
+    private void disablePushables() {
+        for (Player player: players) {
+            player.disable();
+        }
+
+        for (Crate crate: crates) {
+            crate.disable();
+        }
+
+        System.out.println("Disabled pushables");
+    }
+
+    private void enablePushables() {
+        for (Player player: players) {
+            player.enable();
+        }
+
+        for (Crate crate: crates) {
+            crate.enable();
+        }
+
+        System.out.println("Enabled pushables");
+    }
+
+    private void checkGameOver() {
+        List<Player> playersAlive = playersAlive();
+        List<Crate> cratesAlive = cratesAlive();
+
+        if (playersAlive.size() == 0 || cratesAlive.size() == 0) {
+            gameOver();
+        } else {
+            disablePushables();
+
+            int numOfSuccessfulPushes = 0;
+            for (Crate crate : cratesAlive) {
+                Cell cell = crate.getActCell();
+                for (Player player : playersAlive) {
+                    numOfSuccessfulPushes += movePhantomPlayer(player, cell);
+                }
+            }
+
+            enablePushables();
+
+            if (numOfSuccessfulPushes == 0) {
+                gameOver();
+            }
+        }
+    }
+
+    private int movePhantomPlayer(Player player, Cell cell) {
+        int n = 0;
+        Player phantom = new Player(cell, player.getForce(), 0);
+        phantom.disable();
+
+        Pushable temp;
+
+        Cell pushSource = cell.getNext(Direction.UP);
+        temp = pushSource.getActPushable();
+        if (pushSource.stepOn(phantom)) {
+            if (phantom.move(Direction.DOWN) != StepResult.FAIL) {
+                n++;
+            }
+        }
+        pushSource.stepOff();
+        if (temp != null) {
+            pushSource.stepOn(temp);
+        }
+
+        pushSource = cell.getNext(Direction.DOWN);
+        temp = pushSource.getActPushable();
+        if (pushSource.stepOn(phantom)) {
+            if (phantom.move(Direction.UP) != StepResult.FAIL) {
+                n++;
+            }
+        }
+        pushSource.stepOff();
+        if (temp != null) {
+            pushSource.stepOn(temp);
+        }
+
+        pushSource = cell.getNext(Direction.RIGHT);
+        temp = pushSource.getActPushable();
+        if (pushSource.stepOn(phantom)) {
+            if (phantom.move(Direction.LEFT) != StepResult.FAIL) {
+                n++;
+            }
+        }
+        pushSource.stepOff();
+        if (temp != null) {
+            pushSource.stepOn(temp);
+        }
+
+        pushSource = cell.getNext(Direction.LEFT);
+        temp = pushSource.getActPushable();
+        if (pushSource.stepOn(phantom)) {
+            if (phantom.move(Direction.RIGHT) != StepResult.FAIL) {
+                n++;
+            }
+        }
+        pushSource.stepOff();
+        if (temp != null) {
+            pushSource.stepOn(temp);
+        }
+
+        phantom.enable();
+        phantom.die();
+
+        return n;
+    }
+
+    private List<Crate> cratesAlive() {
+        List<Crate> cratesAlive = new ArrayList<>();
+
+        for (Crate crate : crates) {
+            if (!crate.isDead()) {
+                cratesAlive.add(crate);
+            }
+        }
+
+        return cratesAlive;
+    }
+
+    private List<Player> playersAlive() {
+        List<Player> playersAlive = new ArrayList<>();
+
+        for (Player player : players) {
+            if (!player.isDead()) {
+                playersAlive.add(player);
+            }
+        }
+
+        return playersAlive;
+    }
+
+    private void gameOver() {
+        System.out.println("Game Over");
     }
 }

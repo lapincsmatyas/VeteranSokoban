@@ -57,11 +57,13 @@ public class Player extends Pushable{
         StepResult result = StepResult.SUCCESS;
 
         if (field.isEmpty()) {
-            actCell.stepOff();
-            field.stepOn(this);
+            if (!disabled) {
+                actCell.stepOff();
+                field.stepOn(this);
+            }
         } else {
             result = field.getActPushable().push(this, dir, force);
-            if (result != StepResult.FAIL) {
+            if (result != StepResult.FAIL && !disabled) {
                 actCell.stepOff();
                 field.stepOn(this);
             }
@@ -83,13 +85,14 @@ public class Player extends Pushable{
     public StepResult visit(Hole hole, Direction dir, int force) {
         StepResult result = StepResult.SUCCESS;
 
-
         if (hole.isEmpty()) {
-            actCell.stepOff();
-            hole.stepOn(this);
+            if (!disabled) {
+                actCell.stepOff();
+                hole.stepOn(this);
+            }
         } else {
             result = hole.getActPushable().push(this, dir, force);
-            if (result != StepResult.FAIL) {
+            if (result != StepResult.FAIL && !disabled) {
                 actCell.stepOff();
                 hole.stepOn(this);
             }
@@ -111,11 +114,13 @@ public class Player extends Pushable{
         StepResult result = StepResult.SUCCESS;
 
         if (lever.isEmpty()) {
-            actCell.stepOff();
-            lever.stepOn(this);
+            if (!disabled) {
+                actCell.stepOff();
+                lever.stepOn(this);
+            }
         } else {
             result = lever.getActPushable().push(this, dir, force);
-            if (result != StepResult.FAIL) {
+            if (result != StepResult.FAIL && !disabled) {
                 actCell.stepOff();
                 lever.stepOn(this);
             }
@@ -138,11 +143,13 @@ public class Player extends Pushable{
 
 
         if (target.isEmpty()) {
-            actCell.stepOff();
-            target.stepOn(this);
+            if (!disabled) {
+                actCell.stepOff();
+                target.stepOn(this);
+            }
         } else {
             result = target.getActPushable().push(this, dir, force);
-            if (result != StepResult.FAIL) {
+            if (result != StepResult.FAIL && !disabled) {
                 actCell.stepOff();
                 target.stepOn(this);
             }
@@ -158,7 +165,6 @@ public class Player extends Pushable{
      * @return A tolas sikeressege.
      */
     private StepResult push(Direction dir, int force) {
-        //a jatekos nem "halott"
         if(actCell != null) {
             Cell nextCell = actCell.getNext(dir);
 
@@ -200,7 +206,7 @@ public class Player extends Pushable{
 
         StepResult result = nextCell.accept(this, dir, force);
 
-        if (result == StepResult.FAIL) {
+        if (result == StepResult.FAIL && !disabled) {
             this.die();
         }
 
@@ -261,5 +267,9 @@ public class Player extends Pushable{
 
     public int getPoints() {
         return points;
+    }
+
+    public int getForce() {
+        return force;
     }
 }
