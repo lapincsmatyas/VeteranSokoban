@@ -83,7 +83,6 @@ public class Game implements ControllerEventListener {
         return list;
     }
 
-
     public void movePlayer(int playerId, Direction dir) {
         for (Player p : players) {
             if (p.getId() == playerId) {
@@ -118,7 +117,6 @@ public class Game implements ControllerEventListener {
             }
         }
     }
-
 
     private void buildLevel(Level level){
         cells = new ArrayList<>();

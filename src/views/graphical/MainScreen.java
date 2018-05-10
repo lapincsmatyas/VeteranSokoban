@@ -14,17 +14,18 @@ import java.util.List;
 
 public class MainScreen implements Screen {
 
-    ControllerEventListener listener;
-    int selectedMenu;
-    Dimension size;
+    private ControllerEventListener listener;
+    private MenuData selectedMenu;
+    private int selectedLevel = 0;
+    private Dimension size;
     private List<Square> squares;
-    Font titleFont = null;
-    Font menuFont = null;
+    private Font titleFont = null;
+    private Font menuFont = null;
 
-    String[] menus;
+    private List<MenuData> menus;
 
     public MainScreen(ControllerEventListener listener, Dimension size){
-        selectedMenu = 0;
+
         this.size = size;
         this.listener = listener;
 
@@ -49,7 +50,63 @@ public class MainScreen implements Screen {
             e.printStackTrace();
         }
 
-        menus = new String[]{"start","exit"};
+
+
+        menus = new ArrayList<>();
+        menus.add(new MenuData("start", 30f, 40f ));
+        menus.add(new MenuData("<level " + selectedLevel + ">", 20f, 20f));
+        menus.add(new MenuData("exit", 30f, 30f ));
+
+        menus.get(0).setPrev(menus.get(0));
+        menus.get(0).setNext(menus.get(2));
+        menus.get(2).setNext(menus.get(2));
+        menus.get(2).setPrev(menus.get(0));
+
+        selectedMenu = menus.get(0);
+    }
+
+    class MenuData{
+        private String text;
+        private float size;
+        private float padding;
+
+        private MenuData next;
+        private MenuData prev;
+
+        public MenuData(String text, float size, float padding){
+            this.text = text;
+            this.size = size;
+            this.padding = padding;
+        }
+
+
+        public String getText() {
+            return text;
+        }
+
+        public float getSize() {
+            return size;
+        }
+
+        public float getPadding() {
+            return padding;
+        }
+
+        public MenuData getNext() {
+            return next;
+        }
+
+        public void setNext(MenuData next) {
+            this.next = next;
+        }
+
+        public MenuData getPrev() {
+            return prev;
+        }
+
+        public void setPrev(MenuData prev) {
+            this.prev = prev;
+        }
     }
 
     public List<Square> getSquares() {
@@ -108,10 +165,11 @@ public class MainScreen implements Screen {
         title.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        title.setFont(menuFont.deriveFont(30f));
-        for(int i = 0; i< menus.length; i++) {
-            title.setColor(new Color(selectedMenu == i ? 0 : 255, 255, 0));
-            title.drawString(menus[i], size.width / 2 - title.getFontMetrics().stringWidth(menus[i]) / 2, size.height / 2 + i*40);
+
+        for(int i = 0; i< menus.size(); i++) {
+            title.setFont(menuFont.deriveFont(menus.get(i).getSize()));
+            title.setColor(selectedMenu == menus.get(i) ? new Color(0, 255, 0):new Color(255, 255, 0));
+            title.drawString(menus.get(i).getText(), size.width / 2 - title.getFontMetrics().stringWidth(menus.get(i).getText()) / 2, size.height / 2 + i*menus.get(i).getPadding());
         }
     }
 
@@ -119,18 +177,14 @@ public class MainScreen implements Screen {
     public void keyPressed(int keyCode) {
         switch (keyCode){
             case KeyEvent.VK_ENTER:
-                if(selectedMenu == 0)
+                if(selectedMenu == menus.get(0))
                     listener.loadLevel(99);
                 break;
             case KeyEvent.VK_DOWN:
-                selectedMenu++;
-                if(selectedMenu > menus.length-1)
-                    selectedMenu = menus.length-1;
+                selectedMenu = selectedMenu.getNext();
                 break;
             case KeyEvent.VK_UP:
-                selectedMenu--;
-                if(selectedMenu < 0)
-                    selectedMenu = 0;
+                selectedMenu = selectedMenu.getPrev();
         }
     }
 }

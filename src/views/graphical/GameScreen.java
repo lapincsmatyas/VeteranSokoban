@@ -97,6 +97,8 @@ public class GameScreen implements Screen {
                         case '.':
                             g.setColor(new Color(255,255,255));
                             g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            g.setColor(new Color(255, 255, 255, 20));
+                            g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
                             break;
                         case 'c':
                             g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
@@ -127,13 +129,14 @@ public class GameScreen implements Screen {
                             g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
                             break;
                         default:
+                            int temp = squareSize / 4;
                             if(actString.charAt(k) == '1') {
                                 g.setColor(new Color(255, 0, 255));
-                                g.fillOval(x + 10 + j * squareSize, y + 10 + i * squareSize, squareSize-20, squareSize - 20);
+                                g.fillOval(x + temp + j * squareSize, y + temp + i * squareSize, squareSize-2*temp, squareSize - 2*temp);
                             }
                             else if(actString.charAt(k) == '2'){
                                 g.setColor(new Color(0, 255, 255));
-                                g.fillOval(x + 10 + j * squareSize, y + 10 + i * squareSize, squareSize-20, squareSize - 20);
+                                g.fillOval(x + temp + j * squareSize, y + temp + i * squareSize, squareSize-2*temp, squareSize - 2*temp);
                             }
                             break;
                     }
@@ -166,20 +169,6 @@ public class GameScreen implements Screen {
 
             actSquare.move();
         }
-    }
-
-    private void drawMenu(Graphics g) {
-        Graphics2D title = (Graphics2D) g;
-        title.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-
-        if(selectedMenu == 0) {
-            title.setColor(new Color(0, 255, 0));
-        } else
-            title.setColor(new Color(255, 255, 0));
-        title.setFont(menuFont.deriveFont(30f));
-
-        title.drawString("start", size.width / 2 - title.getFontMetrics().stringWidth("start") / 2 , size.height / 2);
     }
 
     @Override
