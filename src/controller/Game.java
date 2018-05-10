@@ -128,9 +128,14 @@ public class Game implements ControllerEventListener {
         List<Hole> holes = new ArrayList<>();
         List<Switch> levers = new ArrayList<>();
 
-        for(int i = 0; i < level.getHeight(); i++){
-            for(int j = 0; j < level.getWidth(); j++){
-                char act = level.getCellAt(i,j);
+        for(int i = -1; i <= level.getHeight(); i++){
+            for(int j = -1; j <= level.getWidth(); j++){
+                char act;
+                if (i == -1 || j == -1 || i == level.getHeight() || j == level.getWidth()) {
+                    act = 'p';
+                } else {
+                    act = level.getCellAt(i,j);
+                }
                 switch (act){
                     case '.':
                         cells.add(new Field());
@@ -167,33 +172,33 @@ public class Game implements ControllerEventListener {
             lever.addHoles(holes);
         }
 
-        connectNeighbors(level.getWidth(), level.getHeight());
+        connectNeighbors(level.getWidth() + 2, level.getHeight() + 2);
         placeEntities(level, levers);
     }
 
     private void placeEntities(Level level, List<Switch> levers) {
         for (Point p : level.getOil()) {
-            int x = (int) p.getX() - 1;
-            int y = (int) p.getY() - 1;
+            int x = (int) p.getX();
+            int y = (int) p.getY();
 
-            Cell c = cells.get(y * level.getWidth() + x);
+            Cell c = cells.get(y * (level.getWidth() + 2) + x);
             c.putSlime(new Oil());
         }
 
         for (Point p : level.getHoney()) {
-            int x = (int) p.getX() - 1;
-            int y = (int) p.getY() - 1;
+            int x = (int) p.getX();
+            int y = (int) p.getY();
 
-            Cell c = cells.get(y * level.getWidth() + x);
+            Cell c = cells.get(y * (level.getWidth() + 2) + x);
             c.putSlime(new Honey());
         }
 
         for (Point p : level.getCrates()) {
             int friction = (int) p.getX();
-            int x = (int) p.getY() - 1;
-            int y = (int) p.getZ() - 1;
+            int x = (int) p.getY();
+            int y = (int) p.getZ();
 
-            Cell c = cells.get(y * level.getWidth() + x);
+            Cell c = cells.get(y * (level.getWidth() + 2) + x);
             for (Switch lever: levers) {
                 if(lever == c){
                     lever.change();
@@ -202,6 +207,7 @@ public class Game implements ControllerEventListener {
             crates.add(new Crate(c, friction));
         }
 
+        addPlayer();
         addPlayer();
     }
 
