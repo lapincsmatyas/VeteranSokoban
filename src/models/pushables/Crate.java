@@ -21,6 +21,48 @@ public class Crate extends Pushable{
     }
 
     /**
+     * Odébbtolja a tolhatót, ha az lehetséges.
+     * @param actor A játékos objektum, ami kezdeményezte a tolást.
+     * @param dir Az irány, amelybe tolni akarják a tolhatót.
+     * @return A tolás sikeressége.
+     */
+    @Override
+    public StepResult push(Player actor, Direction dir, int force) {
+        if (onTarget) {
+            return StepResult.FAIL;
+        }
+
+        Cell nextCell = actCell.getNext(dir);
+
+        if (nextCell == null) {
+            return StepResult.FAIL;
+        }
+
+        return nextCell.accept(this, dir, force);
+    }
+
+    /**
+     * Odébbtolja a tolhatót, ha az lehetséges.
+     * @param actor A láda objektum, ami kezdeményezte a tolást.
+     * @param dir Az irány, amelybe tolni akarják a tolhatót.
+     * @return A tolás sikeressége.
+     */
+    @Override
+    public StepResult push(Crate actor, Direction dir, int force) {
+        if (onTarget) {
+            return StepResult.FAIL;
+        }
+
+        Cell nextCell = actCell.getNext(dir);
+
+        if (nextCell == null) {
+            return StepResult.FAIL;
+        }
+
+        return nextCell.accept(this, dir, force);
+    }
+
+    /**
      * A Visitor patternt megvalosito fuggveny.
      * A lada ellenorzi, hogy tud-e lepni a mezore.
      * @param field A mezo, amit a lada visitel.
