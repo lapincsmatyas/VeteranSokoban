@@ -97,7 +97,7 @@ public class GameScreen implements Screen {
 
         boolean isPrevPlayer = false;
 
-        for(int i = 0; i < map.size(); i++){
+        for(int i = 0; i < map.size() - 1; i++){
             for(int j = 0; j < map.get(0).size(); j++){
 
                 String actString = map.get(i).get(j);

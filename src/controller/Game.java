@@ -92,6 +92,18 @@ public class Game implements ControllerEventListener {
             list.add(line);
         }
 
+        String str = "";
+        for (int i = 0; i < players.size(); i++) {
+            str += players.get(i).getPoints();
+            if (i < players.size() - 1) {
+                str += ",";
+            }
+        }
+
+        List<String> line = new ArrayList<>();
+        line.add(str);
+        list.add(line);
+
         return list;
     }
 
@@ -312,14 +324,14 @@ public class Game implements ControllerEventListener {
     @Override
     public void userStepped(int id, Direction direction) {
         if(players.size() >=  id && players.get(id-1) != null) {
-            players.get(id - 1).move(direction);
+            movePlayer(id, direction);
             view.levelUpdated(getMapData());
         }
     }
 
     @Override
     public void userDroppedSlime(int id) {
-        players.get(id-1).putSlime();
+        putSlime(id);
         view.levelUpdated(getMapData());
     }
 }

@@ -258,4 +258,8 @@ public class Player extends Pushable{
 
         return res;
     }
+
+    public int getPoints() {
+        return points;
+    }
 }
