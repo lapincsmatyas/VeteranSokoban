@@ -26,7 +26,7 @@ public class MainScreen implements Screen {
 
     private List<MenuData> menus;
 
-    public MainScreen(ControllerEventListener listener, Dimension size, int numOfLevels) {
+    public MainScreen(ControllerEventListener listener, Dimension size, int numOfLevels, Font titleFont, Font menuFont) {
 
         this.size = size;
         this.listener = listener;
@@ -39,19 +39,10 @@ public class MainScreen implements Screen {
             }
         }
 
-        try {
-            InputStream is = new FileInputStream("res/fonts/NEON.TTF");
-            titleFont = Font.createFont(Font.TRUETYPE_FONT, is);
+        this.titleFont = titleFont;
+        this.menuFont = menuFont;
 
-            is = new FileInputStream("res/fonts/NEON_80.TTF");
-            menuFont = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         menus = new ArrayList<>();
         menus.add(new MenuData("start", 30f, 40f));

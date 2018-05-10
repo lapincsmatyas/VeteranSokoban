@@ -9,6 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class SokobanGraphView extends JFrame implements View, KeyListener{
@@ -19,6 +23,9 @@ public class SokobanGraphView extends JFrame implements View, KeyListener{
 
     MainScreen menu;
     int numOfLevels;
+
+    Font titleFont;
+    Font menuFont;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -65,8 +72,22 @@ public class SokobanGraphView extends JFrame implements View, KeyListener{
         addKeyListener(this);
         setFocusable(true);
 
+        try {
+            InputStream is = new FileInputStream("res/fonts/NEON.TTF");
+            titleFont = Font.createFont(Font.TRUETYPE_FONT, is);
+
+            is = new FileInputStream("res/fonts/NEON_80.TTF");
+            menuFont = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         add(canvas);
-        menu = new MainScreen(listener, getSize(), numOfLevels);
+        menu = new MainScreen(listener, getSize(), numOfLevels, titleFont,menuFont);
         actScreen = menu;
     }
 
@@ -78,7 +99,7 @@ public class SokobanGraphView extends JFrame implements View, KeyListener{
     @Override
     public void levelLoaded(List<List<String>> data) {
         gameState = State.GAME;
-        actScreen = new GameScreen(listener, this.getSize(),data, menu.getSquares());
+        actScreen = new GameScreen(listener, this.getSize(),data, menu.getSquares(), menuFont);
     }
 
     @Override

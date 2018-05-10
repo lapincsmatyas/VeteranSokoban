@@ -19,11 +19,11 @@ public class GameScreen implements Screen {
     int selectedMenu;
     Dimension size;
     private List<Square> squares;
-    Font titleFont = null;
-    Font menuFont = null;
+    Font pointFont = null;
+    List<Integer> playerPoints;
     private List<List<String>> map;
 
-    public GameScreen(ControllerEventListener listener, Dimension size,List<List<String>> map, List<Square> squares){
+    public GameScreen(ControllerEventListener listener, Dimension size,List<List<String>> map, List<Square> squares, Font pointFont){
         selectedMenu = 0;
         this.size = size;
         this.listener = listener;
@@ -35,20 +35,9 @@ public class GameScreen implements Screen {
                 squares.add(new Square(size));
             }
         }
+        this.pointFont = pointFont;
 
-        try {
-            InputStream is = new FileInputStream("res/fonts/NEON.TTF");
-            titleFont = Font.createFont(Font.TRUETYPE_FONT, is);
 
-            is = new FileInputStream("res/fonts/NEON_80.TTF");
-            menuFont = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         updateMap(map);
     }
@@ -60,6 +49,10 @@ public class GameScreen implements Screen {
             }
             System.out.println();
         }
+
+        playerPoints = new ArrayList<>();
+        for(int i = 0; i < map.get(map.size()-1).size(); i++)
+            playerPoints.add(Integer.parseInt(map.get(map.size()-1).get(i)));
 
         this.map = map;
     }
@@ -77,6 +70,16 @@ public class GameScreen implements Screen {
 
         drawSquares(g);
         drawMap(g);
+        drawPoints(g);
+    }
+
+    private void drawPoints(Graphics g) {
+        g.setFont(pointFont.deriveFont(20f));
+        g.setColor(new Color(255, 255, 0));
+        for(int i = 0; i < playerPoints.size(); i++){
+            g.drawString("Player " + (i+1) + " points: " + playerPoints.get(i), 20+(i*size.width / playerPoints.size()), size.height - 50);
+        }
+
     }
 
     private void drawMap(Graphics g){

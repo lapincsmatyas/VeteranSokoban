@@ -92,16 +92,10 @@ public class Game implements ControllerEventListener {
             list.add(line);
         }
 
-        String str = "";
-        for (int i = 0; i < players.size(); i++) {
-            str += players.get(i).getPoints();
-            if (i < players.size() - 1) {
-                str += ",";
-            }
-        }
-
         List<String> line = new ArrayList<>();
-        line.add(str);
+        for (int i = 0; i < players.size(); i++) {
+            line.add(String.valueOf(players.get(i).getPoints()));
+        }
         list.add(line);
 
         return list;
