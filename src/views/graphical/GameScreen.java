@@ -96,7 +96,7 @@ public class GameScreen implements Screen {
         int y = size.height / 2 - (height*squareSize/2)-10;
 
         g.setColor(new Color(27,30,63));
-        g.fillRect(x,y, width*squareSize, height*squareSize);
+        g.fillRect(x+squareSize,y+squareSize, (width-2)*squareSize, (height-3)*squareSize);
 
         boolean isPrevPlayer = false;
 
@@ -108,6 +108,13 @@ public class GameScreen implements Screen {
 
                     switch (actString.charAt(k)){
                         case '.':
+                            g.setColor(new Color(255,255,255));
+                            g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            g.setColor(new Color(255, 255, 255, 20));
+                            g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            isPrevPlayer = false;
+                            break;
+                        case '*':
                             g.setColor(new Color(255,255,255));
                             g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
                             g.setColor(new Color(255, 255, 255, 20));
