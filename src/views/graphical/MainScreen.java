@@ -50,8 +50,6 @@ public class MainScreen implements Screen {
             e.printStackTrace();
         }
 
-
-
         menus = new ArrayList<>();
         menus.add(new MenuData("start", 30f, 40f ));
         menus.add(new MenuData("<level " + selectedLevel + ">", 20f, 20f));
@@ -82,6 +80,10 @@ public class MainScreen implements Screen {
 
         public String getText() {
             return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
         }
 
         public float getSize() {
@@ -178,13 +180,26 @@ public class MainScreen implements Screen {
         switch (keyCode){
             case KeyEvent.VK_ENTER:
                 if(selectedMenu == menus.get(0))
-                    listener.loadLevel(99);
+                    listener.loadLevel(selectedLevel);
                 break;
             case KeyEvent.VK_DOWN:
                 selectedMenu = selectedMenu.getNext();
                 break;
             case KeyEvent.VK_UP:
                 selectedMenu = selectedMenu.getPrev();
+                break;
+            case KeyEvent.VK_RIGHT:
+                if(selectedMenu == menus.get(0)){
+                    selectedLevel++;
+                    menus.get(1).setText("<level " + selectedLevel + ">");
+                }
+                break;
+            case KeyEvent.VK_LEFT:
+                if(selectedMenu == menus.get(0)){
+                    selectedLevel--;
+                    menus.get(1).setText("<level " + selectedLevel + ">");
+                }
+                break;
         }
     }
 }

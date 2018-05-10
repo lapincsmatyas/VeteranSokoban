@@ -28,6 +28,7 @@ public class SokobanGraphView extends JFrame implements View, KeyListener{
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ESCAPE:
+                gameState = State.MENU;
                 actScreen = menu;
                 break;
             default:

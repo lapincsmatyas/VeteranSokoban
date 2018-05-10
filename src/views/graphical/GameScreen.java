@@ -186,8 +186,6 @@ public class GameScreen implements Screen {
             case KeyEvent.VK_UP:
                 listener.userStepped(1, Direction.UP);
                 break;
-            case KeyEvent.VK_M:
-                break;
         }
     }
 }
