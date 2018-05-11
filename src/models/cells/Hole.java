@@ -25,6 +25,10 @@ public class Hole extends Cell {
      */
     public void open() {
         open = true;
+
+        if (actPushable != null && open) {
+            actPushable.die();
+        }
     }
 
     /**
@@ -40,6 +44,10 @@ public class Hole extends Cell {
      */
     public void change() {
         open = !open;
+
+        if (actPushable != null && open) {
+            actPushable.die();
+        }
     }
 
     /**

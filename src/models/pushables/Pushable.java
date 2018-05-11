@@ -26,6 +26,8 @@ public abstract class Pushable implements Visitor, ViewData {
      */
     protected int friction;
 
+    protected boolean disabled;
+
     /**
      * A tolható konstruktora. Beállítja a mezőt, amelyen tartózkodik
      * és a mezőn is beállítja magát ott tartózkodó tolhatóként.
@@ -36,6 +38,7 @@ public abstract class Pushable implements Visitor, ViewData {
     public Pushable(Cell actCell, int friction) {
         this.actCell = actCell;
         this.friction = friction;
+        disabled = false;
     }
 
     /**
@@ -95,5 +98,17 @@ public abstract class Pushable implements Visitor, ViewData {
 
     public void setActCell(Cell actCell) {
         this.actCell = actCell;
+    }
+
+    public void enable() {
+        disabled = false;
+    }
+
+    public void disable() {
+        disabled = true;
+    }
+
+    public Cell getActCell() {
+        return actCell;
     }
 }
