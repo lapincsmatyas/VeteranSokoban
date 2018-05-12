@@ -29,30 +29,15 @@ public class GameScreen implements Screen {
         this.listener = listener;
 
         this.squares = squares;
-        if (squares == null) {
-            squares = new ArrayList<>();
-            for (int i = 0; i < 20; i++) {
-                squares.add(new Square(size));
-            }
-        }
         this.pointFont = pointFont;
-
-
 
         updateMap(map);
     }
 
     public void updateMap(List<List<String>> map) {
-        for(int i = 0; i < map.size(); i++){
-            for(int j = 0; j < map.get(i).size(); j++){
-                System.out.print(map.get(i).get(j));
-            }
-            System.out.println();
-        }
-
         playerPoints = new ArrayList<>();
-        for(int i = 0; i < map.get(map.size()-1).size(); i++)
-            playerPoints.add(Integer.parseInt(map.get(map.size()-1).get(i)));
+        for (int i = 0; i < map.get(map.size() - 1).size(); i++)
+            playerPoints.add(Integer.parseInt(map.get(map.size() - 1).get(i)));
 
         this.map = map;
     }
@@ -65,19 +50,20 @@ public class GameScreen implements Screen {
     @Override
     public void render(Graphics g) {
 
-        g.setColor(new Color(27,30,63));
+        g.setColor(new Color(25, 42, 86));
         g.fillRect(0,0, size.width, size.height);
 
         drawSquares(g);
         drawMap(g);
         drawPoints(g);
+        drawBackText(g);
     }
 
     private void drawPoints(Graphics g) {
         g.setFont(pointFont.deriveFont(20f));
         g.setColor(new Color(255, 255, 0));
         for(int i = 0; i < playerPoints.size(); i++){
-            g.drawString("Player " + (i+1) + " points: " + playerPoints.get(i), 20+(i*size.width / playerPoints.size()), size.height - 50);
+            g.drawString("Player " + (i+1) + " points: " + playerPoints.get(i), 20+(i*size.width / playerPoints.size()), 30);
         }
 
     }
@@ -242,5 +228,12 @@ public class GameScreen implements Screen {
                 listener.userDroppedSlime(2);
                 break;
         }
+    }
+
+    private void drawBackText(Graphics g) {
+        g.setFont(pointFont.deriveFont(20f));
+        g.setColor(new Color(255, 0, 0));
+        String playerAddString = "Press ESC to go back to main menu!";
+        g.drawString(playerAddString, size.width / 2 - g.getFontMetrics().stringWidth(splayerAddString) / 2, size.height - 50);
     }
 }

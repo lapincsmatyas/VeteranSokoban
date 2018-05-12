@@ -73,8 +73,10 @@ public abstract class Pushable implements Visitor, ViewData {
      * Ha meghívják, akkor a tohlató meghal és nem vesz részt a játékban többé.
      */
     public void die(){
-        actCell.stepOff();
-        actCell = null;
+        if(actCell != null) {
+            actCell.stepOff();
+            actCell = null;
+        }
         dead = true;
     }
 

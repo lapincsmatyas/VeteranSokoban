@@ -10,4 +10,5 @@ public interface View {
     void view();
     void levelLoaded(List<List<String>> data);
     void levelUpdated(List<List<String>> data);
+    void gameOver(int winnerId, int point, Game.GameOverType cause);
 }

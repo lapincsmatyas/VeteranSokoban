@@ -326,8 +326,6 @@ public class Game implements ControllerEventListener {
         for (Crate crate: crates) {
             crate.disable();
         }
-
-        System.out.println("Disabled pushables");
     }
 
     private void enablePushables() {
@@ -338,8 +336,12 @@ public class Game implements ControllerEventListener {
         for (Crate crate: crates) {
             crate.enable();
         }
+    }
 
-        System.out.println("Enabled pushables");
+    public static enum GameOverType{
+        DEATH,
+        NOMOVE,
+        WIN
     }
 
     private void checkGameOver() {
@@ -347,7 +349,7 @@ public class Game implements ControllerEventListener {
         List<Crate> cratesAlive = cratesAlive();
 
         if (playersAlive.size() == 0 || cratesAlive.size() == 0) {
-            gameOver();
+            gameOver(GameOverType.DEATH);
         } else {
             disablePushables();
 
@@ -362,7 +364,7 @@ public class Game implements ControllerEventListener {
             enablePushables();
 
             if (numOfSuccessfulPushes == 0) {
-                gameOver();
+                gameOver(GameOverType.NOMOVE);
             }
         }
     }
@@ -452,7 +454,16 @@ public class Game implements ControllerEventListener {
         return playersAlive;
     }
 
-    private void gameOver() {
-        System.out.println("Game Over");
+    private void gameOver(GameOverType cause) {
+        Player winner = players.get(0);
+        for(int i = 1; i < players.size(); i++){
+            if(players.get(i).getPoints() > winner.getPoints())
+                winner = players.get(i);
+        }
+
+        if(winner.getPoints() <= 0)
+            view.gameOver(-1, -1, cause);
+        else
+            view.gameOver(winner.getId(), winner.getPoints(), GameOverType.WIN);
     }
 }

@@ -5,12 +5,9 @@ import controller.ControllerEventListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainScreen implements Screen {
 
@@ -25,12 +22,29 @@ public class MainScreen implements Screen {
     private int numOfLevels;
 
     private List<MenuData> menus;
+    List<PlayerAvatar> players;
+    Random r;
+
+    class PlayerAvatar{
+        int x;
+        int y;
+        int dir;
+        float speed;
+
+        public PlayerAvatar(int x, int y, int dir, float speed){
+            this.x = x;
+            this.y = y;
+            this.dir = dir;
+            this.speed = speed;
+        }
+    }
 
     public MainScreen(ControllerEventListener listener, Dimension size, int numOfLevels, Font titleFont, Font menuFont) {
 
         this.size = size;
         this.listener = listener;
         this.numOfLevels = numOfLevels;
+        players = new ArrayList<>();
 
         if (squares == null) {
             squares = new ArrayList<>();
@@ -41,8 +55,6 @@ public class MainScreen implements Screen {
 
         this.titleFont = titleFont;
         this.menuFont = menuFont;
-
-
 
         menus = new ArrayList<>();
         menus.add(new MenuData("start", 30f, 40f));
@@ -55,6 +67,8 @@ public class MainScreen implements Screen {
         menus.get(2).setPrev(menus.get(0));
 
         selectedMenu = menus.get(0);
+        r = new Random();
+        players.add(new PlayerAvatar(r.nextInt(size.width), size.height-20, r.nextBoolean() ? r.nextInt(0 + 1 + 30) - 30 :  r.nextInt(30 + 1 - 0) + 0, -50f));
     }
 
     class MenuData {
@@ -109,21 +123,52 @@ public class MainScreen implements Screen {
         return squares;
     }
 
+    float gravity = 3.8f;
+
     @Override
     public void update() {
+        for(int i = 0; i < players.size(); i++){
+            PlayerAvatar actPlayer = players.get(i);
+            actPlayer.x = actPlayer.x + actPlayer.dir;
+            if(actPlayer.x < 0)
+                actPlayer.dir = r.nextInt(30 + 1 - 0) + 0;
+            if(actPlayer.x > size.width)
+                actPlayer.dir = r.nextInt(0 + 1 + 30) - 30;
 
+            actPlayer.speed +=gravity;
+            actPlayer.y+=actPlayer.speed;
+            if(actPlayer.y > size.height-20) {
+                actPlayer.y = size.height-20;
+                actPlayer.speed = -50f;
+            }
+        }
     }
+
 
     @Override
     public void render(Graphics g) {
 
-        g.setColor(new Color(27, 30, 63));
+        g.setColor(new Color(25, 42, 86));
         g.fillRect(0, 0, size.width, size.height);
 
         drawSquares(g);
         drawTitle(g);
         drawMenu(g);
         drawPlayerAdd(g);
+        drawPlayers(g);
+    }
+
+    private void drawPlayers(Graphics g) {
+        for(int i = 0;  i< players.size(); i++){
+            if(i == 0) {
+                g.setColor(new Color(255, 0, 255));
+                g.fillOval(players.get(i).x, players.get(i).y, 20,20);
+            }
+            else {
+                g.setColor(new Color(0, 255, 255));
+                g.fillOval(players.get(i).x, players.get(i).y, 20,20);
+            }
+        }
     }
 
     private void drawPlayerAdd(Graphics g) {
@@ -140,6 +185,16 @@ public class MainScreen implements Screen {
         title.setFont(titleFont.deriveFont(70f));
 
         title.drawString("Sokoban", size.width / 2 - title.getFontMetrics().stringWidth("Sokoban") / 2, 150);
+        title.setFont(menuFont.deriveFont(30f));
+        title.setColor(new Color(255, 0, 0));
+
+        Graphics2D titleG = (Graphics2D) g;
+        AffineTransform transform = new AffineTransform();
+        transform.rotate(50, size.width / 2 - title.getFontMetrics().stringWidth("Sokoban") -title.getFontMetrics().stringWidth("killer")/2,100);
+        AffineTransform old = titleG.getTransform();
+        titleG.transform(transform);
+        title.drawString("killer", size.width / 2 - title.getFontMetrics().stringWidth("Sokoban") -title.getFontMetrics().stringWidth("killer") , 100);
+        titleG.setTransform(old);
     }
 
     private void drawSquares(Graphics g) {
@@ -189,8 +244,11 @@ public class MainScreen implements Screen {
             case KeyEvent.VK_S:
                 if(isTwoPlayer){
                     listener.userRemoved();
-                } else
+                    players.remove(players.size()-1);
+                } else {
                     listener.userAdded();
+                    players.add(new PlayerAvatar(r.nextInt(size.width), size.height-20, r.nextBoolean() ? r.nextInt(0 + 1 + 30) - 30 :  r.nextInt(30 + 1 - 0) + 0, -50f));
+                }
                 isTwoPlayer = !isTwoPlayer;
                 break;
             case KeyEvent.VK_DOWN:
