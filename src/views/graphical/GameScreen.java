@@ -234,6 +234,6 @@ public class GameScreen implements Screen {
         g.setFont(pointFont.deriveFont(20f));
         g.setColor(new Color(255, 0, 0));
         String playerAddString = "Press ESC to go back to main menu!";
-        g.drawString(playerAddString, size.width / 2 - g.getFontMetrics().stringWidth(splayerAddString) / 2, size.height - 50);
+        g.drawString(playerAddString, size.width / 2 - g.getFontMetrics().stringWidth(playerAddString) / 2, size.height - 50);
     }
 }
