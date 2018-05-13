@@ -15,15 +15,15 @@ import java.util.List;
 
 public class SokobanGraphView extends JFrame implements View, KeyListener, MouseListener, MouseMotionListener{
 
-    ControllerEventListener listener;
-
-    Canvas canvas;
-
-    MainScreen menu;
-    int numOfLevels;
-
-    Font titleFont;
-    Font menuFont;
+    private ControllerEventListener listener;
+    private Canvas canvas;
+    private MainScreen menu;
+    private int numOfLevels;
+    private Font titleFont;
+    private Font menuFont;
+    private Point startClick;
+    private State gameState;
+    private Screen actScreen;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -47,7 +47,7 @@ public class SokobanGraphView extends JFrame implements View, KeyListener, Mouse
         }
     }
 
-    Point startClick;
+
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -97,9 +97,6 @@ public class SokobanGraphView extends JFrame implements View, KeyListener, Mouse
         GAME,
         GAME_OVER
     }
-
-    State gameState;
-    Screen actScreen;
 
     @Override
     public void init(ControllerEventListener listener, int numOfLevels) {
@@ -157,6 +154,7 @@ public class SokobanGraphView extends JFrame implements View, KeyListener, Mouse
 
     @Override
     public void gameOver(int winnerId, int point, Game.GameOverType cause) {
+
         gameState = State.GAME_OVER;
         actScreen = new GameOverScreen(winnerId, point, this.getSize(), menu.getSquares(), menuFont, cause);
     }
@@ -171,7 +169,9 @@ public class SokobanGraphView extends JFrame implements View, KeyListener, Mouse
         @Override
         public void paintComponent(Graphics g){
             if(actScreen != null) {
-                actScreen.render(g);
+                Graphics2D g2d = (Graphics2D)g.create();
+                g2d.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+                actScreen.render(g2d);
             }
         }
 

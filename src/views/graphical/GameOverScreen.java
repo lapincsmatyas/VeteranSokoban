@@ -2,23 +2,24 @@ package views.graphical;
 
 import controller.ControllerEventListener;
 import controller.Game;
-import push_enums.Direction;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameOverScreen implements Screen {
 
-    ControllerEventListener listener;
-    Dimension size;
+    private ControllerEventListener listener;
+    private Dimension size;
     private List<Square> squares;
-    Font gameOverFont = null;
-    Point winnerData;
-    Game.GameOverType cause;
-    Point winnerPosition;
+    private Font gameOverFont = null;
+    private Point winnerData;
+    private Game.GameOverType cause;
+    private Point winnerPosition;
+    private float speed = -70f;
+    private float gravity = 9.8f;
+    private Color background = new Color(25, 42, 86);
 
     public GameOverScreen(int winnerId, int point, Dimension size, List<Square> squares, Font gameOverFont, Game.GameOverType cause){
         this.squares = squares;
@@ -28,11 +29,6 @@ public class GameOverScreen implements Screen {
         winnerPosition = new Point(size.width/2-size.width/10, size.height-200-size.width/10);
         this.cause = cause;
     }
-
-    Color background = new Color(25, 42, 86);
-
-    float speed = -70f;
-    float gravity = 9.8f;
 
     @Override
     public void update() {
@@ -62,11 +58,6 @@ public class GameOverScreen implements Screen {
         }
     }
 
-
-    private void jump(){
-
-    }
-
     @Override
     public void render(Graphics g) {
 
@@ -76,6 +67,11 @@ public class GameOverScreen implements Screen {
         drawSquares(g);
         drawWinner(g);
         drawBackText(g);
+    }
+
+    @Override
+    public void keyPressed(int keyCode) {
+
     }
 
     private void drawBackText(Graphics g) {
@@ -141,16 +137,6 @@ public class GameOverScreen implements Screen {
             squaresG.setTransform(old);
 
             actSquare.move();
-        }
-    }
-
-    @Override
-    public void keyPressed(int keyCode) {
-        switch (keyCode){
-            case KeyEvent.VK_UP:
-                System.out.println("JUMP");
-                jump();
-                break;
         }
     }
 }

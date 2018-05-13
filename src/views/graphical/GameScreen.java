@@ -15,12 +15,12 @@ import java.util.List;
 
 public class GameScreen implements Screen {
 
-    ControllerEventListener listener;
-    int selectedMenu;
-    Dimension size;
+    private ControllerEventListener listener;
+    private int selectedMenu;
+    private Dimension size;
     private List<Square> squares;
-    Font pointFont = null;
-    List<Integer> playerPoints;
+    private Font pointFont = null;
+    private List<Integer> playerPoints;
     private List<List<String>> map;
 
     public GameScreen(ControllerEventListener listener, Dimension size,List<List<String>> map, List<Square> squares, Font pointFont){
@@ -35,6 +35,13 @@ public class GameScreen implements Screen {
     }
 
     public void updateMap(List<List<String>> map) {
+        for(int i = 0; i < map.size();i++){
+            for(int j = 0; j < map.get(i).size(); j++){
+                System.out.print(map.get(i).get(j));
+            }
+            System.out.println();
+        }
+
         playerPoints = new ArrayList<>();
         for (int i = 0; i < map.get(map.size() - 1).size(); i++)
             playerPoints.add(Integer.parseInt(map.get(map.size() - 1).get(i)));
@@ -97,6 +104,13 @@ public class GameScreen implements Screen {
                             g.setColor(new Color(255,255,255));
                             g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
                             g.setColor(new Color(255, 255, 255, 20));
+                            g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            isPrevPlayer = false;
+                            break;
+                        case 's':
+                            g.setColor(new Color(255,255,255));
+                            g.drawRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
+                            g.setColor(new Color(255, 0, 0, 150));
                             g.fillRect(x + j * squareSize,y +i*squareSize,squareSize, squareSize);
                             isPrevPlayer = false;
                             break;

@@ -271,7 +271,7 @@ public class Game implements ControllerEventListener {
     }
 
     public void addPlayer() {
-        Player p1 = new Player(null, 10, players.size()+1);
+        Player p1 = new Player(null, 4, players.size()+1);
         p1.giveSlime(new Oil());
         while (!getRandomCell().stepOn(p1));
         players.add(p1);

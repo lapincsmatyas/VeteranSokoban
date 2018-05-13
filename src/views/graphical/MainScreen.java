@@ -20,10 +20,10 @@ public class MainScreen implements Screen {
     private Font titleFont = null;
     private Font menuFont = null;
     private int numOfLevels;
-
     private List<MenuData> menus;
-    List<PlayerAvatar> players;
-    Random r;
+    private List<PlayerAvatar> players;
+    private Random r;
+    private float gravity = 3.8f;
 
     class PlayerAvatar{
         int x;
@@ -123,7 +123,7 @@ public class MainScreen implements Screen {
         return squares;
     }
 
-    float gravity = 3.8f;
+
 
     @Override
     public void update() {
