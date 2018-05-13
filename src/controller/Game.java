@@ -424,6 +424,7 @@ public class Game implements ControllerEventListener {
             pushSource.stepOn(temp);
         }
 
+        phantom.setActCell(null);
         phantom.enable();
         phantom.die();
 
